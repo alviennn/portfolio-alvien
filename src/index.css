@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text;
+    @apply font-sans antialiased transition-colors duration-300;
+  }
+
+  ::selection {
+    @apply bg-accent-green/20;
+  }
+}
+
+@layer components {
+  .section-wrapper {
+    @apply max-w-content mx-auto px-6 md:px-8 py-20 md:py-28;
+  }
+
+  .section-title {
+    @apply font-display text-3xl md:text-4xl font-semibold tracking-tight;
+  }
+
+  .section-subtitle {
+    @apply mt-3 text-light-muted dark:text-dark-muted max-w-prose leading-relaxed;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium text-sm
+      bg-light-text text-light-bg dark:bg-dark-text dark:text-dark-bg
+      hover:opacity-85 transition-opacity duration-200;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium text-sm
+      border border-light-border dark:border-dark-border
+      hover:bg-light-bgSecondary dark:hover:bg-dark-bgSecondary transition-colors duration-200;
+  }
+
+  .fade-in {
+    animation: fadeIn 0.6s ease-out forwards;
+  }
+}
