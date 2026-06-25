@@ -82,11 +82,11 @@ export default function Navbar() {
           : "bg-transparent"
       }`}
     >
-      <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-6 md:px-1">
+      <nav className="mx-auto flex h-16 max-w-content items-center justify-between gap-3 px-4 md:px-1">
         <button
           type="button"
           onClick={goHome}
-          className="font-display text-base font-semibold"
+          className="min-w-0 flex-1 text-left font-display text-[12px] font-semibold whitespace-nowrap sm:text-base md:flex-none"
         >
           Alvien Ridho Nanda Pryastika
         </button>
@@ -110,7 +110,7 @@ export default function Navbar() {
           <ThemeToggle />
         </div>
 
-        <div className="flex items-center gap-2 md:hidden">
+        <div className="flex shrink-0 items-center gap-2 md:hidden">
           <LanguageToggle />
           <ThemeToggle />
 
