@@ -8,6 +8,8 @@ const NAV_ITEMS = [
   { label: 'Projects', to: '/admin/projects', icon: 'folder' },
   { label: 'Certifications', to: '/admin/certifications', icon: 'award' },
   { label: 'Experience', to: '/admin/experience', icon: 'briefcase' },
+  { label: 'Skills', to: '/admin/skills', icon: 'grid' },
+  { label: 'Contact', to: '/admin/contact', icon: 'phone' },
 ];
 
 const ICONS = {
@@ -17,6 +19,7 @@ const ICONS = {
   folder: <path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V7z" />,
   award: <path d="M12 15a4 4 0 100-8 4 4 0 000 8zM8.21 13.89L7 23l5-3 5 3-1.21-9.12" />,
   briefcase: <path d="M3 7h18v12H3V7zM8 7V5a2 2 0 012-2h4a2 2 0 012 2v2" />,
+  phone: <path d="M22 16.92v3a2 2 0 01-2.18 2A19.79 19.79 0 013 5.18 2 2 0 015 3h3a2 2 0 012 1.72c.12.81.37 1.59.73 2.34a2 2 0 01-.45 2.11L9.91 10a16.06 16.06 0 006.09 6.09l1.83-1.83a2 2 0 012.11-.45c.75.36 1.53.61 2.34.73a2 2 0 011.72 2z" />,
 };
 
 export default function AdminLayout({ children, title }) {

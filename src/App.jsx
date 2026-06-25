@@ -5,11 +5,14 @@ import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
 import Home from './pages/Home';
+import ProjectDetail from "./pages/ProjectDetail";
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProjects from './pages/admin/AdminProjects';
 import AdminCertifications from './pages/admin/AdminCertifications';
+import AdminSkills from "./pages/admin/AdminSkills";
 import AdminExperience from './pages/admin/AdminExperience';
+import AdminContact from "./pages/admin/AdminContact";
 import ProtectedRoute from './pages/admin/ProtectedRoute';
 
 export default function App() {
@@ -21,8 +24,16 @@ export default function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/projects/:id" element={<ProjectDetail />} />
 
-                <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <ProtectedRoute>
+                      <Navigate to="/admin/dashboard" replace />
+                    </ProtectedRoute>
+                  }
+                />
 
                 <Route path="/admin/login" element={<AdminLogin />} />
                 <Route
@@ -54,6 +65,22 @@ export default function App() {
                   element={
                     <ProtectedRoute>
                       <AdminExperience />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/skills"
+                  element={
+                    <ProtectedRoute>
+                      <AdminSkills />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/admin/contact"
+                  element={
+                    <ProtectedRoute>
+                      <AdminContact />
                     </ProtectedRoute>
                   }
                 />

@@ -1,64 +1,101 @@
 import {
   collection,
-  doc,
+  getDocs,
+  getDoc,
   addDoc,
   updateDoc,
   deleteDoc,
-  getDocs,
-  getDoc,
+  doc,
+  serverTimestamp,
   query,
   orderBy,
-  serverTimestamp,
-} from 'firebase/firestore';
-import { db } from '../firebase/config';
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../firebase/config";
 
-/**
- * Generic Firestore collection service.
- * Used for: projects, certifications, experiences.
- * Keeping this generic avoids duplicating near-identical CRUD code three times.
- */
-export function createCollectionService(collectionName) {
-  const colRef = collection(db, collectionName);
+function createFirestoreService(collectionName) {
+  const collectionRef = collection(db, collectionName);
 
-  async function getAll(orderField = 'createdAt', direction = 'desc') {
-    const q = query(colRef, orderBy(orderField, direction));
-    const snapshot = await getDocs(q);
-    return snapshot.docs.map((d) => ({ id: d.id, ...d.data() }));
-  }
+  return {
+    async getAll() {
+      const q = query(collectionRef, orderBy("createdAt", "desc"));
+      const snapshot = await getDocs(q);
 
-  async function getById(id) {
-    const docRef = doc(db, collectionName, id);
-    const snapshot = await getDoc(docRef);
-    if (!snapshot.exists()) return null;
-    return { id: snapshot.id, ...snapshot.data() };
-  }
+      return snapshot.docs.map((document) => ({
+        id: document.id,
+        ...document.data(),
+      }));
+    },
 
-  async function create(data) {
-    const payload = {
-      ...data,
-      createdAt: serverTimestamp(),
-      updatedAt: serverTimestamp(),
-    };
-    const docRef = await addDoc(colRef, payload);
-    return docRef.id;
-  }
+    async getById(id) {
+      const documentRef = doc(db, collectionName, id);
+      const snapshot = await getDoc(documentRef);
 
-  async function update(id, data) {
-    const docRef = doc(db, collectionName, id);
-    await updateDoc(docRef, {
-      ...data,
-      updatedAt: serverTimestamp(),
-    });
-  }
+      if (!snapshot.exists()) {
+        return null;
+      }
 
-  async function remove(id) {
-    const docRef = doc(db, collectionName, id);
-    await deleteDoc(docRef);
-  }
+      return {
+        id: snapshot.id,
+        ...snapshot.data(),
+      };
+    },
 
-  return { getAll, getById, create, update, remove };
+    async create(data) {
+      return addDoc(collectionRef, {
+        ...data,
+        createdAt: serverTimestamp(),
+        updatedAt: serverTimestamp(),
+      });
+    },
+
+    async update(id, data) {
+      const documentRef = doc(db, collectionName, id);
+
+      return updateDoc(documentRef, {
+        ...data,
+        updatedAt: serverTimestamp(),
+      });
+    },
+
+    async remove(id) {
+      const documentRef = doc(db, collectionName, id);
+
+      return deleteDoc(documentRef);
+    },
+  };
 }
 
-export const projectsService = createCollectionService('projects');
-export const certificationsService = createCollectionService('certifications');
-export const experiencesService = createCollectionService('experiences');
+export const projectsService = createFirestoreService("projects");
+export const certificationsService = createFirestoreService("certifications");
+export const experiencesService = createFirestoreService("experiences");
+export const skillsService = createFirestoreService("skills");
+
+export const contactService = {
+  async get() {
+    const ref = doc(db, "siteSettings", "contact");
+    const snapshot = await getDoc(ref);
+
+    if (!snapshot.exists()) {
+      return null;
+    }
+
+    return {
+      id: snapshot.id,
+      ...snapshot.data(),
+    };
+  },
+
+  async update(data) {
+    const ref = doc(db, "siteSettings", "contact");
+
+    return setDoc(
+      ref,
+      {
+        ...data,
+        updatedAt: serverTimestamp(),
+      },
+      { merge: true }
+    );
+  },
+};

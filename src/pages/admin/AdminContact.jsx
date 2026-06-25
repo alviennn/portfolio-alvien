@@ -37,19 +37,23 @@ export default function Contact() {
       key: "emailMe",
       href: `https://mail.google.com/mail/?view=cm&fs=1&to=${contact.email}`,
       primary: true,
+      external: true,
     },
     {
       key: "linkedin",
       href: contact.linkedin,
+      external: true,
     },
     {
       key: "github",
       href: contact.github,
+      external: true,
     },
     {
       key: "downloadCV",
       href: contact.cvLink,
       download: true,
+      external: false,
     },
   ].filter((link) => Boolean(link.href));
 
@@ -63,8 +67,8 @@ export default function Contact() {
             <a
               key={link.key}
               href={link.href}
-              target={link.href.startsWith("http") ? "_blank" : undefined}
-              rel={link.href.startsWith("http") ? "noreferrer" : undefined}
+              target={link.external ? "_blank" : undefined}
+              rel={link.external ? "noreferrer" : undefined}
               download={link.download ? "cv-alvien-ridho.pdf" : undefined}
               className={link.primary ? "btn-primary" : "btn-secondary"}
             >

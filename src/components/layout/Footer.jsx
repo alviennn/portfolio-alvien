@@ -14,7 +14,7 @@ export default function Footer() {
     <footer className="border-t border-light-border dark:border-dark-border">
       <div className="max-w-content mx-auto px-6 md:px-8 py-10 flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="text-center md:text-left">
-          <p className="font-display font-semibold">Alvien Ridho</p>
+          <p className="font-display font-semibold">Alvien Ridho Nanda Pryastika</p>
           <p className="text-sm text-light-muted dark:text-dark-muted">{t('footer.role')}</p>
         </div>
 
@@ -34,7 +34,7 @@ export default function Footer() {
         </ul>
 
         <p className="text-xs text-light-muted dark:text-dark-muted">
-          © {year} Alvien Ridho. {t('footer.rights')}
+          © {year} Alvien Ridho Nanda Pryastika {t('footer.rights')}
         </p>
       </div>
     </footer>

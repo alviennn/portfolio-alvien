@@ -33,9 +33,9 @@ export default function Navbar() {
           : 'bg-transparent'
       }`}
     >
-      <nav className="max-w-content mx-auto px-6 md:px-8 h-16 flex items-center justify-between">
+      <nav className="max-w-content mx-auto px-6 md:px-1 h-16 flex items-center justify-between">
         <a href="#" className="font-display font-semibold text-base">
-          
+          Alvien Ridho Nanda Pryastika
         </a>
 
         {/* Desktop nav */}

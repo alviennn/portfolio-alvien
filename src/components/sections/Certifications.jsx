@@ -4,33 +4,26 @@ import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { certificationsService } from "../../services/firestoreService";
 import { seedCertifications } from "../../data/seedData";
 import { LoadingState, EmptyState, ErrorState } from "../ui/StatusStates";
-import ImageLightbox from "../ui/ImageLightbox";
+import CertificationModal from "../ui/CertificationModal";
 
-function CertificationCard({ cert, onViewImage }) {
+function CertificationCard({ cert, onViewDetail }) {
   const { t, tField } = useLanguage();
   const hasImage = Boolean(cert.certificateImage);
 
   return (
-    <article className="border border-light-border dark:border-dark-border rounded-2xl p-6">
+    <article className="group flex h-full flex-col rounded-2xl border border-light-border bg-light-bg p-5 transition-all duration-300 hover:-translate-y-1 hover:border-light-text/30 hover:shadow-soft dark:border-dark-border dark:bg-dark-bg dark:hover:border-dark-text/30 md:p-6">
       <div className="flex items-start gap-4">
         {hasImage ? (
-          <button
-            type="button"
-            onClick={() =>
-              onViewImage(cert.certificateImage, tField(cert, "title"))
-            }
-            aria-label={`View certificate: ${tField(cert, "title")}`}
-            className="w-14 h-14 rounded-lg overflow-hidden flex-shrink-0 ring-1 ring-light-border dark:ring-dark-border hover:opacity-80 transition-opacity duration-200"
-          >
+          <div className="h-14 w-14 flex-shrink-0 overflow-hidden rounded-lg ring-1 ring-light-border dark:ring-dark-border">
             <img
               src={cert.certificateImage}
               alt={tField(cert, "title")}
-              className="w-full h-full object-cover"
+              className="h-full w-full object-cover"
               loading="lazy"
             />
-          </button>
+          </div>
         ) : (
-          <div className="w-14 h-14 rounded-lg bg-light-bgSecondary dark:bg-dark-bgSecondary flex items-center justify-center flex-shrink-0">
+          <div className="flex h-14 w-14 flex-shrink-0 items-center justify-center rounded-lg bg-light-bgSecondary dark:bg-dark-bgSecondary">
             <svg
               width="20"
               height="20"
@@ -44,93 +37,66 @@ function CertificationCard({ cert, onViewImage }) {
           </div>
         )}
 
-        <div className="flex-1">
-          <h3 className="font-display text-lg font-semibold leading-snug">
+        <div className="min-w-0 flex-1">
+          <h3 className="font-display text-lg font-semibold leading-snug text-light-text dark:text-dark-text">
             {tField(cert, "title")}
           </h3>
 
-          <p className="text-sm font-medium text-accent-green">
-            {t("certifications.issuer")}: {cert.issuer}
-          </p>
+          {cert.issuer && (
+            <p className="mt-1 line-clamp-2 text-sm font-medium text-accent-green">
+              {t("certifications.issuer")}: {cert.issuer}
+            </p>
+          )}
         </div>
       </div>
 
-      <p className="mt-4 text-sm leading-relaxed text-light-muted dark:text-dark-muted">
-        {tField(cert, "description")}
-      </p>
-
-      <div className="mt-4 flex flex-wrap items-center gap-5">
-        {hasImage && (
-          <button
-            type="button"
-            onClick={() =>
-              onViewImage(cert.certificateImage, tField(cert, "title"))
-            }
-            className="inline-flex items-center gap-1 text-sm font-medium hover:text-accent-green transition-colors duration-200"
+      <div className="mt-auto pt-6">
+        <button
+          type="button"
+          onClick={() => onViewDetail(cert)}
+          className="inline-flex items-center gap-1 text-sm font-medium text-light-text transition-colors duration-200 hover:text-accent-green dark:text-dark-text"
+        >
+          {t("certifications.viewCertificate")}
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
           >
-            {t("certifications.viewCertificate")}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M15 3h6v6M21 3L13 11M10 21H4a1 1 0 01-1-1V4a1 1 0 011-1h6" />
-            </svg>
-          </button>
-        )}
-
-        {cert.credentialLink && (
-          <a
-            href={cert.credentialLink}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-1 text-sm font-medium hover:text-accent-green transition-colors duration-200"
-          >
-            {t("certifications.viewCredential")}
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M7 17L17 7M7 7h10v10" />
-            </svg>
-          </a>
-        )}
+            <path d="M7 17L17 7M7 7h10v10" />
+          </svg>
+        </button>
       </div>
     </article>
   );
 }
 
 export default function Certifications() {
-  const { t } = useLanguage();
+  const { t, tField } = useLanguage();
   const { data, loading, error } =
     useFirestoreCollection(certificationsService);
 
-  const [lightbox, setLightbox] = useState(null);
+  const [selectedCert, setSelectedCert] = useState(null);
 
   const certifications =
     !loading && !error && data.length > 0 ? data : seedCertifications;
 
-  const handleViewImage = (src, alt) => {
-    setLightbox({ src, alt });
+  const handleViewDetail = (cert) => {
+    setSelectedCert(cert);
   };
 
-  const handleCloseLightbox = () => {
-    setLightbox(null);
+  const handleCloseModal = () => {
+    setSelectedCert(null);
   };
 
   return (
-    <section id="certifications" className="section-wrapper">
+    <section id="certifications" className="section-wrapper overflow-hidden">
       <h2 className="section-title">{t("certifications.title")}</h2>
       <p className="section-subtitle">{t("certifications.description")}</p>
 
-      <div className="mt-12">
+      <div className="mt-10">
         {loading && <LoadingState message={t("certifications.loading")} />}
 
         {error && <ErrorState message={t("certifications.error")} />}
@@ -140,23 +106,39 @@ export default function Certifications() {
         )}
 
         {!loading && !error && certifications.length > 0 && (
-          <div className="grid md:grid-cols-2 gap-6">
-            {certifications.map((cert) => (
-              <CertificationCard
-                key={cert.id}
-                cert={cert}
-                onViewImage={handleViewImage}
-              />
-            ))}
-          </div>
+          <>
+            <p className="mb-4 text-xs text-light-muted dark:text-dark-muted md:hidden">
+              {t("common.swipeMore")}
+            </p>
+
+            <div className="flex snap-x snap-mandatory scroll-smooth gap-5 overflow-x-auto pb-5 scrollbar-hide md:grid md:grid-cols-2 md:gap-6 md:overflow-visible md:pb-0 lg:grid-cols-3">
+              {certifications.map((cert) => (
+                <div
+                  key={cert.id}
+                  className="min-w-full snap-start md:min-w-0"
+                >
+                  <CertificationCard
+                    cert={cert}
+                    onViewDetail={handleViewDetail}
+                  />
+                </div>
+              ))}
+            </div>
+          </>
         )}
       </div>
 
-      {lightbox && (
-        <ImageLightbox
-          src={lightbox.src}
-          alt={lightbox.alt}
-          onClose={handleCloseLightbox}
+      {selectedCert && (
+        <CertificationModal
+          cert={selectedCert}
+          title={tField(selectedCert, "title")}
+          description={tField(selectedCert, "description")}
+          detailTitle={t("certifications.detailTitle")}
+          issuerLabel={t("certifications.issuer")}
+          credentialLabel={t("certifications.viewCredential")}
+          closeLabel={t("common.close")}
+          noImageLabel={t("certifications.noImage")}
+          onClose={handleCloseModal}
         />
       )}
     </section>
