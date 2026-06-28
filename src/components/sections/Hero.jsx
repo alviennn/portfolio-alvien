@@ -1,5 +1,5 @@
 import { useLanguage } from "../../i18n/LanguageContext";
-import heroImage from "../../assets/hero-alvien.jpg";
+import heroImage from "../../assets/konten-hero.jpg";
 
 export default function Hero() {
   const { t } = useLanguage();
