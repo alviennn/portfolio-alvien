@@ -47,22 +47,29 @@ export default function Hero() {
         </div>
 
         {/* Right Image */}
-        <div className="order-1 mx-auto w-full max-w-[300px] fade-in sm:max-w-[340px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
+        <div className="order-1 mx-auto w-full max-w-[290px] fade-in sm:max-w-[340px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
           <div className="relative">
-            {/* Decorative layer */}
-            <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-[2rem] bg-accent-green/10 dark:bg-accent-green/20" />
+            {/* Back decorative layer */}
+            <div className="absolute inset-3 translate-x-2 translate-y-2 rounded-[1.8rem] rounded-tr-[5rem] rounded-bl-[4rem] bg-accent-green/5 dark:bg-accent-green/10" />
 
-            {/* Main image frame */}
-            <div className="relative overflow-hidden rounded-[2rem] border border-light-border/70 bg-light-card shadow-soft dark:border-dark-border dark:bg-dark-card">
-              <div className="aspect-[4/5] w-full overflow-hidden">
-                <img
-                  src={heroImage}
-                  alt="Alvien Ridho Nanda Pryastika"
-                  className="h-full w-full object-cover object-[center_18%]"
-                  loading="eager"
-                />
+            {/* Outer frame */}
+            <div className="relative overflow-hidden rounded-[2rem] rounded-tr-[6rem] rounded-bl-[5rem] border border-light-border/70 bg-light-card p-3 shadow-soft dark:border-dark-border dark:bg-dark-card">
+              {/* Inner image mask */}
+              <div className="overflow-hidden rounded-[1.5rem] rounded-tr-[5rem] rounded-bl-[4rem] bg-light-bgSecondary dark:bg-dark-bgSecondary">
+                <div className="aspect-[4/5] w-full overflow-hidden">
+                  <img
+                    src={heroImage}
+                    alt="Alvien Ridho Nanda Pryastika"
+                    className="h-full w-full object-cover object-[center_18%]"
+                    loading="eager"
+                  />
+                </div>
               </div>
             </div>
+
+            {/* Small soft accent */}
+            <div className="absolute -left-5 top-8 h-16 w-16 rounded-full border border-light-border/60 bg-light-card/70 blur-[1px] dark:border-dark-border/60 dark:bg-dark-card/70" />
+            <div className="absolute -right-4 bottom-10 h-24 w-24 rounded-[1.5rem] border border-light-border/60 bg-light-card/50 dark:border-dark-border/60 dark:bg-dark-card/50" />
           </div>
         </div>
       </div>

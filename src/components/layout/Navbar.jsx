@@ -99,6 +99,8 @@ export default function Navbar() {
     window.history.replaceState(null, "", "/");
   };
 
+  const isLocalCv = contact.cvLink?.startsWith("/");
+
   return (
     <header
       className={`fixed left-0 right-0 top-0 z-50 transition-all duration-300 ${
@@ -111,11 +113,12 @@ export default function Navbar() {
         <button
           type="button"
           onClick={goHome}
-          className="min-w-0 flex-1 whitespace-nowrap text-left font-display text-[12px] font-semibold sm:text-base md:flex-none"
+          className="min-w-0 flex-1 truncate whitespace-nowrap text-left font-display text-[12px] font-semibold sm:text-sm md:flex-none md:text-base"
         >
           Alvien Ridho Nanda Pryastika
         </button>
 
+        {/* Desktop nav */}
         <ul className="hidden items-center gap-8 text-sm font-medium text-light-muted dark:text-dark-muted md:flex">
           {NAV_ITEMS.map((item) => (
             <li key={item.key}>
@@ -130,12 +133,11 @@ export default function Navbar() {
           ))}
         </ul>
 
+        {/* Desktop controls */}
         <div className="hidden items-center gap-2 md:flex">
           <a
             href={contact.cvLink}
-            download={
-              contact.cvLink?.startsWith("/") ? "cv-alvien-ridho.pdf" : undefined
-            }
+            download={isLocalCv ? "cv-alvien-ridho.pdf" : undefined}
             target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
             rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
             className="rounded-full border border-light-border px-4 py-2 text-sm font-medium transition-colors duration-200 hover:border-accent-green hover:text-accent-green dark:border-dark-border"
@@ -147,12 +149,11 @@ export default function Navbar() {
           <ThemeToggle />
         </div>
 
+        {/* Mobile controls */}
         <div className="flex shrink-0 items-center gap-2 md:hidden">
           <a
             href={contact.cvLink}
-            download={
-              contact.cvLink?.startsWith("/") ? "cv-alvien-ridho.pdf" : undefined
-            }
+            download={isLocalCv ? "cv-alvien-ridho.pdf" : undefined}
             target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
             rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
             aria-label={t("contact.downloadCV")}
@@ -160,9 +161,6 @@ export default function Navbar() {
           >
             CV
           </a>
-
-          <LanguageToggle />
-          <ThemeToggle />
 
           <button
             type="button"
@@ -189,38 +187,48 @@ export default function Navbar() {
         </div>
       </nav>
 
+      {/* Mobile menu */}
       {isOpen && (
         <div className="border-t border-light-border bg-light-bg dark:border-dark-border dark:bg-dark-bg md:hidden">
-          <ul className="flex flex-col gap-4 px-6 py-4 text-sm font-medium">
-            {NAV_ITEMS.map((item) => (
-              <li key={item.key}>
-                <button
-                  type="button"
-                  onClick={() => scrollToSection(item.id)}
-                  className="text-left transition-colors duration-200 hover:text-accent-green"
-                >
-                  {t(`nav.${item.key}`)}
-                </button>
-              </li>
-            ))}
+          <div className="px-6 py-5">
+            <ul className="flex flex-col gap-4 text-sm font-medium">
+              {NAV_ITEMS.map((item) => (
+                <li key={item.key}>
+                  <button
+                    type="button"
+                    onClick={() => scrollToSection(item.id)}
+                    className="text-left transition-colors duration-200 hover:text-accent-green"
+                  >
+                    {t(`nav.${item.key}`)}
+                  </button>
+                </li>
+              ))}
 
-            <li>
-              <a
-                href={contact.cvLink}
-                download={
-                  contact.cvLink?.startsWith("/")
-                    ? "cv-alvien-ridho.pdf"
-                    : undefined
-                }
-                target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
-                rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
-                onClick={() => setIsOpen(false)}
-                className="text-left transition-colors duration-200 hover:text-accent-green"
-              >
-                {t("contact.downloadCV")}
-              </a>
-            </li>
-          </ul>
+              <li>
+                <a
+                  href={contact.cvLink}
+                  download={isLocalCv ? "cv-alvien-ridho.pdf" : undefined}
+                  target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
+                  rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
+                  aria-label={t("contact.downloadCV")}
+                  className="inline-flex h-9 items-center justify-center whitespace-nowrap rounded-full border border-light-border px-3 text-[11px] font-semibold transition-colors duration-200 hover:border-accent-green hover:text-accent-green dark:border-dark-border"
+                >
+                  {t("contact.downloadCV")}
+                </a>
+              </li>
+            </ul>
+
+            <div className="mt-5 flex items-center justify-between border-t border-light-border pt-5 dark:border-dark-border">
+              <p className="text-xs font-medium uppercase tracking-wide text-light-muted dark:text-dark-muted">
+                
+              </p>
+
+              <div className="flex items-center gap-2">
+                <LanguageToggle />
+                <ThemeToggle />
+              </div>
+            </div>
+          </div>
         </div>
       )}
     </header>
