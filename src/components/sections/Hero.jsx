@@ -1,14 +1,14 @@
 import { useLanguage } from "../../i18n/LanguageContext";
-import heroImage from "../../assets/hero.png";
+import heroImage from "../../assets/hero-alvien.jpg";
 
 export default function Hero() {
   const { t } = useLanguage();
 
   return (
-    <section className="relative pt-32 pb-24 md:pt-44 md:pb-32 px-6 md:px-8 overflow-hidden">
+    <section className="relative overflow-hidden px-6 pt-28 pb-20 md:px-8 md:pt-36 md:pb-28 lg:pt-40">
       {/* Subtle background grid */}
       <div
-        className="absolute inset-0 -z-10 opacity-[0.03] dark:opacity-[0.05]"
+        className="absolute inset-0 -z-20 opacity-[0.03] dark:opacity-[0.05]"
         style={{
           backgroundImage:
             "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
@@ -17,24 +17,25 @@ export default function Hero() {
       />
 
       {/* Soft background glow */}
-      <div className="absolute right-0 top-32 -z-10 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl dark:bg-accent-green/20" />
+      <div className="absolute -left-24 top-24 -z-10 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl dark:bg-accent-green/20" />
+      <div className="absolute -right-24 bottom-10 -z-10 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl dark:bg-accent-green/20" />
 
-      <div className="max-w-content mx-auto grid items-center gap-14 lg:grid-cols-[1.05fr_0.95fr] fade-in">
+      <div className="mx-auto grid max-w-content items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
         {/* Left Content */}
-        <div>
-          <p className="text-sm font-medium text-accent-green mb-4">
+        <div className="order-2 text-center fade-in lg:order-1 lg:text-left">
+          <p className="mb-4 text-sm font-medium text-accent-green">
             {t("hero.role")}
           </p>
 
-          <h1 className="font-display text-4xl md:text-6xl font-bold tracking-tight leading-[1.1] max-w-3xl">
+          <h1 className="mx-auto max-w-3xl font-display text-4xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:mx-0">
             {t("hero.title")}
           </h1>
 
-          <p className="mt-6 text-base md:text-lg text-light-muted dark:text-dark-muted max-w-prose leading-relaxed">
+          <p className="mx-auto mt-6 max-w-prose text-base leading-relaxed text-light-muted dark:text-dark-muted md:text-lg lg:mx-0">
             {t("hero.description")}
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
             <a href="#projects" className="btn-primary">
               {t("hero.viewProjects")}
             </a>
@@ -46,17 +47,21 @@ export default function Hero() {
         </div>
 
         {/* Right Image */}
-        <div className="relative hidden lg:block">
-          <div className="relative ml-auto max-w-[460px]">
-            {/* Decorative shape */}
-            <div className="absolute -inset-6 -z-10 rounded-[2rem] bg-light-card/70 shadow-soft dark:bg-dark-card/70" />
+        <div className="order-1 mx-auto w-full max-w-[300px] fade-in sm:max-w-[340px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
+          <div className="relative">
+            {/* Decorative layer */}
+            <div className="absolute inset-0 translate-x-3 translate-y-3 rounded-[2rem] bg-accent-green/10 dark:bg-accent-green/20" />
 
-           <div className="overflow-hidden rounded-[2rem] bg-light-card shadow-soft dark:bg-dark-card">
-              <img
-                src={heroImage}
-                alt="Alvien Ridho portfolio preview"
-                className="h-[520px] w-full object-cover"
-              />
+            {/* Main image frame */}
+            <div className="relative overflow-hidden rounded-[2rem] border border-light-border/70 bg-light-card shadow-soft dark:border-dark-border dark:bg-dark-card">
+              <div className="aspect-[4/5] w-full overflow-hidden">
+                <img
+                  src={heroImage}
+                  alt="Alvien Ridho Nanda Pryastika"
+                  className="h-full w-full object-cover object-[center_18%]"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
         </div>
