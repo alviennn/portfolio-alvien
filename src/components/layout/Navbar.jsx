@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useLanguage } from "../../i18n/LanguageContext";
+import { contactService } from "../../services/firestoreService";
 import ThemeToggle from "../ui/ThemeToggle";
 import LanguageToggle from "../ui/LanguageToggle";
 
@@ -13,6 +14,10 @@ const NAV_ITEMS = [
   { key: "contact", id: "contact" },
 ];
 
+const defaultContact = {
+  cvLink: "/cv-alvien-ridho.pdf",
+};
+
 export default function Navbar() {
   const { t } = useLanguage();
   const navigate = useNavigate();
@@ -20,6 +25,7 @@ export default function Navbar() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [contact, setContact] = useState(defaultContact);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -28,6 +34,25 @@ export default function Navbar() {
     window.addEventListener("scroll", onScroll);
 
     return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  useEffect(() => {
+    const fetchContact = async () => {
+      try {
+        const data = await contactService.get();
+
+        if (data) {
+          setContact({
+            ...defaultContact,
+            ...data,
+          });
+        }
+      } catch (error) {
+        console.error("Failed to load navbar contact:", error);
+      }
+    };
+
+    fetchContact();
   }, []);
 
   const scrollToSection = (id) => {
@@ -86,7 +111,7 @@ export default function Navbar() {
         <button
           type="button"
           onClick={goHome}
-          className="min-w-0 flex-1 text-left font-display text-[12px] font-semibold whitespace-nowrap sm:text-base md:flex-none"
+          className="min-w-0 flex-1 whitespace-nowrap text-left font-display text-[12px] font-semibold sm:text-base md:flex-none"
         >
           Alvien Ridho Nanda Pryastika
         </button>
@@ -106,11 +131,36 @@ export default function Navbar() {
         </ul>
 
         <div className="hidden items-center gap-2 md:flex">
+          <a
+            href={contact.cvLink}
+            download={
+              contact.cvLink?.startsWith("/") ? "cv-alvien-ridho.pdf" : undefined
+            }
+            target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
+            rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
+            className="rounded-full border border-light-border px-4 py-2 text-sm font-medium transition-colors duration-200 hover:border-accent-green hover:text-accent-green dark:border-dark-border"
+          >
+            {t("contact.downloadCV")}
+          </a>
+
           <LanguageToggle />
           <ThemeToggle />
         </div>
 
         <div className="flex shrink-0 items-center gap-2 md:hidden">
+          <a
+            href={contact.cvLink}
+            download={
+              contact.cvLink?.startsWith("/") ? "cv-alvien-ridho.pdf" : undefined
+            }
+            target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
+            rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
+            aria-label={t("contact.downloadCV")}
+            className="flex h-9 w-9 items-center justify-center rounded-full border border-light-border text-xs font-semibold transition-colors duration-200 hover:border-accent-green hover:text-accent-green dark:border-dark-border"
+          >
+            CV
+          </a>
+
           <LanguageToggle />
           <ThemeToggle />
 
@@ -153,6 +203,23 @@ export default function Navbar() {
                 </button>
               </li>
             ))}
+
+            <li>
+              <a
+                href={contact.cvLink}
+                download={
+                  contact.cvLink?.startsWith("/")
+                    ? "cv-alvien-ridho.pdf"
+                    : undefined
+                }
+                target={contact.cvLink?.startsWith("http") ? "_blank" : undefined}
+                rel={contact.cvLink?.startsWith("http") ? "noreferrer" : undefined}
+                onClick={() => setIsOpen(false)}
+                className="text-left transition-colors duration-200 hover:text-accent-green"
+              >
+                {t("contact.downloadCV")}
+              </a>
+            </li>
           </ul>
         </div>
       )}
