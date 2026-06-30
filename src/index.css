@@ -113,3 +113,69 @@
     transform: translateX(-50%);
   }
 }
+
+@layer utilities {
+  .hero-orb {
+    animation: heroOrbFloat 14s ease-in-out infinite alternate;
+  }
+
+  .hero-orb-slow {
+    animation: heroOrbFloatSlow 18s ease-in-out infinite alternate;
+  }
+
+  .hero-gradient-move {
+    animation: heroGradientMove 16s ease-in-out infinite alternate;
+  }
+
+  .hero-line-move {
+    animation: heroLineMove 22s linear infinite;
+  }
+}
+
+@keyframes heroOrbFloat {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(32px, -24px, 0) scale(1.08);
+  }
+
+  100% {
+    transform: translate3d(-18px, 28px, 0) scale(0.96);
+  }
+}
+
+@keyframes heroOrbFloatSlow {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+
+  50% {
+    transform: translate3d(-36px, 26px, 0) scale(1.12);
+  }
+
+  100% {
+    transform: translate3d(24px, -18px, 0) scale(0.98);
+  }
+}
+
+@keyframes heroGradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes heroLineMove {
+  from {
+    transform: translateX(-50%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}
