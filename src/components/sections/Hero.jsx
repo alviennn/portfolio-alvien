@@ -55,7 +55,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-28 pb-20 text-white md:px-8 md:pt-36 md:pb-28 lg:pt-40">
+    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-white md:px-8 md:pt-28 md:pb-20 lg:pt-30">
       {/* Animated background */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="hero-gradient-move absolute inset-0 bg-[length:220%_220%] opacity-25"
@@ -82,7 +82,7 @@ export default function Hero() {
       <div className="absolute -left-28 top-24 -z-10 h-80 w-80 rounded-full bg-accent-green/15 blur-3xl" />
       <div className="absolute -right-28 bottom-8 -z-10 h-80 w-80 rounded-full bg-accent-green/10 blur-3xl" />
 
-      <div className="mx-auto grid max-w-content items-center gap-14 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
+      <div className="mx-auto grid min-h-[calc(100vh-7.5rem)] max-w-content items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         <div className="order-2 text-center fade-in lg:order-1 lg:text-left">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-accent-green md:text-sm">
             {t("hero.role")}
@@ -92,11 +92,11 @@ export default function Hero() {
             {t("hero.title")}
           </h1>
 
-          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg lg:mx-0">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg lg:mx-0">
             {t("hero.description")}
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
             <button
               type="button"
               onClick={() => scrollToSection("projects")}
