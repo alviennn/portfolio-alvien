@@ -8,38 +8,68 @@
   }
 
   body {
-    @apply bg-light-bg text-light-text dark:bg-dark-bg dark:text-dark-text;
     @apply font-sans antialiased transition-colors duration-300;
+    @apply bg-[#0B0B0B] text-white;
   }
 
   ::selection {
-    @apply bg-accent-green/20;
+    @apply bg-accent-green/30 text-white;
   }
 }
 
 @layer components {
   .section-wrapper {
-    @apply max-w-content mx-auto px-6 md:px-8 py-20 md:py-28;
+    @apply mx-auto max-w-content px-6 py-20 md:px-8 md:py-28;
   }
 
   .section-title {
-    @apply font-display text-3xl md:text-4xl font-semibold tracking-tight;
+    @apply font-display text-4xl font-semibold tracking-[-0.04em] text-white md:text-6xl;
   }
 
   .section-subtitle {
-    @apply mt-3 text-light-muted dark:text-dark-muted max-w-prose leading-relaxed;
+    @apply mt-5 max-w-2xl text-base leading-relaxed text-white/55 md:text-lg;
   }
 
   .btn-primary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium text-sm
-      bg-light-text text-light-bg dark:bg-dark-text dark:text-dark-bg
-      hover:opacity-85 transition-opacity duration-200;
+    @apply inline-flex items-center justify-center rounded-full bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity duration-200 hover:opacity-80;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center justify-center px-6 py-3 rounded-full font-medium text-sm
-      border border-light-border dark:border-dark-border
-      hover:bg-light-bgSecondary dark:hover:bg-dark-bgSecondary transition-colors duration-200;
+    @apply inline-flex items-center justify-center rounded-full border border-white/15 px-6 py-3 text-sm font-semibold text-white transition-colors duration-200 hover:border-accent-green hover:text-accent-green;
+  }
+
+  .editorial-bg {
+    background:
+      radial-gradient(circle at 15% 18%, rgba(142, 153, 112, 0.18), transparent 28%),
+      radial-gradient(circle at 85% 12%, rgba(142, 153, 112, 0.1), transparent 26%),
+      linear-gradient(180deg, #0b0b0b 0%, #101010 100%);
+  }
+
+  .editorial-grid {
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+    background-size: 52px 52px;
+  }
+
+  .editorial-card {
+    @apply border border-white/10 bg-white/[0.035] backdrop-blur-md transition-all duration-300;
+  }
+
+  .editorial-card:hover {
+    @apply border-accent-green/60;
+  }
+
+  .editorial-label {
+    @apply text-xs font-semibold uppercase tracking-[0.28em] text-accent-green;
+  }
+
+  .editorial-muted {
+    @apply text-white/55;
+  }
+
+  .editorial-chip {
+    @apply rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-white/55;
   }
 
   .fade-in {
@@ -47,11 +77,39 @@
   }
 }
 
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .marquee-track {
+    animation: marquee 22s linear infinite;
+  }
 }
 
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-50%);
+  }
 }

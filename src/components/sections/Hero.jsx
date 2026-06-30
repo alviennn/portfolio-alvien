@@ -1,75 +1,132 @@
+import { useRef } from "react";
 import { useLanguage } from "../../i18n/LanguageContext";
 import heroImage from "../../assets/konten-hero.jpg";
 
 export default function Hero() {
   const { t } = useLanguage();
+  const imageCardRef = useRef(null);
+  const shineRef = useRef(null);
+
+  const scrollToSection = (id) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+
+    section.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+
+    window.history.replaceState(null, "", "/");
+  };
+
+  const handleMouseMove = (event) => {
+    const card = imageCardRef.current;
+    const shine = shineRef.current;
+
+    if (!card || !shine) return;
+
+    const rect = card.getBoundingClientRect();
+
+    const x = event.clientX - rect.left;
+    const y = event.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+
+    card.style.transform = `perspective(900px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.025)`;
+
+    shine.style.opacity = "1";
+    shine.style.background = `radial-gradient(circle at ${x}px ${y}px, rgba(255,255,255,0.34), rgba(255,255,255,0.12) 18%, transparent 42%)`;
+  };
+
+  const handleMouseLeave = () => {
+    const card = imageCardRef.current;
+    const shine = shineRef.current;
+
+    if (!card || !shine) return;
+
+    card.style.transform =
+      "perspective(900px) rotateX(0deg) rotateY(0deg) scale(1)";
+
+    shine.style.opacity = "0";
+  };
 
   return (
-    <section className="relative overflow-hidden px-6 pt-28 pb-20 md:px-8 md:pt-36 md:pb-28 lg:pt-40">
-      {/* Subtle background grid */}
-      <div
-        className="absolute inset-0 -z-20 opacity-[0.03] dark:opacity-[0.05]"
-        style={{
-          backgroundImage:
-            "linear-gradient(currentColor 1px, transparent 1px), linear-gradient(90deg, currentColor 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
-        }}
-      />
+    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-28 pb-20 text-white md:px-8 md:pt-36 md:pb-28 lg:pt-40">
+      <div className="editorial-grid absolute inset-0 -z-20 opacity-70" />
 
-      {/* Soft background glow */}
-      <div className="absolute -left-24 top-24 -z-10 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl dark:bg-accent-green/20" />
-      <div className="absolute -right-24 bottom-10 -z-10 h-72 w-72 rounded-full bg-accent-green/10 blur-3xl dark:bg-accent-green/20" />
+      <div className="absolute -left-28 top-24 -z-10 h-80 w-80 rounded-full bg-accent-green/15 blur-3xl" />
+      <div className="absolute -right-28 bottom-8 -z-10 h-80 w-80 rounded-full bg-accent-green/10 blur-3xl" />
 
-      <div className="mx-auto grid max-w-content items-center gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:gap-16">
-        {/* Left Content */}
+      <div className="mx-auto grid max-w-content items-center gap-14 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         <div className="order-2 text-center fade-in lg:order-1 lg:text-left">
-          <p className="mb-4 text-sm font-medium text-accent-green">
+          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-accent-green md:text-sm">
             {t("hero.role")}
           </p>
 
-          <h1 className="mx-auto max-w-3xl font-display text-4xl font-bold leading-[1.1] tracking-tight md:text-6xl lg:mx-0">
+          <h1 className="mx-auto max-w-5xl font-display text-[3.1rem] font-semibold leading-[0.98] tracking-[-0.06em] text-white sm:text-6xl md:text-7xl lg:mx-0 lg:text-8xl">
             {t("hero.title")}
           </h1>
 
-          <p className="mx-auto mt-6 max-w-prose text-base leading-relaxed text-light-muted dark:text-dark-muted md:text-lg lg:mx-0">
+          <p className="mx-auto mt-7 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg lg:mx-0">
             {t("hero.description")}
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
-            <a href="#projects" className="btn-primary">
+            <button
+              type="button"
+              onClick={() => scrollToSection("projects")}
+              className="btn-primary"
+            >
               {t("hero.viewProjects")}
-            </a>
+            </button>
 
-            <a href="#contact" className="btn-secondary">
+            <button
+              type="button"
+              onClick={() => scrollToSection("contact")}
+              className="btn-secondary"
+            >
               {t("hero.contactMe")}
-            </a>
+            </button>
           </div>
         </div>
 
-        {/* Right Image */}
-        <div className="order-1 mx-auto w-full max-w-[290px] fade-in sm:max-w-[340px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
+        <div className="order-1 mx-auto w-full max-w-[285px] fade-in sm:max-w-[335px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
           <div className="relative">
-            {/* Back decorative layer */}
-            <div className="absolute inset-3 translate-x-2 translate-y-2 rounded-[1.8rem] rounded-tr-[5rem] rounded-bl-[4rem] bg-accent-green/5 dark:bg-accent-green/10" />
+            <div className="absolute inset-4 translate-x-2 translate-y-2 rounded-[1.7rem] rounded-tr-[5rem] rounded-bl-[4rem] border border-accent-green/15 bg-accent-green/[0.04]" />
 
-            {/* Outer frame */}
-            <div className="relative overflow-hidden rounded-[2rem] rounded-tr-[6rem] rounded-bl-[5rem] border border-light-border/70 bg-light-card p-3 shadow-soft dark:border-dark-border dark:bg-dark-card">
-              {/* Inner image mask */}
-              <div className="overflow-hidden rounded-[1.5rem] rounded-tr-[5rem] rounded-bl-[4rem] bg-light-bgSecondary dark:bg-dark-bgSecondary">
+            <div
+              ref={imageCardRef}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={handleMouseLeave}
+              className="group relative overflow-hidden rounded-[2rem] rounded-tr-[6.5rem] rounded-bl-[5rem] border border-white/10 bg-white/[0.035] p-3 backdrop-blur-md transition-transform duration-300 ease-out will-change-transform"
+            >
+              <div className="pointer-events-none absolute inset-0 z-20 rounded-[2rem] rounded-tr-[6.5rem] rounded-bl-[5rem] bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-20" />
+
+              <div
+                ref={shineRef}
+                className="pointer-events-none absolute inset-0 z-30 opacity-0 transition-opacity duration-300"
+              />
+
+              <div className="pointer-events-none absolute -inset-full z-30 rotate-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-all duration-700 group-hover:translate-x-full group-hover:opacity-100" />
+
+              <div className="relative z-10 overflow-hidden rounded-[1.45rem] rounded-tr-[5.5rem] rounded-bl-[4.2rem] bg-white/[0.04]">
                 <div className="aspect-[4/5] w-full overflow-hidden">
                   <img
                     src={heroImage}
                     alt="Alvien Ridho Nanda Pryastika"
-                    className="h-full w-full object-cover object-[center_18%]"
+                    className="h-full w-full object-cover object-[center_18%] transition-transform duration-700 ease-out group-hover:scale-105"
                     loading="eager"
                   />
                 </div>
               </div>
             </div>
 
-            {/* Small soft accent */}
-            <div className="absolute -left-5 top-8 h-16 w-16 rounded-full border border-light-border/60 bg-light-card/70 blur-[1px] dark:border-dark-border/60 dark:bg-dark-card/70" />
-            <div className="absolute -right-4 bottom-10 h-24 w-24 rounded-[1.5rem] border border-light-border/60 bg-light-card/50 dark:border-dark-border/60 dark:bg-dark-card/50" />
+            <div className="absolute -left-3 top-10 h-12 w-12 rounded-full border border-white/10 bg-white/[0.035]" />
+            <div className="absolute -right-3 bottom-12 h-16 w-16 rounded-[1.35rem] border border-accent-green/20 bg-accent-green/[0.06]" />
           </div>
         </div>
       </div>
