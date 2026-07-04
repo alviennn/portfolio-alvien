@@ -26,13 +26,13 @@ function SectionIntro({ label, title, description, centered = false }) {
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
       <p className="editorial-label">✦ {label}</p>
 
-      <h3 className="mt-4 font-display text-3xl font-semibold leading-[1] tracking-[-0.05em] text-white md:text-5xl">
+      <h3 className="mt-4 pl-1 font-display text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-light-text dark:text-dark-text md:text-5xl">
         {title}
       </h3>
 
       {description && (
         <p
-          className={`mt-5 text-base leading-relaxed text-white/50 ${
+          className={`mt-5 text-base leading-relaxed text-light-muted dark:text-dark-muted ${
             centered ? "mx-auto max-w-2xl" : "max-w-2xl"
           }`}
         >
@@ -47,24 +47,24 @@ function ExperienceItem({ item, isLast }) {
   const { tField } = useLanguage();
 
   return (
-    <article className="relative grid gap-5 border-b border-white/10 pb-8 last:border-b-0 last:pb-0 md:grid-cols-[170px_1fr]">
+    <article className="relative grid gap-5 border-b border-light-border dark:border-dark-border pb-8 last:border-b-0 last:pb-0 md:grid-cols-[170px_1fr]">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/35">
+        <p className="text-xs font-semibold uppercase tracking-[0.18em] text-light-muted dark:text-dark-muted">
           {formatDate(item.startDate)}
         </p>
-        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-white/35">
+        <p className="mt-1 text-xs font-semibold uppercase tracking-[0.18em] text-light-muted dark:text-dark-muted">
           {formatDate(item.endDate)}
         </p>
       </div>
 
       <div className="relative pl-7">
         {!isLast && (
-          <span className="absolute left-[5px] top-5 -bottom-8 w-px bg-white/10" />
+          <span className="absolute left-[5px] top-5 -bottom-8 w-px bg-black/10 dark:bg-white/10" />
         )}
 
         <span className="absolute left-0 top-1.5 h-[11px] w-[11px] rounded-full bg-accent-green shadow-[0_0_24px_rgba(142,153,112,0.75)]" />
 
-        <h4 className="font-display text-xl font-semibold leading-tight text-white">
+        <h4 className="font-display text-xl font-semibold leading-tight text-light-text dark:text-dark-text">
           {tField(item, "title")}
         </h4>
 
@@ -75,7 +75,7 @@ function ExperienceItem({ item, isLast }) {
         )}
 
         {tField(item, "description") && (
-          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-white/50 md:text-base">
+          <p className="mt-4 max-w-3xl text-sm leading-relaxed text-light-muted dark:text-dark-muted md:text-base">
             {tField(item, "description")}
           </p>
         )}
@@ -88,18 +88,18 @@ function CertificationItem({ cert, onViewDetail }) {
   const { t, tField } = useLanguage();
 
   return (
-    <article className="group grid gap-4 rounded-[1.5rem] border border-white/10 bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-white/[0.045] md:grid-cols-[1fr_auto] md:items-center">
+    <article className="group flex flex-col gap-4 rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.045] sm:rounded-[1.5rem] sm:p-5 md:grid md:grid-cols-[1fr_auto] md:items-center">
       <div className="min-w-0">
-        <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-green">
+        <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-green sm:text-xs">
           {cert.issuer || t("certifications.issuer")}
         </p>
 
-        <h4 className="mt-3 font-display text-lg font-semibold leading-snug text-white md:text-xl">
+        <h4 className="mt-2 font-display text-base font-semibold leading-snug text-light-text dark:text-dark-text sm:mt-3 sm:text-lg md:text-xl">
           {tField(cert, "title")}
         </h4>
 
         {(cert.year || cert.date) && (
-          <p className="mt-2 text-sm text-white/40">
+          <p className="mt-1.5 text-xs text-light-muted dark:text-dark-muted sm:mt-2 sm:text-sm">
             {cert.year || cert.date}
           </p>
         )}
@@ -108,7 +108,7 @@ function CertificationItem({ cert, onViewDetail }) {
       <button
         type="button"
         onClick={() => onViewDetail(cert)}
-        className="inline-flex items-center gap-2 rounded-full border border-white/10 px-4 py-2 text-sm font-medium text-white/65 transition-all duration-300 hover:border-accent-green/60 hover:text-accent-green md:justify-center"
+        className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-light-border dark:border-dark-border px-4 py-2.5 text-xs font-medium text-light-muted dark:text-dark-muted transition-all duration-300 hover:border-accent-green/60 hover:text-accent-green sm:w-auto sm:justify-start sm:py-2 sm:text-sm md:justify-center"
       >
         {t("certifications.viewCertificate")}
         <svg
@@ -139,11 +139,29 @@ function FullWidthMarquee() {
   ];
 
   return (
-    <div className="relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden border-y border-white/10 bg-white/[0.015] py-8 md:py-10">
+    <div className="relative left-1/2 mt-20 w-screen -translate-x-1/2 overflow-hidden border-y border-light-border dark:border-dark-border bg-black/[0.015] dark:bg-white/[0.015] py-8 md:py-10">
       <div className="marquee-track flex w-max items-center gap-8">
         {[...items, ...items, ...items, ...items].map((item, index) => (
           <div key={`${item}-${index}`} className="flex items-center gap-8">
-            <span className="whitespace-nowrap font-display text-4xl font-semibold uppercase tracking-[-0.06em] text-white/15 transition-colors duration-300 hover:text-accent-green md:text-7xl lg:text-8xl">
+            <span
+              className="
+                whitespace-nowrap
+                font-display
+                text-4xl
+                font-semibold
+                uppercase
+                tracking-[-0.06em]
+                text-black/15
+                dark:text-white/15
+                transition-all
+                duration-300
+                hover:text-black/40
+                dark:hover:text-white/60
+                hover:tracking-[-0.04em]
+                md:text-7xl
+                lg:text-8xl
+              "
+            >
               {item}
             </span>
             <span className="text-2xl text-accent-green md:text-4xl">✦</span>
@@ -189,21 +207,35 @@ function WorkProcess() {
         centered
       />
 
-      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+      <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
         {steps.map((step) => (
           <article
             key={step.number}
-            className="group rounded-[1.5rem] border border-white/10 bg-white/[0.025] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-white/[0.045]"
+            className="group rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.045] sm:rounded-[1.5rem] sm:p-5"
           >
-            <p className="font-display text-4xl font-semibold text-white/15 transition-colors duration-300 group-hover:text-accent-green/40">
+            <p
+              className="
+                font-display
+                text-2xl
+                font-semibold
+                text-black/10
+                dark:text-white/15
+                transition-all
+                duration-500
+                group-hover:text-accent-green
+                group-hover:drop-shadow-[0_0_10px_rgba(79,122,107,0.35)]
+                group-hover:tracking-[0.03em]
+                sm:text-4xl
+              "
+            >
               {step.number}
             </p>
 
-            <h4 className="mt-8 font-display text-xl font-semibold text-white">
+            <h4 className="mt-4 font-display text-base font-semibold text-light-text dark:text-dark-text sm:mt-8 sm:text-xl">
               {step.title}
             </h4>
 
-            <p className="mt-3 text-sm leading-relaxed text-white/45">
+            <p className="mt-2 text-xs leading-relaxed text-light-muted dark:text-dark-muted sm:mt-3 sm:text-sm">
               {step.description}
             </p>
           </article>
@@ -243,56 +275,62 @@ export default function About() {
   return (
     <section
       id="about"
-      className="overflow-hidden bg-[#0B0B0B] px-6 py-20 text-white md:px-8 md:py-28"
+      className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
         {/* About Header */}
         <div className="mx-auto max-w-5xl text-center">
           <p className="editorial-label">✦ {t("about.label")}</p>
 
-          <h2 className="mx-auto mt-5 max-w-5xl font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-white md:text-7xl lg:text-8xl">
-            <span>{t("about.header.line1")} </span>
-            <span className="bg-gradient-to-r from-accent-green via-white to-accent-green bg-clip-text text-transparent">
-              {t("about.header.highlight")}
-            </span>
-            <span> {t("about.header.line2")}</span>
-          </h2>
+          <h2 className="mx-auto mt-5 max-w-5xl pl-1 font-display text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-7xl lg:text-8xl">
+  <span className="text-light-text dark:text-dark-text">
+    {t("about.header.line1")}{" "}
+  </span>
 
-          <div className="mx-auto mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-white/55 md:text-lg">
+  <span
+    className="
+      bg-gradient-to-r
+      from-[#4F7A6B]
+      via-[#7D9B90]
+      to-[#AFC1BA]
+      dark:from-[#6F9387]
+      dark:via-[#AFC1BA]
+      dark:to-[#D6DFDB]
+      bg-clip-text
+      text-transparent
+    "
+  >
+    {t("about.header.highlight")}
+  </span>
+
+  <span className="text-light-text dark:text-dark-text">
+    {" "}
+    {t("about.header.line2")}
+  </span>
+</h2>
+
+          <div className="mx-auto mt-8 max-w-3xl space-y-5 text-base leading-relaxed text-light-muted dark:text-dark-muted md:text-lg">
             <p>{t("about.paragraph1")}</p>
             <p>{t("about.paragraph2")}</p>
           </div>
-
-          <button
-            type="button"
-            onClick={() => {
-              const section = document.getElementById("contact");
-              section?.scrollIntoView({ behavior: "smooth" });
-              window.history.replaceState(null, "", "/");
-            }}
-            className="group relative mt-10 overflow-hidden rounded-full border border-white/10 bg-white px-6 py-3 text-sm font-semibold text-black transition-opacity duration-300 hover:opacity-85"
-          >
-            <span className="relative z-10">{t("about.cta")}</span>
-            <span className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-accent-green/30 to-transparent transition-transform duration-700 group-hover:translate-x-full" />
-          </button>
         </div>
 
         {/* Stats */}
-        <div className="mx-auto mt-14 grid max-w-3xl gap-4 sm:grid-cols-2">
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.025] p-5 text-center">
-            <p className="font-display text-4xl font-semibold text-white md:text-5xl">
+        <div className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 sm:gap-4">
+          <div className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
+            <p className="font-display text-3xl font-semibold text-light-text dark:text-dark-text sm:text-4xl md:text-5xl">
               {experiences.length}+
             </p>
-            <p className="mt-2 text-sm text-white/45">
+            <p className="mt-2 text-xs text-light-muted dark:text-dark-muted sm:text-sm">
               {t("about.stats.experience")}
             </p>
           </div>
 
-          <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.025] p-5 text-center">
-            <p className="font-display text-4xl font-semibold text-white md:text-5xl">
+          <div className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
+            <p className="font-display text-3xl font-semibold text-light-text dark:text-dark-text sm:text-4xl md:text-5xl">
               {certifications.length}+
             </p>
-            <p className="mt-2 text-sm text-white/45">
+            <p className="mt-2 text-xs text-light-muted dark:text-dark-muted sm:text-sm">
               {t("about.stats.certifications")}
             </p>
           </div>
@@ -325,7 +363,7 @@ export default function About() {
             {!experienceLoading &&
               !experienceError &&
               experiences.length > 0 && (
-                <div className="rounded-[2rem] border border-white/10 bg-white/[0.018] p-5 md:p-8">
+                <div className="rounded-[2rem] border border-light-border dark:border-dark-border bg-black/[0.015] dark:bg-white/[0.018] p-5 md:p-8">
                   <div className="space-y-8">
                     {experiences.map((item, index) => (
                       <ExperienceItem
@@ -369,7 +407,7 @@ export default function About() {
             {!certificationLoading &&
               !certificationError &&
               certifications.length > 0 && (
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                   {certifications.map((cert) => (
                     <CertificationItem
                       key={cert.id}

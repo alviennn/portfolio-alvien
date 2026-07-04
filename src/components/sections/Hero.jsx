@@ -55,7 +55,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-white md:px-8 md:pt-28 md:pb-20 lg:pt-30">
+    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-light-text dark:text-dark-text md:px-8 md:pt-28 md:pb-20 lg:pt-30">
       {/* Animated background */}
       <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
         <div className="hero-gradient-move absolute inset-0 bg-[length:220%_220%] opacity-25"
@@ -66,7 +66,7 @@ export default function Hero() {
         />
 
         <div className="hero-orb absolute left-[8%] top-[22%] h-56 w-56 rounded-full bg-accent-green/10 blur-3xl" />
-        <div className="hero-orb-slow absolute right-[10%] top-[18%] h-64 w-64 rounded-full bg-white/[0.045] blur-3xl" />
+        <div className="hero-orb-slow absolute right-[10%] top-[18%] h-64 w-64 rounded-full bg-black/[0.03] blur-3xl dark:bg-white/[0.045]" />
         <div className="hero-orb absolute bottom-[8%] left-[42%] h-72 w-72 rounded-full bg-accent-green/[0.08] blur-3xl" />
 
         <div className="absolute left-0 top-1/2 h-px w-[200%] -translate-y-1/2 overflow-hidden opacity-10">
@@ -74,7 +74,7 @@ export default function Hero() {
         </div>
 
         <div className="absolute left-0 top-[62%] h-px w-[200%] -translate-y-1/2 overflow-hidden opacity-5">
-          <div className="hero-line-move h-px w-full bg-gradient-to-r from-transparent via-white to-transparent" />
+          <div className="hero-line-move h-px w-full bg-gradient-to-r from-transparent via-black to-transparent dark:via-white" />
         </div>
       </div>
       <div className="editorial-grid absolute inset-0 -z-20 opacity-70" />
@@ -88,11 +88,11 @@ export default function Hero() {
             {t("hero.role")}
           </p>
 
-          <h1 className="mx-auto max-w-5xl font-display text-[3.1rem] font-semibold leading-[0.98] tracking-[-0.06em] text-white sm:text-6xl md:text-7xl lg:mx-0 lg:text-8xl">
+          <h1 className="mx-auto max-w-5xl font-display text-[3.1rem] font-semibold leading-[0.98] tracking-[-0.06em] text-light-text dark:text-dark-text sm:text-6xl md:text-7xl lg:mx-0 lg:text-8xl">
             {t("hero.title")}
           </h1>
 
-          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/60 md:text-lg lg:mx-0">
+          <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-light-muted dark:text-dark-muted md:text-lg lg:mx-0">
             {t("hero.description")}
           </p>
 
@@ -123,7 +123,7 @@ export default function Hero() {
               ref={imageCardRef}
               onMouseMove={handleMouseMove}
               onMouseLeave={handleMouseLeave}
-              className="group relative overflow-hidden rounded-[2rem] rounded-tr-[6.5rem] rounded-bl-[5rem] border border-white/10 bg-white/[0.035] p-3 backdrop-blur-md transition-transform duration-300 ease-out will-change-transform"
+              className="group relative overflow-hidden rounded-[2rem] rounded-tr-[6.5rem] rounded-bl-[5rem] border border-light-border bg-black/[0.02] p-3 backdrop-blur-md transition-transform duration-300 ease-out will-change-transform dark:border-dark-border dark:bg-white/[0.035]"
             >
               <div className="pointer-events-none absolute inset-0 z-20 rounded-[2rem] rounded-tr-[6.5rem] rounded-bl-[5rem] bg-gradient-to-br from-white/20 via-transparent to-transparent opacity-20" />
 
@@ -134,7 +134,7 @@ export default function Hero() {
 
               <div className="pointer-events-none absolute -inset-full z-30 rotate-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-all duration-700 group-hover:translate-x-full group-hover:opacity-100" />
 
-              <div className="relative z-10 overflow-hidden rounded-[1.45rem] rounded-tr-[5.5rem] rounded-bl-[4.2rem] bg-white/[0.04]">
+              <div className="relative z-10 overflow-hidden rounded-[1.45rem] rounded-tr-[5.5rem] rounded-bl-[4.2rem] bg-black/[0.03] dark:bg-white/[0.04]">
                 <div className="aspect-[4/5] w-full overflow-hidden">
                   <img
                     src={heroImage}
@@ -146,7 +146,7 @@ export default function Hero() {
               </div>
             </div>
 
-            <div className="absolute -left-3 top-10 h-12 w-12 rounded-full border border-white/10 bg-white/[0.035]" />
+            <div className="absolute -left-3 top-10 h-12 w-12 rounded-full border border-light-border bg-black/[0.02] dark:border-dark-border dark:bg-white/[0.035]" />
             <div className="absolute -right-3 bottom-12 h-16 w-16 rounded-[1.35rem] border border-accent-green/20 bg-accent-green/[0.06]" />
           </div>
         </div>

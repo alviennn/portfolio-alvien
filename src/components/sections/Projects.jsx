@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { useState } from "react";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import {
@@ -8,17 +8,18 @@ import {
 import { seedProjects, seedSkills } from "../../data/seedData";
 import { LoadingState, EmptyState, ErrorState } from "../ui/StatusStates";
 import { getTechLogo } from "../../utils/techlogo";
+import ProjectDetailModal from "../ui/ProjectDetailModal";
 
 function ProjectTechPill({ tech }) {
   const logo = getTechLogo(tech);
 
   return (
-    <li className="flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/55">
+    <li className="flex items-center gap-1.5 rounded-full border border-light-border dark:border-dark-border bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-light-muted dark:text-dark-muted sm:gap-2 sm:px-3 sm:py-1.5 sm:text-xs">
       {logo && (
         <img
           src={logo}
           alt={tech}
-          className="h-3.5 w-3.5 object-contain"
+          className="h-3 w-3 object-contain sm:h-3.5 sm:w-3.5"
           loading="lazy"
         />
       )}
@@ -27,16 +28,17 @@ function ProjectTechPill({ tech }) {
   );
 }
 
-function ProjectCard({ project, index }) {
+function ProjectCard({ project, index, onOpen }) {
   const { tField } = useLanguage();
   const techStack = project.techStack || [];
 
   return (
-    <Link
-      to={`/projects/${project.id}`}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/[0.02] transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-white/[0.04]"
+    <button
+      type="button"
+      onClick={() => onOpen(project)}
+      className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.015] dark:bg-white/[0.02] text-left transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.04] sm:rounded-[1.5rem]"
     >
-      <div className="relative aspect-[16/10] overflow-hidden bg-white/[0.04]">
+      <div className="relative aspect-[16/10] overflow-hidden bg-black/[0.03] dark:bg-white/[0.04]">
         {project.coverImage ? (
           <img
             src={project.coverImage}
@@ -45,50 +47,50 @@ function ProjectCard({ project, index }) {
             loading="lazy"
           />
         ) : (
-          <div className="flex h-full w-full items-center justify-center px-6 text-center font-display text-2xl font-semibold text-white/20">
+          <div className="flex h-full w-full items-center justify-center px-6 text-center font-display text-lg font-semibold text-black/15 dark:text-dark-text/20 sm:text-2xl">
             {tField(project, "title")}
           </div>
         )}
 
         <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
 
-        <div className="absolute left-4 top-4 rounded-full border border-white/10 bg-black/35 px-3 py-1.5 text-xs font-semibold text-white/70 backdrop-blur-md">
+        <div className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/35 px-2.5 py-1 text-[11px] font-semibold text-white/90 backdrop-blur-md sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-xs">
           {String(index + 1).padStart(2, "0")}
         </div>
 
-        <div className="absolute right-4 top-4 rounded-full border border-accent-green/30 bg-accent-green/15 px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[0.16em] text-accent-green backdrop-blur-md">
+        <div className="absolute right-3 top-3 rounded-full border border-accent-green/30 bg-accent-green/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-green backdrop-blur-md sm:right-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
           {tField(project, "category")}
         </div>
       </div>
 
-      <div className="flex flex-1 flex-col p-5 md:p-6">
+      <div className="flex flex-1 flex-col p-4 sm:p-5 md:p-6">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-accent-green">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-green sm:text-xs sm:tracking-[0.2em]">
             {tField(project, "category")}
           </p>
 
-          <h3 className="mt-3 font-display text-2xl font-semibold leading-tight tracking-[-0.04em] text-white">
+          <h3 className="mt-2 font-display text-xl font-semibold leading-tight tracking-[-0.04em] text-light-text dark:text-dark-text sm:mt-3 sm:text-2xl">
             {tField(project, "title")}
           </h3>
         </div>
 
         {techStack.length > 0 && (
-          <ul className="mt-6 flex flex-wrap gap-2">
+          <ul className="mt-4 flex flex-wrap gap-2 sm:mt-6">
             {techStack.slice(0, 5).map((tech) => (
               <ProjectTechPill key={tech} tech={tech} />
             ))}
 
             {techStack.length > 5 && (
-              <li className="rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs font-medium text-white/55">
+              <li className="rounded-full border border-light-border dark:border-dark-border bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-light-muted dark:text-dark-muted sm:px-3 sm:py-1.5 sm:text-xs">
                 +{techStack.length - 5}
               </li>
             )}
           </ul>
         )}
 
-        <div className="mt-auto pt-6">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-white/65 transition-colors duration-300 group-hover:text-accent-green">
-            View Detail
+        <div className="mt-auto pt-5 sm:pt-6">
+          <span className="inline-flex items-center gap-2 text-sm font-semibold text-light-muted dark:text-dark-muted transition-colors duration-300 group-hover:text-accent-green">
+            Detail
             <svg
               width="14"
               height="14"
@@ -103,7 +105,7 @@ function ProjectCard({ project, index }) {
           </span>
         </div>
       </div>
-    </Link>
+    </button>
   );
 }
 
@@ -111,9 +113,9 @@ function TechStackCard({ tech }) {
   const logo = getTechLogo(tech.name);
 
   return (
-    <article className="group flex items-center justify-between gap-4 rounded-[1.35rem] border border-white/10 bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-white/[0.05]">
-      <div className="flex min-w-0 items-center gap-3">
-        <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04]">
+    <article className="group flex items-center gap-3 rounded-2xl border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
+      <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-light-border dark:border-dark-border bg-black/[0.03] dark:bg-white/[0.04] sm:h-11 sm:w-11 sm:rounded-2xl">
           {logo ? (
             <img
               src={logo}
@@ -122,28 +124,19 @@ function TechStackCard({ tech }) {
               loading="lazy"
             />
           ) : (
-            <span className="text-sm font-semibold text-accent-green">
+            <span className="text-xs font-semibold text-accent-green sm:text-sm">
               {tech.name?.charAt(0)}
             </span>
           )}
         </div>
 
         <div className="min-w-0">
-          <h3 className="truncate font-display text-base font-semibold text-white">
+          <h3 className="truncate font-display text-sm font-semibold text-light-text dark:text-dark-text sm:text-base">
             {tech.name}
           </h3>
 
-          {(tech.category_en || tech.category_id || tech.level) && (
-            <p className="mt-1 truncate text-xs uppercase tracking-[0.14em] text-white/35">
-              {tech.category_en || tech.category_id || tech.level}
-            </p>
-          )}
         </div>
       </div>
-
-      <span className="text-accent-green opacity-0 transition-all duration-300 group-hover:translate-x-1 group-hover:opacity-100">
-        ✦
-      </span>
     </article>
   );
 }
@@ -163,7 +156,7 @@ function TechStackMarquee({ techStacks }) {
   ];
 
   return (
-    <div className="relative left-1/2 right-1/2 mt-14 w-screen -translate-x-1/2 overflow-hidden border-y border-white/10 bg-white/[0.015] py-5">
+    <div className="relative left-1/2 right-1/2 mt-14 w-screen -translate-x-1/2 overflow-hidden border-y border-light-border dark:border-dark-border bg-black/[0.015] dark:bg-white/[0.015] py-5">
       <div className="marquee-track flex w-max items-center gap-5">
         {marqueeItems.map((tech, index) => {
           const logo = getTechLogo(tech.name);
@@ -173,7 +166,7 @@ function TechStackMarquee({ techStacks }) {
               key={`${tech.id || tech.name}-${index}`}
               className="flex items-center gap-5"
             >
-              <div className="flex items-center gap-3 rounded-full border border-white/10 bg-white/[0.025] px-4 py-2">
+              <div className="flex items-center gap-3 rounded-full border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] px-4 py-2">
                 {logo && (
                   <img
                     src={logo}
@@ -183,7 +176,7 @@ function TechStackMarquee({ techStacks }) {
                   />
                 )}
 
-                <span className="whitespace-nowrap text-sm font-semibold text-white/65">
+                <span className="whitespace-nowrap text-sm font-semibold text-light-muted dark:text-dark-muted">
                   {tech.name}
                 </span>
               </div>
@@ -209,11 +202,11 @@ function TechStackSection({ techStacks, loading, error }) {
       <div className="mx-auto max-w-3xl text-center">
         <p className="editorial-label">✦ {t("projects.techStack")}</p>
 
-        <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-[-0.06em] text-white md:text-6xl">
+        <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-[-0.06em] text-light-text dark:text-dark-text md:text-6xl">
           {t("projects.techStackTitle")}
         </h3>
 
-        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-white/50">
+        <p className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-light-muted dark:text-dark-muted">
           {t("projects.techStackDescription")}
         </p>
       </div>
@@ -240,7 +233,7 @@ function TechStackSection({ techStacks, loading, error }) {
         <>
           <TechStackMarquee techStacks={sortedTechStacks} />
 
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
             {sortedTechStacks.map((tech) => (
               <TechStackCard key={tech.id || tech.name} tech={tech} />
             ))}
@@ -253,6 +246,7 @@ function TechStackSection({ techStacks, loading, error }) {
 
 export default function Projects() {
   const { t } = useLanguage();
+  const [selectedProject, setSelectedProject] = useState(null);
 
   const {
     data: projectData,
@@ -282,17 +276,17 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="overflow-hidden bg-[#0B0B0B] px-6 py-20 text-white md:px-8 md:py-28"
+      className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
         <div className="mx-auto max-w-3xl text-center">
           <p className="editorial-label">✦ {t("nav.projects")}</p>
 
-          <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-white md:text-7xl">
+          <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl">
             {t("projects.title")}
           </h2>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-white/50">
+          <p className="mx-auto mt-6 max-w-2xl text-base leading-relaxed text-light-muted dark:text-dark-muted">
             {t("projects.description")}
           </p>
         </div>
@@ -308,14 +302,15 @@ export default function Projects() {
 
           {!projectLoading && !projectError && projects.length > 0 && (
             <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2">
-            {projects.map((project, index) => (
-              <ProjectCard
-                key={project.id}
-                project={project}
-                index={index}
-              />
-            ))}
-          </div>
+              {projects.map((project, index) => (
+                <ProjectCard
+                  key={project.id}
+                  project={project}
+                  index={index}
+                  onOpen={setSelectedProject}
+                />
+              ))}
+            </div>
           )}
         </div>
 
@@ -325,8 +320,15 @@ export default function Projects() {
           error={skillError}
         />
 
-        {showFallback && <p className="mt-6 text-xs text-white/35" />}
+        {showFallback && (
+          <p className="mt-6 text-xs text-light-muted dark:text-dark-muted" />
+        )}
       </div>
+
+      <ProjectDetailModal
+        project={selectedProject}
+        onClose={() => setSelectedProject(null)}
+      />
     </section>
   );
 }

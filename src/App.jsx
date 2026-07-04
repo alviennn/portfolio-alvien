@@ -5,7 +5,6 @@ import { AuthProvider } from './context/AuthContext';
 import { ToastProvider } from './context/ToastContext';
 
 import Home from './pages/Home';
-import ProjectDetail from "./pages/ProjectDetail";
 import AdminLogin from './pages/admin/AdminLogin';
 import AdminDashboard from './pages/admin/AdminDashboard';
 import AdminProjects from './pages/admin/AdminProjects';
@@ -24,7 +23,6 @@ export default function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/projects/:id" element={<ProjectDetail />} />
 
                 <Route
                   path="/admin"
