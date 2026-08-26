@@ -131,10 +131,9 @@ function ProjectCarousel({ projects, onOpen }) {
           const cardCenter = card.offsetLeft + card.offsetWidth / 2;
           const offset = (cardCenter - carouselCenter) / carousel.clientWidth;
           const distance = Math.abs(offset);
-          const limitedOffset = Math.max(-1, Math.min(1, offset));
           const focusDistance = Math.min(distance, 1);
 
-          card.style.transform = `perspective(1200px) translate3d(${limitedOffset * 14}px, ${focusDistance * 18}px, 0) rotateY(${-limitedOffset * 5}deg) scale(${1 - focusDistance * 0.12})`;
+          card.style.transform = `translate3d(0, ${focusDistance * 14}px, 0) scale(${1 - focusDistance * 0.1})`;
           card.style.filter = "none";
           card.style.opacity = `${1 - focusDistance * 0.2}`;
 
@@ -181,14 +180,14 @@ function ProjectCarousel({ projects, onOpen }) {
     <div className="mx-auto max-w-6xl">
       <div
         ref={carouselRef}
-        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 active:cursor-grabbing md:mx-0 md:px-0"
+        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-5 active:cursor-grabbing lg:gap-8 md:mx-0 md:px-0"
         aria-label="Project carousel"
       >
         {projects.map((project, index) => (
           <div
             key={project.id}
             data-project-card
-            className="w-full shrink-0 snap-center transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+            className="w-full shrink-0 snap-center snap-always transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[calc((100%_-_1.5rem)/2)] sm:first:ml-[calc(25%_+_0.375rem)] sm:last:mr-[calc(25%_+_0.375rem)] lg:w-[calc((100%_-_4rem)/3)] lg:first:ml-[calc(33.333%_+_0.6667rem)] lg:last:mr-[calc(33.333%_+_0.6667rem)]"
           >
             <ProjectCard
               project={project}
@@ -211,7 +210,7 @@ function ProjectCarousel({ projects, onOpen }) {
               aria-hidden="true"
               className={`h-2 w-2 rounded-full transition-all duration-300 ${
                 index === activeIndex
-                  ? "scale-125 bg-accent-green shadow-[0_0_0_4px_rgba(142,153,112,0.16)]"
+                  ? "scale-125 bg-accent-green"
                   : "bg-light-border dark:bg-dark-border"
               }`}
             />
