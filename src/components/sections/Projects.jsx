@@ -135,7 +135,7 @@ function ProjectCarousel({ projects, onOpen }) {
           const focusDistance = Math.min(distance, 1);
 
           card.style.transform = `perspective(1200px) translate3d(${limitedOffset * 14}px, ${focusDistance * 18}px, 0) rotateY(${-limitedOffset * 5}deg) scale(${1 - focusDistance * 0.12})`;
-          card.style.filter = `blur(${focusDistance * 2.25}px)`;
+          card.style.filter = "none";
           card.style.opacity = `${1 - focusDistance * 0.2}`;
 
           if (distance < nearestDistance) {
@@ -188,7 +188,7 @@ function ProjectCarousel({ projects, onOpen }) {
           <div
             key={project.id}
             data-project-card
-            className="w-full shrink-0 snap-center transform-gpu transition-[transform,opacity,filter] duration-200 ease-out sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
+            className="w-full shrink-0 snap-center transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
           >
             <ProjectCard
               project={project}
@@ -201,17 +201,18 @@ function ProjectCarousel({ projects, onOpen }) {
 
       {projects.length > 1 && (
         <div
-          className="mt-5 flex items-center justify-center gap-2"
+          className="mt-5 flex max-w-full flex-wrap items-center justify-center gap-2.5"
           aria-label={`Project ${activeIndex + 1} of ${projects.length}`}
           aria-live="polite"
         >
           {projects.map((project, index) => (
             <span
               key={project.id}
-              className={`h-1.5 rounded-full transition-all duration-300 ${
+              aria-hidden="true"
+              className={`h-2 w-2 rounded-full transition-all duration-300 ${
                 index === activeIndex
-                  ? "w-6 bg-accent-green"
-                  : "w-1.5 bg-light-border dark:bg-dark-border"
+                  ? "scale-125 bg-accent-green shadow-[0_0_0_4px_rgba(142,153,112,0.16)]"
+                  : "bg-light-border dark:bg-dark-border"
               }`}
             />
           ))}
