@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import {
@@ -106,6 +106,114 @@ function ProjectCard({ project, index, onOpen }) {
         </div>
       </div>
     </button>
+  );
+}
+
+function ProjectCarousel({ projects, onOpen }) {
+  const carouselRef = useRef(null);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const carousel = carouselRef.current;
+    if (!carousel) return undefined;
+
+    let animationFrame;
+
+    const updateActiveProject = () => {
+      cancelAnimationFrame(animationFrame);
+      animationFrame = requestAnimationFrame(() => {
+        const cards = [...carousel.querySelectorAll("[data-project-card]")];
+        const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
+        let nearestIndex = 0;
+        let nearestDistance = Number.POSITIVE_INFINITY;
+
+        cards.forEach((card, index) => {
+          const cardCenter = card.offsetLeft + card.offsetWidth / 2;
+          const distance = Math.abs(cardCenter - carouselCenter);
+
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestIndex = index;
+          }
+        });
+
+        setActiveIndex(nearestIndex);
+      });
+    };
+
+    const handleWheel = (event) => {
+      // Keep vertical page scrolling available once either end is reached.
+      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
+
+      const isScrollingForward = event.deltaY > 0;
+      const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+      const hasNextProject = carousel.scrollLeft < maxScrollLeft - 1;
+      const hasPreviousProject = carousel.scrollLeft > 1;
+
+      if (
+        (isScrollingForward && hasNextProject) ||
+        (!isScrollingForward && hasPreviousProject)
+      ) {
+        event.preventDefault();
+        carousel.scrollLeft += event.deltaY;
+      }
+    };
+
+    carousel.addEventListener("scroll", updateActiveProject, { passive: true });
+    carousel.addEventListener("wheel", handleWheel, { passive: false });
+    updateActiveProject();
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      carousel.removeEventListener("scroll", updateActiveProject);
+      carousel.removeEventListener("wheel", handleWheel);
+    };
+  }, [projects.length]);
+
+  return (
+    <div className="mx-auto max-w-6xl">
+      <div
+        ref={carouselRef}
+        className="scrollbar-hide -mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-3 md:mx-0 md:px-0"
+        aria-label="Project carousel"
+      >
+        {projects.map((project, index) => (
+          <div
+            key={project.id}
+            data-project-card
+            className="w-[min(84vw,27rem)] shrink-0 snap-center sm:w-[min(70vw,32rem)] lg:w-[min(58vw,36rem)]"
+          >
+            <ProjectCard
+              project={project}
+              index={index}
+              onOpen={onOpen}
+            />
+          </div>
+        ))}
+      </div>
+
+      {projects.length > 1 && (
+        <div
+          className="mt-5 flex items-center justify-center gap-2"
+          aria-label={`Project ${activeIndex + 1} of ${projects.length}`}
+          aria-live="polite"
+        >
+          {projects.map((project, index) => (
+            <span
+              key={project.id}
+              className={`h-1.5 rounded-full transition-all duration-300 ${
+                index === activeIndex
+                  ? "w-6 bg-accent-green"
+                  : "w-1.5 bg-light-border dark:bg-dark-border"
+              }`}
+            />
+          ))}
+          <span className="sr-only">
+            Project {activeIndex + 1} of {projects.length}
+          </span>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -301,16 +409,7 @@ export default function Projects() {
           )}
 
           {!projectLoading && !projectError && projects.length > 0 && (
-            <div className="mx-auto grid max-w-6xl gap-5 md:grid-cols-2">
-              {projects.map((project, index) => (
-                <ProjectCard
-                  key={project.id}
-                  project={project}
-                  index={index}
-                  onOpen={setSelectedProject}
-                />
-              ))}
-            </div>
+            <ProjectCarousel projects={projects} onOpen={setSelectedProject} />
           )}
         </div>
 
