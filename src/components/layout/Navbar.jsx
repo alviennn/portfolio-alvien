@@ -232,16 +232,6 @@ export default function Navbar() {
     setActiveSection(id);
   };
 
-  const isLocalCv =
-    contact.cvLink?.startsWith(
-      "/"
-    );
-
-  const isExternalCv =
-    contact.cvLink?.startsWith(
-      "http"
-    );
-
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -318,16 +308,7 @@ export default function Navbar() {
 
           <a
             href={contact.cvLink}
-            download={
-              isLocalCv
-                ? "cv-alvien-ridho.pdf"
-                : undefined
-            }
-            target={
-              isExternalCv
-                ? "_blank"
-                : undefined
-            }
+            target="_blank"
             rel="noreferrer"
             className="
               group
@@ -391,7 +372,7 @@ export default function Navbar() {
               </span>
 
               <span className="hidden md:inline">
-                Download CV
+                View CV
               </span>
             </span>
 

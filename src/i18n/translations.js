@@ -140,7 +140,7 @@ export const translations = {
       emailMe: "Email Me",
       linkedin: "LinkedIn",
       github: "GitHub",
-      downloadCV: "Download CV",
+      viewCV: "View CV",
       cvValue: "Curriculum Vitae",
     },
 
@@ -300,7 +300,7 @@ export const translations = {
       emailMe: "Email Saya",
       linkedin: "LinkedIn",
       github: "GitHub",
-      downloadCV: "Unduh CV",
+      viewCV: "Lihat CV",
       cvValue: "Curriculum Vitae",
     },
 

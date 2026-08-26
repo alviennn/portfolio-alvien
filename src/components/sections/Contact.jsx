@@ -51,9 +51,6 @@ export default function Contact() {
     fetchContact();
   }, []);
 
-  const isLocalCv = contact.cvLink?.startsWith("/");
-  const isExternalCv = contact.cvLink?.startsWith("http");
-
   const contactLinks = [
     {
       key: "emailMe",
@@ -78,14 +75,13 @@ export default function Contact() {
       value: "github.com/alviennn",
     },
     {
-      key: "downloadCV",
+      key: "viewCV",
       icon: "/contact/cv.svg",
-      label: t("contact.downloadCV"),
+      label: t("contact.viewCV"),
       href: contact.cvLink,
       value: t("contact.cvValue"),
-      download: isLocalCv,
-      target: isExternalCv ? "_blank" : undefined,
-      rel: isExternalCv ? "noreferrer" : undefined,
+      target: "_blank",
+      rel: "noreferrer",
     },
   ].filter((link) => Boolean(link.href));
 
@@ -123,7 +119,6 @@ export default function Contact() {
                 link.rel ||
                 (link.href.startsWith("http") ? "noreferrer" : undefined)
               }
-              download={link.download ? "cv-alvien-ridho.pdf" : undefined}
               className={`group relative overflow-hidden rounded-[1.1rem] border p-3.5 transition-all duration-300 hover:-translate-y-1 sm:rounded-[1.35rem] sm:p-4 ${
                 link.primary
                   ? "border-accent-green/40 bg-accent-green/10 hover:border-accent-green"
