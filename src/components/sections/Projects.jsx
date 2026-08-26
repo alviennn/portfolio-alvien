@@ -132,9 +132,11 @@ function ProjectCarousel({ projects, onOpen }) {
           const offset = (cardCenter - carouselCenter) / carousel.clientWidth;
           const distance = Math.abs(offset);
           const limitedOffset = Math.max(-1, Math.min(1, offset));
+          const focusDistance = Math.min(distance, 1);
 
-          card.style.transform = `perspective(1200px) translate3d(${limitedOffset * 18}px, ${distance * 8}px, 0) rotateY(${-limitedOffset * 5}deg) scale(${1 - Math.min(distance, 1) * 0.045})`;
-          card.style.opacity = `${1 - Math.min(distance, 1) * 0.12}`;
+          card.style.transform = `perspective(1200px) translate3d(${limitedOffset * 14}px, ${focusDistance * 18}px, 0) rotateY(${-limitedOffset * 5}deg) scale(${1 - focusDistance * 0.12})`;
+          card.style.filter = `blur(${focusDistance * 2.25}px)`;
+          card.style.opacity = `${1 - focusDistance * 0.2}`;
 
           if (distance < nearestDistance) {
             nearestDistance = distance;
@@ -186,7 +188,7 @@ function ProjectCarousel({ projects, onOpen }) {
           <div
             key={project.id}
             data-project-card
-            className="w-[calc(100vw-5.25rem)] shrink-0 snap-center transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[min(76vw,32rem)] lg:w-[min(68%,42rem)]"
+            className="w-full shrink-0 snap-center transform-gpu transition-[transform,opacity,filter] duration-200 ease-out sm:w-[calc((100%-1.25rem)/2)] lg:w-[calc((100%-2.5rem)/3)]"
           >
             <ProjectCard
               project={project}
