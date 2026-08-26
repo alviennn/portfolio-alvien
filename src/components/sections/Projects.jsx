@@ -129,7 +129,12 @@ function ProjectCarousel({ projects, onOpen }) {
 
         cards.forEach((card, index) => {
           const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-          const distance = Math.abs(cardCenter - carouselCenter);
+          const offset = (cardCenter - carouselCenter) / carousel.clientWidth;
+          const distance = Math.abs(offset);
+          const limitedOffset = Math.max(-1, Math.min(1, offset));
+
+          card.style.transform = `perspective(1200px) translate3d(${limitedOffset * 18}px, ${distance * 8}px, 0) rotateY(${-limitedOffset * 5}deg) scale(${1 - Math.min(distance, 1) * 0.045})`;
+          card.style.opacity = `${1 - Math.min(distance, 1) * 0.12}`;
 
           if (distance < nearestDistance) {
             nearestDistance = distance;
@@ -174,14 +179,14 @@ function ProjectCarousel({ projects, onOpen }) {
     <div className="mx-auto max-w-6xl">
       <div
         ref={carouselRef}
-        className="scrollbar-hide -mx-6 flex snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-3 md:mx-0 md:px-0"
+        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-5 overflow-x-auto px-6 pb-4 active:cursor-grabbing md:mx-0 md:px-0"
         aria-label="Project carousel"
       >
         {projects.map((project, index) => (
           <div
             key={project.id}
             data-project-card
-            className="w-[min(84vw,27rem)] shrink-0 snap-center sm:w-[min(70vw,32rem)] lg:w-[min(58vw,36rem)]"
+            className="w-[calc(100vw-5.25rem)] shrink-0 snap-center transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[min(76vw,32rem)] lg:w-[min(68%,42rem)]"
           >
             <ProjectCard
               project={project}
