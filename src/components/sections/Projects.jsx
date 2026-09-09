@@ -254,17 +254,17 @@ function TechStackCard({ tech }) {
   return (
     <article className="group flex items-center gap-3 rounded-2xl border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] px-4 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.05]">
       <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
-        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-light-border dark:border-dark-border bg-black/[0.03] dark:bg-white/[0.04] sm:h-11 sm:w-11 sm:rounded-2xl">
+        <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border border-light-border bg-light-bg shadow-sm transition-all duration-300 group-hover:-rotate-3 group-hover:border-accent-green/45 group-hover:shadow-[0_8px_20px_rgba(79,122,107,0.12)] dark:border-dark-border dark:bg-dark-bg sm:h-11 sm:w-11 sm:rounded-2xl">
           {logo ? (
             <img
               src={logo}
               alt={tech.name}
-              className="h-6 w-6 object-contain transition-transform duration-300 group-hover:scale-110"
+              className="h-5 w-5 object-contain transition-transform duration-300 group-hover:scale-110 sm:h-6 sm:w-6"
               loading="lazy"
             />
           ) : (
-            <span className="text-xs font-semibold text-accent-green sm:text-sm">
-              {tech.name?.charAt(0)}
+            <span className="flex h-5 w-5 items-center justify-center rounded-md bg-accent-green/12 text-[10px] font-bold uppercase tracking-[-0.08em] text-accent-green sm:h-6 sm:w-6 sm:text-xs">
+              {tech.name?.slice(0, 2)}
             </span>
           )}
         </div>
@@ -306,14 +306,20 @@ function TechStackMarquee({ techStacks }) {
               className="flex items-center gap-5"
             >
               <div className="flex items-center gap-3 rounded-full border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] px-4 py-2">
-                {logo && (
-                  <img
-                    src={logo}
-                    alt={tech.name}
-                    className="h-5 w-5 object-contain"
-                    loading="lazy"
-                  />
-                )}
+                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-light-border bg-light-bg/80 dark:border-dark-border dark:bg-dark-bg/80">
+                  {logo ? (
+                    <img
+                      src={logo}
+                      alt={tech.name}
+                      className="h-4 w-4 object-contain"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <span className="text-[9px] font-bold uppercase tracking-[-0.08em] text-accent-green">
+                      {tech.name?.slice(0, 2)}
+                    </span>
+                  )}
+                </span>
 
                 <span className="whitespace-nowrap text-sm font-semibold text-light-muted dark:text-dark-muted">
                   {tech.name}

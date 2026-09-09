@@ -53,6 +53,11 @@ const aliases = {
   firebase: "firebase",
 
   figma: "figma",
+  "ui-design": "figma",
+  "ux-design": "figma",
+  "ux-flow": "figma",
+  wireframing: "figma",
+  prototyping: "figma",
 
   // Flask
   flask: "flask",
@@ -190,9 +195,3 @@ export function getTechLogo(name) {
 export function getAvailableTechLogos() {
   return Object.keys(logoMap);
 }
-
-console.log("==== TECH LOGOS ====");
-console.log(techLogos);
-
-console.log("==== LOGO MAP ====");
-console.log(logoMap);
