@@ -271,8 +271,45 @@ html {
   transform: translate3d(0, 0, 0);
 }
 
+.catalogue-book {
+  perspective: 1800px;
+}
+
 .catalogue-page {
-  animation: cataloguePageEnter 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  animation: cataloguePageTurn 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.catalogue-page::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 20;
+  inset: 0 auto 0 0;
+  width: 14px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.16), rgba(0, 0, 0, 0.04), transparent);
+  opacity: 0.5;
+}
+
+.catalogue-page::after {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  z-index: 19;
+  inset: 0;
+  box-shadow: inset 18px 0 24px -24px rgba(0, 0, 0, 0.9);
+}
+
+@media (min-width: 1024px) {
+  .catalogue-page::before {
+    left: 54%;
+    width: 18px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, rgba(0, 0, 0, 0.1), transparent);
+  }
 }
 
 .catalogue-arrow {
@@ -470,16 +507,16 @@ html {
 
 }
 
-@keyframes cataloguePageEnter {
+@keyframes cataloguePageTurn {
 
   from {
-    opacity: 0;
-    transform: translate3d(0, 14px, 0) scale(0.99);
+    opacity: 0.45;
+    transform: rotateY(-13deg) translate3d(-14px, 0, 0);
   }
 
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0) scale(1);
+    transform: rotateY(0deg) translate3d(0, 0, 0);
   }
 
 }

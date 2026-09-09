@@ -44,10 +44,11 @@ function ProjectGallery({ projects, onOpen }) {
 
   return (
     <div className="mx-auto max-w-6xl" aria-label="Project catalogue">
-      <article
-        key={project.id}
-        className="catalogue-page overflow-hidden rounded-[1.5rem] border border-light-border bg-black/[0.02] shadow-[0_24px_80px_rgba(15,15,15,0.08)] dark:border-dark-border dark:bg-white/[0.025] md:rounded-[2rem] lg:grid lg:grid-cols-[1.08fr_0.92fr]"
-      >
+      <div className="catalogue-book">
+        <article
+          key={project.id}
+          className="catalogue-page overflow-hidden rounded-[1.5rem] border border-light-border bg-black/[0.02] shadow-[0_24px_80px_rgba(15,15,15,0.08)] dark:border-dark-border dark:bg-white/[0.025] md:rounded-[2rem] lg:grid lg:grid-cols-[1.08fr_0.92fr]"
+        >
         <button
           type="button"
           onClick={() => onOpen(project)}
@@ -58,7 +59,7 @@ function ProjectGallery({ projects, onOpen }) {
             <img
               src={project.coverImage}
               alt={tField(project, "title")}
-              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              className="h-full w-full object-contain bg-light-bgSecondary p-4 transition-transform duration-500 ease-out group-hover:scale-[1.015] dark:bg-dark-bgSecondary sm:p-6"
               loading="lazy"
             />
           ) : (
@@ -118,7 +119,8 @@ function ProjectGallery({ projects, onOpen }) {
             </svg>
           </button>
         </div>
-      </article>
+        </article>
+      </div>
 
       {projects.length > 1 && (
         <div className="mt-5 grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
