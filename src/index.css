@@ -248,7 +248,7 @@ html {
   scrollbar-color: rgba(142, 153, 112, 0.45) #0f0f0f;
 }
 
-[data-reveal] {
+[data-reveal].is-reveal-pending:not(.is-visible) {
   opacity: 0;
   transform: translate3d(0, 28px, 0);
   transition:
@@ -258,11 +258,11 @@ html {
   will-change: opacity, transform;
 }
 
-[data-reveal="left"] {
+[data-reveal="left"].is-reveal-pending:not(.is-visible) {
   transform: translate3d(-32px, 0, 0);
 }
 
-[data-reveal="right"] {
+[data-reveal="right"].is-reveal-pending:not(.is-visible) {
   transform: translate3d(32px, 0, 0);
 }
 
@@ -281,7 +281,7 @@ html {
     transition-duration: 0.01ms !important;
   }
 
-  [data-reveal] {
+  [data-reveal].is-reveal-pending:not(.is-visible) {
     opacity: 1;
     transform: none;
   }

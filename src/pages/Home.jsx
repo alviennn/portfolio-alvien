@@ -32,7 +32,10 @@ export default function Home() {
       { threshold: 0.12, rootMargin: '0px 0px -48px' },
     );
 
-    elements.forEach((element) => observer.observe(element));
+    elements.forEach((element) => {
+      element.classList.add('is-reveal-pending');
+      observer.observe(element);
+    });
     return () => observer.disconnect();
   }, []);
 
