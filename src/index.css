@@ -248,6 +248,13 @@ html {
   scrollbar-color: rgba(142, 153, 112, 0.45) #0f0f0f;
 }
 
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition-property: background-color, border-color, color, fill, stroke, box-shadow, transform, opacity;
+  transition-duration: 300ms;
+  transition-timing-function: ease;
+}
+
 [data-reveal].is-reveal-pending:not(.is-visible) {
   opacity: 0;
   transform: translate3d(0, 28px, 0);

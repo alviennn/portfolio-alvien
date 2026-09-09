@@ -59,10 +59,27 @@ export function ThemeProvider({
       theme
     );
 
+    root.classList.add(
+      "theme-transitioning"
+    );
+
     localStorage.setItem(
       STORAGE_KEY,
       theme
     );
+
+    const timeout =
+      window.setTimeout(
+        () => root.classList.remove(
+          "theme-transitioning"
+        ),
+        300
+      );
+
+    return () =>
+      window.clearTimeout(
+        timeout
+      );
   }, [theme]);
 
   useEffect(() => {
