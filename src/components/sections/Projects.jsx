@@ -109,7 +109,7 @@ function ProjectCard({ project, index, onOpen }) {
   );
 }
 
-function ProjectCarousel({ projects, onOpen, scrollAreaRef }) {
+function ProjectCarousel({ projects, onOpen }) {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -118,30 +118,8 @@ function ProjectCarousel({ projects, onOpen, scrollAreaRef }) {
     if (!carousel) return undefined;
 
     let animationFrame;
-    let smoothScrollFrame;
-    let targetScrollLeft = carousel.scrollLeft;
-    let isSmoothScrolling = false;
-
-    const animateScroll = () => {
-      const currentScrollLeft = carousel.scrollLeft;
-      const distance = targetScrollLeft - currentScrollLeft;
-
-      if (Math.abs(distance) < 0.5) {
-        carousel.scrollLeft = targetScrollLeft;
-        isSmoothScrolling = false;
-        smoothScrollFrame = undefined;
-        return;
-      }
-
-      carousel.scrollLeft = currentScrollLeft + distance * 0.24;
-      smoothScrollFrame = requestAnimationFrame(animateScroll);
-    };
 
     const updateActiveProject = () => {
-      if (!isSmoothScrolling) {
-        targetScrollLeft = carousel.scrollLeft;
-      }
-
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
         const cards = [...carousel.querySelectorAll("[data-project-card]")];
@@ -169,61 +147,43 @@ function ProjectCarousel({ projects, onOpen, scrollAreaRef }) {
       });
     };
 
-    const handleWheel = (event) => {
-      // Preserve native horizontal scrolling, but translate vertical wheel input
-      // into carousel movement while there are more projects to reveal.
-      if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
-
-      const delta =
-        event.deltaMode === WheelEvent.DOM_DELTA_LINE
-          ? event.deltaY * 16
-          : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
-            ? event.deltaY * carousel.clientHeight
-            : event.deltaY;
-      const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
-      const nextScrollLeft = Math.max(
-        0,
-        Math.min(maxScrollLeft, targetScrollLeft + delta),
-      );
-      const canMoveCarousel = Math.abs(nextScrollLeft - targetScrollLeft) > 0.5;
-
-      if (canMoveCarousel) {
-        event.preventDefault();
-        targetScrollLeft = nextScrollLeft;
-
-        if (!isSmoothScrolling) {
-          isSmoothScrolling = true;
-          smoothScrollFrame = requestAnimationFrame(animateScroll);
-        }
-      }
-    };
-
-    const scrollArea = scrollAreaRef.current || carousel;
-
     carousel.addEventListener("scroll", updateActiveProject, { passive: true });
-    scrollArea.addEventListener("wheel", handleWheel, { passive: false });
     updateActiveProject();
 
     return () => {
       cancelAnimationFrame(animationFrame);
-      cancelAnimationFrame(smoothScrollFrame);
       carousel.removeEventListener("scroll", updateActiveProject);
-      scrollArea.removeEventListener("wheel", handleWheel);
     };
-  }, [projects.length, scrollAreaRef]);
+  }, [projects.length]);
+
+  const goToProject = (index) => {
+    const carousel = carouselRef.current;
+    if (!carousel) return;
+
+    const cards = [...carousel.querySelectorAll("[data-project-card]")];
+    const targetCard = cards[index];
+    if (!targetCard) return;
+
+    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+    const centeredScrollLeft =
+      targetCard.offsetLeft - (carousel.clientWidth - targetCard.offsetWidth) / 2;
+    const nextScrollLeft = Math.max(0, Math.min(maxScrollLeft, centeredScrollLeft));
+
+    carousel.scrollTo({ left: nextScrollLeft, behavior: "smooth" });
+  };
 
   return (
     <div className="mx-auto max-w-6xl">
       <div
         ref={carouselRef}
-        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain px-6 pb-5 active:cursor-grabbing lg:gap-8 md:mx-0 md:px-0"
+        className="scrollbar-hide -mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-5 lg:gap-8 md:mx-0 md:px-0"
         aria-label="Project carousel"
       >
         {projects.map((project, index) => (
           <div
             key={project.id}
             data-project-card
-            className="w-full shrink-0 snap-center snap-always transform-gpu transition-[transform,opacity] duration-200 ease-out sm:w-[calc((100%_-_1.5rem)/2)] sm:first:ml-[calc(25%_+_0.375rem)] sm:last:mr-[calc(25%_+_0.375rem)] lg:w-[calc((100%_-_4rem)/3)] lg:first:ml-[calc(33.333%_+_0.6667rem)] lg:last:mr-[calc(33.333%_+_0.6667rem)]"
+            className="w-full shrink-0 snap-center snap-always transform-gpu transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-[calc((100%_-_1.5rem)/2)] sm:first:ml-[calc(25%_+_0.375rem)] sm:last:mr-[calc(25%_+_0.375rem)] lg:w-[calc((100%_-_4rem)/3)] lg:first:ml-[calc(33.333%_+_0.6667rem)] lg:last:mr-[calc(33.333%_+_0.6667rem)]"
           >
             <ProjectCard
               project={project}
@@ -236,21 +196,49 @@ function ProjectCarousel({ projects, onOpen, scrollAreaRef }) {
 
       {projects.length > 1 && (
         <div
-          className="mt-5 flex max-w-full flex-wrap items-center justify-center gap-2.5"
+          className="mt-6 flex max-w-full flex-wrap items-center justify-center gap-3"
           aria-label={`Project ${activeIndex + 1} of ${projects.length}`}
           aria-live="polite"
         >
+          <button
+            type="button"
+            onClick={() => goToProject(activeIndex - 1)}
+            disabled={activeIndex === 0}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-light-border bg-black/[0.02] text-light-text transition-all duration-300 hover:-translate-x-0.5 hover:border-accent-green hover:bg-accent-green hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-x-0 disabled:hover:border-light-border disabled:hover:bg-black/[0.02] dark:border-dark-border dark:bg-white/[0.03] dark:text-dark-text dark:hover:border-accent-green dark:hover:bg-accent-green dark:disabled:hover:border-dark-border dark:disabled:hover:bg-white/[0.03]"
+            aria-label="Previous project"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="m15 18-6-6 6-6" />
+            </svg>
+          </button>
+
           {projects.map((project, index) => (
-            <span
+            <button
+              type="button"
               key={project.id}
-              aria-hidden="true"
-              className={`h-2 w-2 rounded-full transition-all duration-300 ${
+              onClick={() => goToProject(index)}
+              aria-label={`Show project ${index + 1}`}
+              aria-current={index === activeIndex ? "true" : undefined}
+              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 hover:bg-accent-green ${
                 index === activeIndex
                   ? "scale-125 bg-accent-green"
                   : "bg-light-border dark:bg-dark-border"
               }`}
             />
           ))}
+
+          <button
+            type="button"
+            onClick={() => goToProject(activeIndex + 1)}
+            disabled={activeIndex === projects.length - 1}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-light-border bg-black/[0.02] text-light-text transition-all duration-300 hover:translate-x-0.5 hover:border-accent-green hover:bg-accent-green hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-x-0 disabled:hover:border-light-border disabled:hover:bg-black/[0.02] dark:border-dark-border dark:bg-white/[0.03] dark:text-dark-text dark:hover:border-accent-green dark:hover:bg-accent-green dark:disabled:hover:border-dark-border dark:disabled:hover:bg-white/[0.03]"
+            aria-label="Next project"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </button>
+
           <span className="sr-only">
             Project {activeIndex + 1} of {projects.length}
           </span>
@@ -398,7 +386,6 @@ function TechStackSection({ techStacks, loading, error }) {
 export default function Projects() {
   const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
-  const projectSectionRef = useRef(null);
 
   const {
     data: projectData,
@@ -427,7 +414,6 @@ export default function Projects() {
 
   return (
     <section
-      ref={projectSectionRef}
       id="projects"
       className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
@@ -457,7 +443,6 @@ export default function Projects() {
             <ProjectCarousel
               projects={projects}
               onOpen={setSelectedProject}
-              scrollAreaRef={projectSectionRef}
             />
           )}
         </div>
