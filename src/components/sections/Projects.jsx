@@ -8,7 +8,6 @@ import {
 import { seedProjects, seedSkills } from "../../data/seedData";
 import { LoadingState, EmptyState, ErrorState } from "../ui/StatusStates";
 import { getTechLogo } from "../../utils/techlogo";
-import ProjectDetailModal from "../ui/ProjectDetailModal";
 
 function ProjectTechPill({ tech }) {
   const logo = getTechLogo(tech);
@@ -28,8 +27,8 @@ function ProjectTechPill({ tech }) {
   );
 }
 
-function ProjectGallery({ projects, onOpen }) {
-  const { tField } = useLanguage();
+function ProjectGallery({ projects }) {
+  const { t, tField } = useLanguage();
   const [activeIndex, setActiveIndex] = useState(0);
   const project = projects[activeIndex];
   const techStack = project.techStack || [];
@@ -47,14 +46,9 @@ function ProjectGallery({ projects, onOpen }) {
       <div className="catalogue-book">
         <article
           key={project.id}
-          className="catalogue-page overflow-hidden rounded-[1.5rem] border border-light-border bg-black/[0.02] shadow-[0_24px_80px_rgba(15,15,15,0.08)] dark:border-dark-border dark:bg-white/[0.025] md:rounded-[2rem] lg:grid lg:grid-cols-[1.08fr_0.92fr]"
+          className="catalogue-page overflow-hidden rounded-[1.5rem] border border-light-border bg-black/[0.02] shadow-[0_24px_80px_rgba(15,15,15,0.08)] dark:border-dark-border dark:bg-white/[0.025] md:rounded-[2rem] lg:grid lg:grid-cols-[1fr_0.9fr]"
         >
-        <button
-          type="button"
-          onClick={() => onOpen(project)}
-          className="group relative min-h-[280px] overflow-hidden bg-gradient-to-br from-accent-green/25 via-accent-green/10 to-black/[0.04] text-left dark:to-white/[0.03] sm:min-h-[360px] lg:min-h-[500px]"
-          aria-label={`Open ${tField(project, "title")}`}
-        >
+        <div className="group relative min-h-[280px] overflow-hidden bg-gradient-to-br from-accent-green/25 via-accent-green/10 to-black/[0.04] dark:to-white/[0.03] sm:min-h-[360px] lg:min-h-[460px]">
           {project.coverImage ? (
             <img
               src={project.coverImage}
@@ -75,22 +69,16 @@ function ProjectGallery({ projects, onOpen }) {
             </>
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
-          <span className="absolute bottom-7 right-7 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/25 text-white backdrop-blur-md transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:bottom-10 sm:right-10">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M7 17 17 7M7 7h10v10" />
-            </svg>
-          </span>
-        </button>
+        </div>
 
-        <div className="flex flex-col p-6 sm:p-8 lg:p-10">
-          <div className="flex items-center justify-between gap-4">
-            <p className="editorial-label">Project {String(activeIndex + 1).padStart(2, "0")}</p>
+        <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-10">
+          <div className="flex justify-end">
             <p className="text-xs font-semibold tracking-[0.16em] text-light-muted dark:text-dark-muted">
               {String(activeIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
             </p>
           </div>
 
-          <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-accent-green">
+          <p className="mt-8 text-xs font-semibold uppercase tracking-[0.18em] text-accent-green">
             {tField(project, "category")}
           </p>
           <h3 className="mt-3 font-display text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-light-text dark:text-dark-text sm:text-5xl">
@@ -108,16 +96,20 @@ function ProjectGallery({ projects, onOpen }) {
             </ul>
           )}
 
-          <button
-            type="button"
-            onClick={() => onOpen(project)}
-            className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-light-text px-5 py-3 text-sm font-semibold text-light-bg transition-transform duration-200 hover:-translate-y-0.5 dark:bg-dark-text dark:text-dark-bg"
-          >
-            View project detail
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M7 17 17 7M7 7h10v10" />
-            </svg>
-          </button>
+          {project.projectLink && (
+            <a
+              href={project.projectLink}
+              target="_blank"
+              rel="noreferrer"
+              className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-light-text px-5 py-3 text-sm font-semibold text-light-bg transition-transform duration-200 hover:-translate-y-0.5 dark:bg-dark-text dark:text-dark-bg"
+            >
+              {t("projects.viewSite")}
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M7 17 17 7M7 7h10v10" />
+              </svg>
+            </a>
+          )}
+
         </div>
         </article>
       </div>
@@ -310,7 +302,6 @@ function TechStackSection({ techStacks, loading, error }) {
 
 export default function Projects() {
   const { t } = useLanguage();
-  const [selectedProject, setSelectedProject] = useState(null);
 
   const {
     data: projectData,
@@ -367,7 +358,6 @@ export default function Projects() {
           {!projectLoading && !projectError && projects.length > 0 && (
             <ProjectGallery
               projects={projects}
-              onOpen={setSelectedProject}
             />
           )}
         </div>
@@ -382,11 +372,6 @@ export default function Projects() {
           <p className="mt-6 text-xs text-light-muted dark:text-dark-muted" />
         )}
       </div>
-
-      <ProjectDetailModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
     </section>
   );
 }

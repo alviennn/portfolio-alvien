@@ -85,7 +85,7 @@ export const translations = {
       techStackDescription:
         "A focused set of technologies used for interface design, frontend development, mobile interface, and web implementation.",
       viewProject: "View Project Detail",
-      viewSite: "View Site",
+      viewSite: "Visit Site",
       empty: "No projects available yet.",
       loading: "Loading projects...",
       error: "Failed to load projects. Please try again later.",
@@ -245,7 +245,7 @@ export const translations = {
       techStackDescription:
         "Kumpulan teknologi yang digunakan untuk desain antarmuka, frontend development, mobile interface, dan implementasi web.",
       viewProject: "Lihat Detail Proyek",
-      viewSite: "Lihat Situs",
+      viewSite: "Kunjungi Situs",
       empty: "Belum ada proyek yang tersedia.",
       loading: "Memuat proyek...",
       error: "Gagal memuat proyek. Silakan coba lagi nanti.",
