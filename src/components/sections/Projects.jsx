@@ -42,7 +42,7 @@ function ProjectGallery({ projects }) {
   };
 
   return (
-    <div className="mx-auto max-w-6xl" aria-label="Project catalogue">
+    <div className="mx-auto max-w-6xl" aria-label="Project catalogue" data-reveal>
       <div className="catalogue-book">
         <article
           key={project.id}
@@ -346,7 +346,7 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="mt-14" data-reveal style={{ "--reveal-delay": "120ms" }}>
+        <div className="mt-14">
           {projectLoading && <LoadingState message={t("projects.loading")} />}
 
           {projectError && <ErrorState message={t("projects.error")} />}

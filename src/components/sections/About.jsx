@@ -43,11 +43,11 @@ function SectionIntro({ label, title, description, centered = false }) {
   );
 }
 
-function ExperienceItem({ item, isLast }) {
+function ExperienceItem({ item, isLast, index }) {
   const { tField } = useLanguage();
 
   return (
-    <article className="relative grid gap-5 border-b border-light-border dark:border-dark-border pb-8 last:border-b-0 last:pb-0 md:grid-cols-[170px_1fr]">
+    <article data-reveal="left" style={{ "--reveal-delay": `${Math.min(index * 80, 240)}ms` }} className="relative grid gap-5 border-b border-light-border dark:border-dark-border pb-8 last:border-b-0 last:pb-0 md:grid-cols-[170px_1fr]">
       <div>
         <p className="text-xs font-semibold uppercase tracking-[0.18em] text-light-muted dark:text-dark-muted">
           {formatDate(item.startDate)}
@@ -84,11 +84,11 @@ function ExperienceItem({ item, isLast }) {
   );
 }
 
-function CertificationItem({ cert, onViewDetail }) {
+function CertificationItem({ cert, onViewDetail, index }) {
   const { t, tField } = useLanguage();
 
   return (
-    <article className="group flex flex-col gap-4 rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.045] sm:rounded-[1.5rem] sm:p-5 md:grid md:grid-cols-[1fr_auto] md:items-center">
+    <article data-reveal style={{ "--reveal-delay": `${Math.min(index * 90, 270)}ms` }} className="group flex flex-col gap-4 rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.045] sm:rounded-[1.5rem] sm:p-5 md:grid md:grid-cols-[1fr_auto] md:items-center">
       <div className="min-w-0">
         <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-accent-green sm:text-xs">
           {cert.issuer || t("certifications.issuer")}
@@ -208,9 +208,11 @@ function WorkProcess() {
       />
 
       <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {steps.map((step) => (
+        {steps.map((step, index) => (
           <article
             key={step.number}
+            data-reveal
+            style={{ "--reveal-delay": `${index * 80}ms` }}
             className="group rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.045] sm:rounded-[1.5rem] sm:p-5"
           >
             <p
@@ -369,6 +371,7 @@ export default function About() {
                       <ExperienceItem
                         key={item.id}
                         item={item}
+                        index={index}
                         isLast={index === experiences.length - 1}
                       />
                     ))}
@@ -410,10 +413,11 @@ export default function About() {
               !certificationError &&
               certifications.length > 0 && (
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                  {certifications.map((cert) => (
+                  {certifications.map((cert, index) => (
                     <CertificationItem
                       key={cert.id}
                       cert={cert}
+                      index={index}
                       onViewDetail={setSelectedCert}
                     />
                   ))}

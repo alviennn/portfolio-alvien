@@ -10,13 +10,13 @@ export default function Home() {
   const pageRef = useRef(null);
 
   useEffect(() => {
-    const elements = pageRef.current?.querySelectorAll('[data-reveal]');
-    if (!elements?.length) return undefined;
+    const page = pageRef.current;
+    if (!page) return undefined;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
     if (reduceMotion.matches || !('IntersectionObserver' in window)) {
-      elements.forEach((element) => element.classList.add('is-visible'));
+      page.querySelectorAll('[data-reveal]').forEach((element) => element.classList.add('is-visible'));
       return undefined;
     }
 
@@ -32,11 +32,38 @@ export default function Home() {
       { threshold: 0.12, rootMargin: '0px 0px -48px' },
     );
 
-    elements.forEach((element) => {
+    const observeElement = (element) => {
+      if (
+        !element.matches?.('[data-reveal]') ||
+        element.classList.contains('is-visible') ||
+        element.classList.contains('is-reveal-pending')
+      ) {
+        return;
+      }
+
       element.classList.add('is-reveal-pending');
       observer.observe(element);
+    };
+
+    page.querySelectorAll('[data-reveal]').forEach(observeElement);
+
+    const mutationObserver = new MutationObserver((records) => {
+      records.forEach((record) => {
+        record.addedNodes.forEach((node) => {
+          if (node.nodeType !== Node.ELEMENT_NODE) return;
+
+          observeElement(node);
+          node.querySelectorAll?.('[data-reveal]').forEach(observeElement);
+        });
+      });
     });
-    return () => observer.disconnect();
+
+    mutationObserver.observe(page, { childList: true, subtree: true });
+
+    return () => {
+      observer.disconnect();
+      mutationObserver.disconnect();
+    };
   }, []);
 
   return (

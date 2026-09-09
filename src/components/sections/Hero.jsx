@@ -58,7 +58,7 @@ export default function Hero() {
     <section className="relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-light-text dark:text-dark-text md:px-8 md:pt-28 md:pb-20 lg:pt-30">
 
       <div className="mx-auto grid min-h-[calc(100vh-7.5rem)] max-w-content items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
-        <div className="order-2 text-center fade-in lg:order-1 lg:text-left">
+        <div className="order-2 text-center lg:order-1 lg:text-left" data-reveal="left">
           <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-accent-green md:text-sm">
             {t("hero.role")}
           </p>
@@ -90,7 +90,7 @@ export default function Hero() {
           </div>
         </div>
 
-        <div className="order-1 mx-auto w-full max-w-[285px] fade-in sm:max-w-[335px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]">
+        <div className="order-1 mx-auto w-full max-w-[285px] sm:max-w-[335px] md:max-w-[380px] lg:order-2 lg:ml-auto lg:max-w-[430px]" data-reveal="right" style={{ "--reveal-delay": "120ms" }}>
           <div className="relative">
             <div className="absolute inset-4 translate-x-2 translate-y-2 rounded-[1.7rem] rounded-tr-[5rem] rounded-bl-[4rem] border border-accent-green/15 bg-accent-green/[0.04]" />
 
