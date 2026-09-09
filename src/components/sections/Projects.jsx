@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { useLanguage } from "../../i18n/LanguageContext";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import {
@@ -28,220 +28,131 @@ function ProjectTechPill({ tech }) {
   );
 }
 
-function ProjectCard({ project, index, onOpen }) {
+function ProjectGallery({ projects, onOpen }) {
   const { tField } = useLanguage();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const project = projects[activeIndex];
   const techStack = project.techStack || [];
 
-  return (
-    <button
-      type="button"
-      onClick={() => onOpen(project)}
-      className="group flex h-full flex-col overflow-hidden rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.015] dark:bg-white/[0.02] text-left transition-all duration-300 hover:-translate-y-1 hover:border-accent-green/50 hover:bg-black/[0.03] dark:hover:bg-white/[0.04] sm:rounded-[1.5rem]"
-    >
-      <div className="relative aspect-[16/10] overflow-hidden bg-black/[0.03] dark:bg-white/[0.04]">
-        {project.coverImage ? (
-          <img
-            src={project.coverImage}
-            alt={tField(project, "title")}
-            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.05]"
-            loading="lazy"
-          />
-        ) : (
-          <div className="flex h-full w-full items-center justify-center px-6 text-center font-display text-lg font-semibold text-black/15 dark:text-dark-text/20 sm:text-2xl">
-            {tField(project, "title")}
-          </div>
-        )}
+  const changeProject = (nextIndex) => {
+    if (nextIndex < 0 || nextIndex >= projects.length || nextIndex === activeIndex) {
+      return;
+    }
 
-        <div className="absolute inset-0 bg-gradient-to-t from-black/45 via-transparent to-transparent" />
-
-        <div className="absolute left-3 top-3 rounded-full border border-white/20 bg-black/35 px-2.5 py-1 text-[11px] font-semibold text-white/90 backdrop-blur-md sm:left-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-xs">
-          {String(index + 1).padStart(2, "0")}
-        </div>
-
-        <div className="absolute right-3 top-3 rounded-full border border-accent-green/30 bg-accent-green/15 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-green backdrop-blur-md sm:right-4 sm:top-4 sm:px-3 sm:py-1.5 sm:text-[11px] sm:tracking-[0.16em]">
-          {tField(project, "category")}
-        </div>
-      </div>
-
-      <div className="flex flex-1 flex-col p-4 sm:p-5 md:p-6">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-accent-green sm:text-xs sm:tracking-[0.2em]">
-            {tField(project, "category")}
-          </p>
-
-          <h3 className="mt-2 font-display text-xl font-semibold leading-tight tracking-[-0.04em] text-light-text dark:text-dark-text sm:mt-3 sm:text-2xl">
-            {tField(project, "title")}
-          </h3>
-        </div>
-
-        {techStack.length > 0 && (
-          <ul className="mt-4 flex flex-wrap gap-2 sm:mt-6">
-            {techStack.slice(0, 5).map((tech) => (
-              <ProjectTechPill key={tech} tech={tech} />
-            ))}
-
-            {techStack.length > 5 && (
-              <li className="rounded-full border border-light-border dark:border-dark-border bg-black/[0.03] dark:bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-light-muted dark:text-dark-muted sm:px-3 sm:py-1.5 sm:text-xs">
-                +{techStack.length - 5}
-              </li>
-            )}
-          </ul>
-        )}
-
-        <div className="mt-auto pt-5 sm:pt-6">
-          <span className="inline-flex items-center gap-2 text-sm font-semibold text-light-muted dark:text-dark-muted transition-colors duration-300 group-hover:text-accent-green">
-            Detail
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-            >
-              <path d="M7 17L17 7M7 7h10v10" />
-            </svg>
-          </span>
-        </div>
-      </div>
-    </button>
-  );
-}
-
-function ProjectCarousel({ projects, onOpen }) {
-  const carouselRef = useRef(null);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  useEffect(() => {
-    const carousel = carouselRef.current;
-    if (!carousel) return undefined;
-
-    let animationFrame;
-
-    const updateActiveProject = () => {
-      cancelAnimationFrame(animationFrame);
-      animationFrame = requestAnimationFrame(() => {
-        const cards = [...carousel.querySelectorAll("[data-project-card]")];
-        const carouselCenter = carousel.scrollLeft + carousel.clientWidth / 2;
-        let nearestIndex = 0;
-        let nearestDistance = Number.POSITIVE_INFINITY;
-
-        cards.forEach((card, index) => {
-          const cardCenter = card.offsetLeft + card.offsetWidth / 2;
-          const offset = (cardCenter - carouselCenter) / carousel.clientWidth;
-          const distance = Math.abs(offset);
-          const focusDistance = Math.min(distance, 1);
-
-          card.style.transform = `translate3d(0, ${focusDistance * 14}px, 0) scale(${1 - focusDistance * 0.1})`;
-          card.style.filter = "none";
-          card.style.opacity = `${1 - focusDistance * 0.2}`;
-
-          if (distance < nearestDistance) {
-            nearestDistance = distance;
-            nearestIndex = index;
-          }
-        });
-
-        setActiveIndex(nearestIndex);
-      });
-    };
-
-    carousel.addEventListener("scroll", updateActiveProject, { passive: true });
-    updateActiveProject();
-
-    return () => {
-      cancelAnimationFrame(animationFrame);
-      carousel.removeEventListener("scroll", updateActiveProject);
-    };
-  }, [projects.length]);
-
-  const goToProject = (index) => {
-    const carousel = carouselRef.current;
-    if (!carousel) return;
-
-    const cards = [...carousel.querySelectorAll("[data-project-card]")];
-    const targetCard = cards[index];
-    if (!targetCard) return;
-
-    const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
-    const centeredScrollLeft =
-      targetCard.offsetLeft - (carousel.clientWidth - targetCard.offsetWidth) / 2;
-    const nextScrollLeft = Math.max(0, Math.min(maxScrollLeft, centeredScrollLeft));
-
-    carousel.scrollTo({ left: nextScrollLeft, behavior: "smooth" });
+    setActiveIndex(nextIndex);
   };
 
   return (
-    <div className="mx-auto max-w-6xl">
-      <div
-        ref={carouselRef}
-        className="scrollbar-hide -mx-6 flex snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-5 lg:gap-8 md:mx-0 md:px-0"
-        aria-label="Project carousel"
+    <div className="mx-auto max-w-6xl" aria-label="Project catalogue">
+      <article
+        key={project.id}
+        className="catalogue-page overflow-hidden rounded-[1.5rem] border border-light-border bg-black/[0.02] shadow-[0_24px_80px_rgba(15,15,15,0.08)] dark:border-dark-border dark:bg-white/[0.025] md:rounded-[2rem] lg:grid lg:grid-cols-[1.08fr_0.92fr]"
       >
-        {projects.map((project, index) => (
-          <div
-            key={project.id}
-            data-project-card
-            className="w-full shrink-0 snap-center snap-always transform-gpu transition-[transform,opacity] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] sm:w-[calc((100%_-_1.5rem)/2)] sm:first:ml-[calc(25%_+_0.375rem)] sm:last:mr-[calc(25%_+_0.375rem)] lg:w-[calc((100%_-_4rem)/3)] lg:first:ml-[calc(33.333%_+_0.6667rem)] lg:last:mr-[calc(33.333%_+_0.6667rem)]"
-          >
-            <ProjectCard
-              project={project}
-              index={index}
-              onOpen={onOpen}
+        <button
+          type="button"
+          onClick={() => onOpen(project)}
+          className="group relative min-h-[280px] overflow-hidden bg-gradient-to-br from-accent-green/25 via-accent-green/10 to-black/[0.04] text-left dark:to-white/[0.03] sm:min-h-[360px] lg:min-h-[500px]"
+          aria-label={`Open ${tField(project, "title")}`}
+        >
+          {project.coverImage ? (
+            <img
+              src={project.coverImage}
+              alt={tField(project, "title")}
+              className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+              loading="lazy"
             />
+          ) : (
+            <>
+              <div className="absolute -left-16 -top-16 h-56 w-56 rounded-full bg-accent-green/25 blur-3xl" />
+              <div className="absolute -bottom-20 -right-12 h-64 w-64 rounded-full border border-accent-green/20" />
+              <span className="absolute left-7 top-7 font-display text-7xl font-semibold tracking-[-0.08em] text-light-text/10 dark:text-white/10 sm:left-10 sm:top-10 sm:text-9xl">
+                {String(activeIndex + 1).padStart(2, "0")}
+              </span>
+              <span className="absolute bottom-7 left-7 max-w-[75%] font-display text-3xl font-semibold leading-[0.95] tracking-[-0.06em] text-light-text/80 dark:text-dark-text/80 sm:bottom-10 sm:left-10 sm:text-5xl">
+                {tField(project, "title")}
+              </span>
+            </>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent" />
+          <span className="absolute bottom-7 right-7 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/25 bg-black/25 text-white backdrop-blur-md transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-1 sm:bottom-10 sm:right-10">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </span>
+        </button>
+
+        <div className="flex flex-col p-6 sm:p-8 lg:p-10">
+          <div className="flex items-center justify-between gap-4">
+            <p className="editorial-label">Project {String(activeIndex + 1).padStart(2, "0")}</p>
+            <p className="text-xs font-semibold tracking-[0.16em] text-light-muted dark:text-dark-muted">
+              {String(activeIndex + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+            </p>
           </div>
-        ))}
-      </div>
+
+          <p className="mt-7 text-xs font-semibold uppercase tracking-[0.18em] text-accent-green">
+            {tField(project, "category")}
+          </p>
+          <h3 className="mt-3 font-display text-4xl font-semibold leading-[0.95] tracking-[-0.06em] text-light-text dark:text-dark-text sm:text-5xl">
+            {tField(project, "title")}
+          </h3>
+          <p className="mt-5 text-sm leading-relaxed text-light-muted dark:text-dark-muted sm:text-base">
+            {tField(project, "description")}
+          </p>
+
+          {techStack.length > 0 && (
+            <ul className="mt-7 flex flex-wrap gap-2">
+              {techStack.slice(0, 5).map((tech) => (
+                <ProjectTechPill key={tech} tech={tech} />
+              ))}
+            </ul>
+          )}
+
+          <button
+            type="button"
+            onClick={() => onOpen(project)}
+            className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-light-text px-5 py-3 text-sm font-semibold text-light-bg transition-transform duration-200 hover:-translate-y-0.5 dark:bg-dark-text dark:text-dark-bg"
+          >
+            View project detail
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </button>
+        </div>
+      </article>
 
       {projects.length > 1 && (
-        <div
-          className="mt-6 flex max-w-full flex-wrap items-center justify-center gap-3"
-          aria-label={`Project ${activeIndex + 1} of ${projects.length}`}
-          aria-live="polite"
-        >
-          <button
-            type="button"
-            onClick={() => goToProject(activeIndex - 1)}
-            disabled={activeIndex === 0}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-light-border bg-black/[0.02] text-light-text transition-all duration-300 hover:-translate-x-0.5 hover:border-accent-green hover:bg-accent-green hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-x-0 disabled:hover:border-light-border disabled:hover:bg-black/[0.02] dark:border-dark-border dark:bg-white/[0.03] dark:text-dark-text dark:hover:border-accent-green dark:hover:bg-accent-green dark:disabled:hover:border-dark-border dark:disabled:hover:bg-white/[0.03]"
-            aria-label="Previous project"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="m15 18-6-6 6-6" />
-            </svg>
-          </button>
+        <div className="mt-5 grid gap-3 lg:grid-cols-[1fr_auto] lg:items-center">
+          <div className="scrollbar-hide -mx-1 flex gap-2 overflow-x-auto px-1 pb-1">
+            {projects.map((item, index) => (
+              <button
+                type="button"
+                key={item.id}
+                onClick={() => changeProject(index)}
+                aria-current={index === activeIndex ? "true" : undefined}
+                className={`flex min-w-[150px] items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-all duration-300 sm:min-w-[180px] ${
+                  index === activeIndex
+                    ? "border-accent-green/60 bg-accent-green/10"
+                    : "border-light-border bg-black/[0.015] hover:border-accent-green/35 dark:border-dark-border dark:bg-white/[0.02]"
+                }`}
+              >
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-accent-green/12 text-xs font-bold text-accent-green">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span className="truncate text-sm font-semibold text-light-text dark:text-dark-text">
+                  {tField(item, "title")}
+                </span>
+              </button>
+            ))}
+          </div>
 
-          {projects.map((project, index) => (
-            <button
-              type="button"
-              key={project.id}
-              onClick={() => goToProject(index)}
-              aria-label={`Show project ${index + 1}`}
-              aria-current={index === activeIndex ? "true" : undefined}
-              className={`h-2.5 w-2.5 rounded-full transition-all duration-300 hover:bg-accent-green ${
-                index === activeIndex
-                  ? "scale-125 bg-accent-green"
-                  : "bg-light-border dark:bg-dark-border"
-              }`}
-            />
-          ))}
-
-          <button
-            type="button"
-            onClick={() => goToProject(activeIndex + 1)}
-            disabled={activeIndex === projects.length - 1}
-            className="inline-flex h-10 w-10 items-center justify-center rounded-full border border-light-border bg-black/[0.02] text-light-text transition-all duration-300 hover:translate-x-0.5 hover:border-accent-green hover:bg-accent-green hover:text-white disabled:cursor-not-allowed disabled:opacity-35 disabled:hover:translate-x-0 disabled:hover:border-light-border disabled:hover:bg-black/[0.02] dark:border-dark-border dark:bg-white/[0.03] dark:text-dark-text dark:hover:border-accent-green dark:hover:bg-accent-green dark:disabled:hover:border-dark-border dark:disabled:hover:bg-white/[0.03]"
-            aria-label="Next project"
-          >
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="m9 18 6-6-6-6" />
-            </svg>
-          </button>
-
-          <span className="sr-only">
-            Project {activeIndex + 1} of {projects.length}
-          </span>
+          <div className="flex items-center justify-end gap-2">
+            <button type="button" onClick={() => changeProject(activeIndex - 1)} disabled={activeIndex === 0} className="catalogue-arrow" aria-label="Previous project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+            </button>
+            <button type="button" onClick={() => changeProject(activeIndex + 1)} disabled={activeIndex === projects.length - 1} className="catalogue-arrow" aria-label="Next project">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+            </button>
+          </div>
         </div>
       )}
     </div>
@@ -452,7 +363,7 @@ export default function Projects() {
           )}
 
           {!projectLoading && !projectError && projects.length > 0 && (
-            <ProjectCarousel
+            <ProjectGallery
               projects={projects}
               onOpen={setSelectedProject}
             />

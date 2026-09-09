@@ -271,6 +271,41 @@ html {
   transform: translate3d(0, 0, 0);
 }
 
+.catalogue-page {
+  animation: cataloguePageEnter 380ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.catalogue-arrow {
+  display: inline-flex;
+  height: 2.5rem;
+  width: 2.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #e5e5e5;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.02);
+  color: #111111;
+  transition: transform 150ms ease, border-color 200ms ease, background-color 200ms ease, color 200ms ease;
+}
+
+.catalogue-arrow:hover:not(:disabled) {
+  transform: translateY(-2px);
+  border-color: #4f7a6b;
+  background: #4f7a6b;
+  color: #ffffff;
+}
+
+.catalogue-arrow:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
+}
+
+.dark .catalogue-arrow {
+  border-color: #2a2a2a;
+  background: rgba(255, 255, 255, 0.03);
+  color: #f5f5f5;
+}
+
 .site-ambient {
   pointer-events: none;
   position: fixed;
@@ -431,6 +466,20 @@ html {
 
   to {
     transform: translate3d(-8%, -8%, 0) scale(1.08);
+  }
+
+}
+
+@keyframes cataloguePageEnter {
+
+  from {
+    opacity: 0;
+    transform: translate3d(0, 14px, 0) scale(0.99);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 
 }
