@@ -250,9 +250,7 @@ function TechStackSection({ techStacks, loading, error }) {
   return (
     <div className="mt-24">
       <div className="mx-auto max-w-3xl text-center" data-reveal>
-        <p className="editorial-label">✦ {t("projects.techStack")}</p>
-
-        <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-[-0.06em] text-light-text dark:text-dark-text md:text-6xl">
+        <h3 className="font-display text-4xl font-semibold leading-[0.98] tracking-[-0.06em] text-light-text dark:text-dark-text md:text-6xl">
           {t("projects.techStackTitle")}
         </h3>
 
@@ -335,9 +333,7 @@ export default function Projects() {
     >
       <div className="mx-auto max-w-content">
         <div className="mx-auto max-w-3xl text-center" data-reveal>
-          <p className="editorial-label">✦ {t("nav.projects")}</p>
-
-          <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl">
+          <h2 className="font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl">
             {t("projects.title")}
           </h2>
 

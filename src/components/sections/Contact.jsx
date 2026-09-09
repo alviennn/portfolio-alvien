@@ -92,11 +92,7 @@ export default function Contact() {
     >
       <div className="mx-auto max-w-content">
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center" data-reveal>
-          <p className="editorial-label">
-            ✦ {t("contact.label")}
-          </p>
-
-          <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl lg:text-8xl">
+          <h2 className="font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl lg:text-8xl">
             {t("contact.title")}
           </h2>
 

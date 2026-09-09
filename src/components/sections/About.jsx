@@ -21,12 +21,10 @@ function formatDate(value) {
   });
 }
 
-function SectionIntro({ label, title, description, centered = false }) {
+function SectionIntro({ title, description, centered = false }) {
   return (
     <div className={centered ? "mx-auto max-w-3xl text-center" : "max-w-3xl"}>
-      <p className="editorial-label">✦ {label}</p>
-
-      <h3 className="mt-4 pl-1 font-display text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-light-text dark:text-dark-text md:text-5xl">
+      <h3 className="pl-1 font-display text-3xl font-semibold leading-[1.05] tracking-[-0.04em] text-light-text dark:text-dark-text md:text-5xl">
         {title}
       </h3>
 
@@ -201,7 +199,6 @@ function WorkProcess() {
   return (
     <div className="mt-24">
       <SectionIntro
-        label={t("about.process.label")}
         title={t("about.process.title")}
         description={t("about.process.description")}
         centered
@@ -282,9 +279,7 @@ export default function About() {
       <div className="mx-auto max-w-content">
         {/* About Header */}
         <div className="mx-auto max-w-5xl text-center" data-reveal>
-          <p className="editorial-label">✦ {t("about.label")}</p>
-
-          <h2 className="mx-auto mt-5 max-w-5xl pl-1 font-display text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-7xl lg:text-8xl">
+          <h2 className="mx-auto max-w-5xl pl-1 font-display text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-7xl lg:text-8xl">
   <span className="text-light-text dark:text-dark-text">
     {t("about.header.line1")}{" "}
   </span>
@@ -343,7 +338,6 @@ export default function About() {
         {/* Experience */}
         <div className="mt-24" data-reveal>
           <SectionIntro
-            label={t("about.workHistory.label")}
             title={t("experience.title")}
             description={t("experience.description")}
             centered
@@ -388,7 +382,6 @@ export default function About() {
         {/* Certifications */}
         <div className="mt-24" data-reveal>
           <SectionIntro
-            label={t("about.recognition.label")}
             title={t("certifications.title")}
             description={t("certifications.description")}
             centered
