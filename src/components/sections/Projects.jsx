@@ -109,7 +109,7 @@ function ProjectCard({ project, index, onOpen }) {
   );
 }
 
-function ProjectCarousel({ projects, onOpen }) {
+function ProjectCarousel({ projects, onOpen, scrollAreaRef }) {
   const carouselRef = useRef(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -133,7 +133,7 @@ function ProjectCarousel({ projects, onOpen }) {
         return;
       }
 
-      carousel.scrollLeft = currentScrollLeft + distance * 0.16;
+      carousel.scrollLeft = currentScrollLeft + distance * 0.24;
       smoothScrollFrame = requestAnimationFrame(animateScroll);
     };
 
@@ -198,17 +198,19 @@ function ProjectCarousel({ projects, onOpen }) {
       }
     };
 
+    const scrollArea = scrollAreaRef.current || carousel;
+
     carousel.addEventListener("scroll", updateActiveProject, { passive: true });
-    carousel.addEventListener("wheel", handleWheel, { passive: false });
+    scrollArea.addEventListener("wheel", handleWheel, { passive: false });
     updateActiveProject();
 
     return () => {
       cancelAnimationFrame(animationFrame);
       cancelAnimationFrame(smoothScrollFrame);
       carousel.removeEventListener("scroll", updateActiveProject);
-      carousel.removeEventListener("wheel", handleWheel);
+      scrollArea.removeEventListener("wheel", handleWheel);
     };
-  }, [projects.length]);
+  }, [projects.length, scrollAreaRef]);
 
   return (
     <div className="mx-auto max-w-6xl">
@@ -396,6 +398,7 @@ function TechStackSection({ techStacks, loading, error }) {
 export default function Projects() {
   const { t } = useLanguage();
   const [selectedProject, setSelectedProject] = useState(null);
+  const projectSectionRef = useRef(null);
 
   const {
     data: projectData,
@@ -424,6 +427,7 @@ export default function Projects() {
 
   return (
     <section
+      ref={projectSectionRef}
       id="projects"
       className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
@@ -450,7 +454,11 @@ export default function Projects() {
           )}
 
           {!projectLoading && !projectError && projects.length > 0 && (
-            <ProjectCarousel projects={projects} onOpen={setSelectedProject} />
+            <ProjectCarousel
+              projects={projects}
+              onOpen={setSelectedProject}
+              scrollAreaRef={projectSectionRef}
+            />
           )}
         </div>
 
