@@ -55,34 +55,7 @@ export default function Hero() {
   };
 
   return (
-    <section className="editorial-bg relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-light-text dark:text-dark-text md:px-8 md:pt-28 md:pb-20 lg:pt-30">
-      {/* Animated background */}
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="hero-gradient-move absolute inset-0 bg-[length:220%_220%] opacity-25"
-          style={{
-            backgroundImage:
-              "radial-gradient(circle at 20% 20%, rgba(142,153,112,0.18), transparent 26%), radial-gradient(circle at 80% 30%, rgba(255,255,255,0.06), transparent 24%), radial-gradient(circle at 50% 85%, rgba(142,153,112,0.12), transparent 30%)",
-          }}
-        />
-
-        <div className="hero-stars absolute inset-0" />
-
-        <div className="hero-orb absolute left-[8%] top-[22%] h-56 w-56 rounded-full bg-accent-green/10 blur-3xl" />
-        <div className="hero-orb-slow absolute right-[10%] top-[18%] h-64 w-64 rounded-full bg-black/[0.03] blur-3xl dark:bg-white/[0.045]" />
-        <div className="hero-orb absolute bottom-[8%] left-[42%] h-72 w-72 rounded-full bg-accent-green/[0.08] blur-3xl" />
-
-        <div className="absolute left-0 top-1/2 h-px w-[200%] -translate-y-1/2 overflow-hidden opacity-10">
-          <div className="hero-line-move h-px w-full bg-gradient-to-r from-transparent via-accent-green/60 to-transparent" />
-        </div>
-
-        <div className="absolute left-0 top-[62%] h-px w-[200%] -translate-y-1/2 overflow-hidden opacity-5">
-          <div className="hero-line-move h-px w-full bg-gradient-to-r from-transparent via-black to-transparent dark:via-white" />
-        </div>
-      </div>
-      <div className="editorial-grid absolute inset-0 -z-20 opacity-70" />
-
-      <div className="absolute -left-28 top-24 -z-10 h-80 w-80 rounded-full bg-accent-green/15 blur-3xl" />
-      <div className="absolute -right-28 bottom-8 -z-10 h-80 w-80 rounded-full bg-accent-green/10 blur-3xl" />
+    <section className="relative min-h-screen overflow-hidden px-6 pt-24 pb-14 text-light-text dark:text-dark-text md:px-8 md:pt-28 md:pb-20 lg:pt-30">
 
       <div className="mx-auto grid min-h-[calc(100vh-7.5rem)] max-w-content items-center gap-10 lg:grid-cols-[1.12fr_0.88fr] lg:gap-16">
         <div className="order-2 text-center fade-in lg:order-1 lg:text-left">

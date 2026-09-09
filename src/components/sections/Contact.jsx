@@ -88,7 +88,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="portfolio-atmosphere atmosphere-center overflow-hidden bg-light-bg px-6 py-20 text-light-text dark:bg-dark-bg dark:text-dark-text md:px-8 md:py-28"
+      className="overflow-hidden px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
         <div className="mx-auto flex max-w-4xl flex-col items-center text-center" data-reveal>

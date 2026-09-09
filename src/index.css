@@ -271,80 +271,40 @@ html {
   transform: translate3d(0, 0, 0);
 }
 
-.portfolio-atmosphere {
-  isolation: isolate;
-  position: relative;
-  --aurora-primary: rgba(79, 122, 107, 0.16);
-  --aurora-secondary: rgba(104, 167, 176, 0.1);
-  background-image:
-    radial-gradient(circle at 12% 16%, var(--aurora-primary), transparent 30%),
-    radial-gradient(circle at 88% 72%, var(--aurora-secondary), transparent 34%);
-}
-
-.portfolio-atmosphere::before,
-.portfolio-atmosphere::after {
-  content: "";
+.site-ambient {
   pointer-events: none;
-  position: absolute;
-  z-index: -1;
-}
-
-.portfolio-atmosphere::before {
+  position: fixed;
   inset: 0;
-  background-image:
-    radial-gradient(circle, rgba(142, 153, 112, 0.38) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1px, transparent 1.5px);
-  background-position: 20px 12px, 92px 76px;
-  background-size: 152px 152px, 224px 224px;
-  mask-image: linear-gradient(to bottom, transparent, black 14%, black 86%, transparent);
-  opacity: 0.28;
-  animation: starFieldDrift 24s ease-in-out infinite alternate;
+  z-index: -1;
+  overflow: hidden;
 }
 
-.portfolio-atmosphere::after {
-  inset: 16% -12%;
-  background:
-    radial-gradient(ellipse at 22% 42%, var(--aurora-primary), transparent 38%),
-    radial-gradient(ellipse at 78% 58%, var(--aurora-secondary), transparent 42%);
-  filter: blur(36px);
-  opacity: 0.7;
-  transform: translate3d(0, 0, 0);
-  animation: auroraFloat 18s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
+.site-ambient-glow {
+  position: absolute;
+  width: 56vmax;
+  height: 56vmax;
+  border-radius: 999px;
+  filter: blur(72px);
+  opacity: 0.1;
+  will-change: transform;
 }
 
-.portfolio-atmosphere > .mx-auto {
-  position: relative;
-  z-index: 1;
+.site-ambient-glow-one {
+  top: -24vmax;
+  left: -18vmax;
+  background: #4f7a6b;
+  animation: ambientDriftOne 24s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
 }
 
-.atmosphere-left {
-  --aurora-primary: rgba(79, 122, 107, 0.15);
-  --aurora-secondary: rgba(94, 130, 164, 0.1);
+.site-ambient-glow-two {
+  right: -22vmax;
+  bottom: -26vmax;
+  background: #5b7fa6;
+  animation: ambientDriftTwo 30s cubic-bezier(0.45, 0.05, 0.55, 0.95) infinite alternate;
 }
 
-.atmosphere-right {
-  --aurora-primary: rgba(93, 138, 122, 0.14);
-  --aurora-secondary: rgba(157, 181, 142, 0.1);
-}
-
-.atmosphere-center {
-  --aurora-primary: rgba(79, 122, 107, 0.2);
-  --aurora-secondary: rgba(101, 154, 159, 0.13);
-}
-
-.dark .portfolio-atmosphere::before {
-  opacity: 0.42;
-}
-
-.hero-stars {
-  background-image:
-    radial-gradient(circle, rgba(142, 153, 112, 0.44) 1px, transparent 1.5px),
-    radial-gradient(circle, rgba(255, 255, 255, 0.22) 1px, transparent 1.5px);
-  background-position: 20px 12px, 92px 76px;
-  background-size: 176px 176px, 272px 272px;
-  mask-image: linear-gradient(to bottom, black, transparent 88%);
-  opacity: 0.36;
-  animation: starFieldDrift 28s ease-in-out infinite alternate;
+.dark .site-ambient-glow {
+  opacity: 0.16;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -451,26 +411,26 @@ html {
 
 }
 
-@keyframes auroraFloat {
+@keyframes ambientDriftOne {
 
   from {
-    transform: translate3d(-3%, -2%, 0) scale(0.96);
+    transform: translate3d(-4%, -2%, 0) scale(0.94);
   }
 
   to {
-    transform: translate3d(3%, 2%, 0) scale(1.06);
+    transform: translate3d(8%, 10%, 0) scale(1.08);
   }
 
 }
 
-@keyframes starFieldDrift {
+@keyframes ambientDriftTwo {
 
   from {
-    background-position: 20px 12px, 92px 76px;
+    transform: translate3d(4%, 2%, 0) scale(0.96);
   }
 
   to {
-    background-position: 56px 44px, 132px 108px;
+    transform: translate3d(-8%, -8%, 0) scale(1.08);
   }
 
 }
