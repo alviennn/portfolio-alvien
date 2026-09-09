@@ -118,8 +118,30 @@ function ProjectCarousel({ projects, onOpen }) {
     if (!carousel) return undefined;
 
     let animationFrame;
+    let smoothScrollFrame;
+    let targetScrollLeft = carousel.scrollLeft;
+    let isSmoothScrolling = false;
+
+    const animateScroll = () => {
+      const currentScrollLeft = carousel.scrollLeft;
+      const distance = targetScrollLeft - currentScrollLeft;
+
+      if (Math.abs(distance) < 0.5) {
+        carousel.scrollLeft = targetScrollLeft;
+        isSmoothScrolling = false;
+        smoothScrollFrame = undefined;
+        return;
+      }
+
+      carousel.scrollLeft = currentScrollLeft + distance * 0.16;
+      smoothScrollFrame = requestAnimationFrame(animateScroll);
+    };
 
     const updateActiveProject = () => {
+      if (!isSmoothScrolling) {
+        targetScrollLeft = carousel.scrollLeft;
+      }
+
       cancelAnimationFrame(animationFrame);
       animationFrame = requestAnimationFrame(() => {
         const cards = [...carousel.querySelectorAll("[data-project-card]")];
@@ -158,17 +180,21 @@ function ProjectCarousel({ projects, onOpen }) {
           : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
             ? event.deltaY * carousel.clientHeight
             : event.deltaY;
-      const isScrollingForward = delta > 0;
       const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
-      const hasNextProject = carousel.scrollLeft < maxScrollLeft - 1;
-      const hasPreviousProject = carousel.scrollLeft > 1;
+      const nextScrollLeft = Math.max(
+        0,
+        Math.min(maxScrollLeft, targetScrollLeft + delta),
+      );
+      const canMoveCarousel = Math.abs(nextScrollLeft - targetScrollLeft) > 0.5;
 
-      if (
-        (isScrollingForward && hasNextProject) ||
-        (!isScrollingForward && hasPreviousProject)
-      ) {
+      if (canMoveCarousel) {
         event.preventDefault();
-        carousel.scrollBy({ left: delta, behavior: "auto" });
+        targetScrollLeft = nextScrollLeft;
+
+        if (!isSmoothScrolling) {
+          isSmoothScrolling = true;
+          smoothScrollFrame = requestAnimationFrame(animateScroll);
+        }
       }
     };
 
@@ -178,6 +204,7 @@ function ProjectCarousel({ projects, onOpen }) {
 
     return () => {
       cancelAnimationFrame(animationFrame);
+      cancelAnimationFrame(smoothScrollFrame);
       carousel.removeEventListener("scroll", updateActiveProject);
       carousel.removeEventListener("wheel", handleWheel);
     };
