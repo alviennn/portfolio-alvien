@@ -148,10 +148,17 @@ function ProjectCarousel({ projects, onOpen }) {
     };
 
     const handleWheel = (event) => {
-      // Keep vertical page scrolling available once either end is reached.
+      // Preserve native horizontal scrolling, but translate vertical wheel input
+      // into carousel movement while there are more projects to reveal.
       if (Math.abs(event.deltaY) <= Math.abs(event.deltaX)) return;
 
-      const isScrollingForward = event.deltaY > 0;
+      const delta =
+        event.deltaMode === WheelEvent.DOM_DELTA_LINE
+          ? event.deltaY * 16
+          : event.deltaMode === WheelEvent.DOM_DELTA_PAGE
+            ? event.deltaY * carousel.clientHeight
+            : event.deltaY;
+      const isScrollingForward = delta > 0;
       const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
       const hasNextProject = carousel.scrollLeft < maxScrollLeft - 1;
       const hasPreviousProject = carousel.scrollLeft > 1;
@@ -161,7 +168,7 @@ function ProjectCarousel({ projects, onOpen }) {
         (!isScrollingForward && hasPreviousProject)
       ) {
         event.preventDefault();
-        carousel.scrollLeft += event.deltaY;
+        carousel.scrollBy({ left: delta, behavior: "auto" });
       }
     };
 
@@ -180,7 +187,7 @@ function ProjectCarousel({ projects, onOpen }) {
     <div className="mx-auto max-w-6xl">
       <div
         ref={carouselRef}
-        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto px-6 pb-5 active:cursor-grabbing lg:gap-8 md:mx-0 md:px-0"
+        className="scrollbar-hide -mx-6 flex cursor-grab snap-x snap-mandatory gap-6 overflow-x-auto overscroll-x-contain px-6 pb-5 active:cursor-grabbing lg:gap-8 md:mx-0 md:px-0"
         aria-label="Project carousel"
       >
         {projects.map((project, index) => (
