@@ -275,7 +275,7 @@ export default function About() {
   return (
     <section
       id="about"
-      className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
+      className="portfolio-atmosphere atmosphere-left overflow-hidden bg-light-bg px-6 py-20 text-light-text dark:bg-dark-bg dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
         {/* About Header */}

@@ -65,6 +65,8 @@ export default function Hero() {
           }}
         />
 
+        <div className="hero-stars absolute inset-0" />
+
         <div className="hero-orb absolute left-[8%] top-[22%] h-56 w-56 rounded-full bg-accent-green/10 blur-3xl" />
         <div className="hero-orb-slow absolute right-[10%] top-[18%] h-64 w-64 rounded-full bg-black/[0.03] blur-3xl dark:bg-white/[0.045]" />
         <div className="hero-orb absolute bottom-[8%] left-[42%] h-72 w-72 rounded-full bg-accent-green/[0.08] blur-3xl" />

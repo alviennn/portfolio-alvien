@@ -427,7 +427,7 @@ export default function Projects() {
   return (
     <section
       id="projects"
-      className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
+      className="portfolio-atmosphere atmosphere-right overflow-hidden bg-light-bg px-6 py-20 text-light-text dark:bg-dark-bg dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
         <div className="mx-auto max-w-3xl text-center" data-reveal>
