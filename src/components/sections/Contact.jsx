@@ -91,7 +91,7 @@ export default function Contact() {
       className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
-        <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
+        <div className="mx-auto flex max-w-4xl flex-col items-center text-center" data-reveal>
           <p className="editorial-label">
             ✦ {t("contact.label")}
           </p>
@@ -107,7 +107,7 @@ export default function Contact() {
         </div>
 
         <div className="mx-auto mt-12 grid max-w-5xl grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-4">
-          {contactLinks.map((link) => (
+          {contactLinks.map((link, index) => (
             <a
               key={link.key}
               href={link.href}
@@ -119,6 +119,8 @@ export default function Contact() {
                 link.rel ||
                 (link.href.startsWith("http") ? "noreferrer" : undefined)
               }
+              data-reveal
+              style={{ "--reveal-delay": `${Math.min(index * 70, 210)}ms` }}
               className={`group relative overflow-hidden rounded-[1.1rem] border p-3.5 transition-all duration-300 hover:-translate-y-1 sm:rounded-[1.35rem] sm:p-4 ${
                 link.primary
                   ? "border-accent-green/40 bg-accent-green/10 hover:border-accent-green"

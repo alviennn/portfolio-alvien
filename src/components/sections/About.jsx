@@ -279,7 +279,7 @@ export default function About() {
     >
       <div className="mx-auto max-w-content">
         {/* About Header */}
-        <div className="mx-auto max-w-5xl text-center">
+        <div className="mx-auto max-w-5xl text-center" data-reveal>
           <p className="editorial-label">✦ {t("about.label")}</p>
 
           <h2 className="mx-auto mt-5 max-w-5xl pl-1 font-display text-5xl font-semibold leading-[1.05] tracking-[-0.04em] md:text-7xl lg:text-8xl">
@@ -317,7 +317,7 @@ export default function About() {
 
         {/* Stats */}
         <div className="mx-auto mt-14 grid max-w-3xl grid-cols-2 gap-3 sm:gap-4">
-          <div className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
+          <div data-reveal style={{ "--reveal-delay": "80ms" }} className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
             <p className="font-display text-3xl font-semibold text-light-text dark:text-dark-text sm:text-4xl md:text-5xl">
               {experiences.length}+
             </p>
@@ -326,7 +326,7 @@ export default function About() {
             </p>
           </div>
 
-          <div className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
+          <div data-reveal style={{ "--reveal-delay": "160ms" }} className="rounded-[1.25rem] border border-light-border dark:border-dark-border bg-black/[0.02] dark:bg-white/[0.025] p-4 text-center sm:rounded-[1.5rem] sm:p-5">
             <p className="font-display text-3xl font-semibold text-light-text dark:text-dark-text sm:text-4xl md:text-5xl">
               {certifications.length}+
             </p>
@@ -339,7 +339,7 @@ export default function About() {
         <FullWidthMarquee />
 
         {/* Experience */}
-        <div className="mt-24">
+        <div className="mt-24" data-reveal>
           <SectionIntro
             label={t("about.workHistory.label")}
             title={t("experience.title")}
@@ -378,10 +378,12 @@ export default function About() {
           </div>
         </div>
 
-        <WorkProcess />
+        <div data-reveal>
+          <WorkProcess />
+        </div>
 
         {/* Certifications */}
-        <div className="mt-24">
+        <div className="mt-24" data-reveal>
           <SectionIntro
             label={t("about.recognition.label")}
             title={t("certifications.title")}

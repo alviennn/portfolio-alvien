@@ -338,7 +338,7 @@ function TechStackSection({ techStacks, loading, error }) {
 
   return (
     <div className="mt-24">
-      <div className="mx-auto max-w-3xl text-center">
+      <div className="mx-auto max-w-3xl text-center" data-reveal>
         <p className="editorial-label">✦ {t("projects.techStack")}</p>
 
         <h3 className="mt-4 font-display text-4xl font-semibold leading-[0.98] tracking-[-0.06em] text-light-text dark:text-dark-text md:text-6xl">
@@ -373,8 +373,14 @@ function TechStackSection({ techStacks, loading, error }) {
           <TechStackMarquee techStacks={sortedTechStacks} />
 
           <div className="mt-10 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
-            {sortedTechStacks.map((tech) => (
-              <TechStackCard key={tech.id || tech.name} tech={tech} />
+            {sortedTechStacks.map((tech, index) => (
+              <div
+                key={tech.id || tech.name}
+                data-reveal
+                style={{ "--reveal-delay": `${Math.min(index * 55, 330)}ms` }}
+              >
+                <TechStackCard tech={tech} />
+              </div>
             ))}
           </div>
         </>
@@ -418,7 +424,7 @@ export default function Projects() {
       className="overflow-hidden bg-light-bg dark:bg-dark-bg px-6 py-20 text-light-text dark:text-dark-text md:px-8 md:py-28"
     >
       <div className="mx-auto max-w-content">
-        <div className="mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center" data-reveal>
           <p className="editorial-label">✦ {t("nav.projects")}</p>
 
           <h2 className="mt-5 font-display text-5xl font-semibold leading-[0.95] tracking-[-0.07em] text-light-text dark:text-dark-text md:text-7xl">
@@ -430,7 +436,7 @@ export default function Projects() {
           </p>
         </div>
 
-        <div className="mt-14">
+        <div className="mt-14" data-reveal style={{ "--reveal-delay": "120ms" }}>
           {projectLoading && <LoadingState message={t("projects.loading")} />}
 
           {projectError && <ErrorState message={t("projects.error")} />}
