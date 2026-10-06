@@ -13,7 +13,7 @@ const GREETINGS = [
   'مرحبا',
 ];
 
-const GREETING_DURATION = 430;
+const GREETING_DURATION = 760;
 
 export default function HelloScreen({ onComplete }) {
   const [greetingIndex, setGreetingIndex] = useState(0);
@@ -45,6 +45,7 @@ export default function HelloScreen({ onComplete }) {
   }, [isLeaving, onComplete]);
 
   const nextGreeting = GREETINGS[(greetingIndex + 1) % GREETINGS.length];
+  const isRtlGreeting = GREETINGS[greetingIndex] === 'مرحبا';
 
   return (
     <section
@@ -53,7 +54,13 @@ export default function HelloScreen({ onComplete }) {
     >
       <div className="hello-screen__content" aria-live="polite">
         <div className="hello-screen__word-wrap">
-          <p className="hello-screen__word" key={greetingIndex}>{GREETINGS[greetingIndex]}</p>
+          <p
+            className={`hello-screen__word ${isRtlGreeting ? 'hello-screen__word--rtl' : ''}`}
+            dir={isRtlGreeting ? 'rtl' : undefined}
+            key={greetingIndex}
+          >
+            {GREETINGS[greetingIndex]}
+          </p>
           <p className="hello-screen__word hello-screen__word--ghost" aria-hidden="true">{nextGreeting}</p>
         </div>
       </div>

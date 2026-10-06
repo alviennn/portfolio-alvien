@@ -442,16 +442,25 @@ html.theme-transitioning * {
 .hello-screen__word {
   grid-area: 1 / 1;
   margin: 0;
-  font-family: "Plus Jakarta Sans", Inter, sans-serif;
-  font-size: clamp(3.75rem, 12vw, 10rem);
-  font-weight: 500;
-  letter-spacing: -0.075em;
-  line-height: 1;
-  animation: helloWord 430ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  position: relative;
+  font-family: "Playwrite TZ", cursive;
+  font-size: clamp(3.25rem, 10vw, 8.5rem);
+  font-weight: 300;
+  letter-spacing: -0.055em;
+  line-height: 1.25;
+  clip-path: inset(0 100% 0 0);
+  filter: blur(0.8px);
+  transform-origin: left center;
+  animation: helloHandwrite 760ms cubic-bezier(0.16, 0.78, 0.3, 1) both;
 }
 
 .hello-screen__word--ghost {
   visibility: hidden;
+}
+
+.hello-screen__word--rtl {
+  transform-origin: right center;
+  animation-name: helloHandwriteRtl;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -596,15 +605,53 @@ html.theme-transitioning * {
 
 }
 
-@keyframes helloWord {
-  from {
+@keyframes helloHandwrite {
+  0% {
     opacity: 0;
-    transform: translateY(0.24em) scale(0.92);
+    clip-path: inset(0 100% 0 0);
+    filter: blur(1.2px);
+    transform: translateY(0.06em) rotate(-1.25deg) scale(0.985);
   }
 
-  to {
+  15% {
     opacity: 1;
-    transform: translateY(0) scale(1);
+  }
+
+  82% {
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    transform: translateY(0) rotate(0) scale(1);
+  }
+}
+
+@keyframes helloHandwriteRtl {
+  0% {
+    opacity: 0;
+    clip-path: inset(0 0 0 100%);
+    filter: blur(1.2px);
+    transform: translateY(0.06em) rotate(1.25deg) scale(0.985);
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  82% {
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+  }
+
+  100% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    filter: blur(0);
+    transform: translateY(0) rotate(0) scale(1);
   }
 }
 
