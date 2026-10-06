@@ -13,8 +13,8 @@ const GREETINGS = [
   'مرحبا',
 ];
 
-const CHARACTER_DURATION = 180;
-const READING_PAUSE = 1000;
+const CHARACTER_DURATION = 130;
+const READING_PAUSE = 500;
 
 export default function HelloScreen({ onComplete }) {
   const [greetingIndex, setGreetingIndex] = useState(0);
