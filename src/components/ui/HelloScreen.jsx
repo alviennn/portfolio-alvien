@@ -52,7 +52,6 @@ export default function HelloScreen({ onComplete }) {
       aria-label="Welcome screen"
     >
       <div className="hello-screen__content" aria-live="polite">
-        <span className="hello-screen__eyebrow">ALVIEN RIDHO</span>
         <div className="hello-screen__word-wrap">
           <p className="hello-screen__word" key={greetingIndex}>{GREETINGS[greetingIndex]}</p>
           <p className="hello-screen__word hello-screen__word--ghost" aria-hidden="true">{nextGreeting}</p>
