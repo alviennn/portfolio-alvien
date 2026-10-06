@@ -445,7 +445,7 @@ html.theme-transitioning * {
   position: relative;
   font-family: "Playwrite TZ", cursive;
   font-size: clamp(1.5rem, 8vw, 7rem);
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 1.8;
   padding: 0.5em 0.4em;
