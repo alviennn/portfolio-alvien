@@ -1,13 +1,15 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import PublicLayout from './PublicLayout';
 import Hero from '../components/sections/Hero';
 import About from '../components/sections/About';
 import Projects from '../components/sections/Projects';
 import Contact from '../components/sections/Contact';
+import HelloScreen from '../components/ui/HelloScreen';
 
 
 export default function Home() {
   const pageRef = useRef(null);
+  const [showIntro, setShowIntro] = useState(true);
 
   useEffect(() => {
     const page = pageRef.current;
@@ -67,13 +69,16 @@ export default function Home() {
   }, []);
 
   return (
-    <PublicLayout>
-      <main ref={pageRef}>
-      <Hero />
-      <About />
-      <Projects />
-      <Contact />
-      </main>
-    </PublicLayout>
+    <>
+      <PublicLayout>
+        <main ref={pageRef}>
+          <Hero />
+          <About />
+          <Projects />
+          <Contact />
+        </main>
+      </PublicLayout>
+      {showIntro && <HelloScreen onComplete={() => setShowIntro(false)} />}
+    </>
   );
 }

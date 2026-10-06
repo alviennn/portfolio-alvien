@@ -157,6 +157,7 @@ export const translations = {
       close: "Close",
       preferences: "Preferences",
     },
+
   },
 
   id: {
@@ -317,5 +318,6 @@ export const translations = {
       close: "Tutup",
       preferences: "Preferensi",
     },
+
   },
 };

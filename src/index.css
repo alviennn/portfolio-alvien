@@ -386,6 +386,74 @@ html.theme-transitioning * {
   opacity: 0.16;
 }
 
+.hello-screen {
+  position: fixed;
+  z-index: 100;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  background: #000000;
+  color: #f5f5f5;
+  opacity: 1;
+  transition: opacity 500ms ease, visibility 500ms ease;
+}
+
+.hello-screen::before {
+  position: absolute;
+  inset: -28vmax;
+  content: '';
+  background: radial-gradient(circle, rgba(79, 122, 107, 0.24), transparent 32%);
+  animation: helloGlow 7s ease-in-out infinite alternate;
+}
+
+.hello-screen--leaving {
+  visibility: hidden;
+  opacity: 0;
+}
+
+.hello-screen__content {
+  position: relative;
+  z-index: 2;
+}
+
+.hello-screen__content {
+  padding: 0 1.5rem;
+  text-align: center;
+}
+
+.hello-screen__eyebrow {
+  display: block;
+  margin-bottom: 1.5rem;
+  color: rgba(245, 245, 245, 0.48);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+}
+
+.hello-screen__word-wrap {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 1.25em;
+}
+
+.hello-screen__word {
+  grid-area: 1 / 1;
+  margin: 0;
+  font-family: "Plus Jakarta Sans", Inter, sans-serif;
+  font-size: clamp(3.75rem, 12vw, 10rem);
+  font-weight: 500;
+  letter-spacing: -0.075em;
+  line-height: 1;
+  animation: helloWord 430ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.hello-screen__word--ghost {
+  visibility: hidden;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
@@ -526,4 +594,26 @@ html.theme-transitioning * {
     transform: rotateY(0deg) translate3d(0, 0, 0);
   }
 
+}
+
+@keyframes helloWord {
+  from {
+    opacity: 0;
+    transform: translateY(0.24em) scale(0.92);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes helloGlow {
+  from {
+    transform: translate3d(-8%, -5%, 0) scale(0.92);
+  }
+
+  to {
+    transform: translate3d(8%, 6%, 0) scale(1.08);
+  }
 }
