@@ -449,9 +449,8 @@ html.theme-transitioning * {
   letter-spacing: -0.055em;
   line-height: 1.25;
   clip-path: inset(0 100% 0 0);
-  filter: blur(0.8px);
   transform-origin: left center;
-  animation: helloHandwrite 760ms cubic-bezier(0.16, 0.78, 0.3, 1) both;
+  animation: helloTyping 760ms steps(12, end) both;
 }
 
 .hello-screen__word--ghost {
@@ -460,7 +459,7 @@ html.theme-transitioning * {
 
 .hello-screen__word--rtl {
   transform-origin: right center;
-  animation-name: helloHandwriteRtl;
+  animation-name: helloTypingRtl;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -605,53 +604,23 @@ html.theme-transitioning * {
 
 }
 
-@keyframes helloHandwrite {
-  0% {
-    opacity: 0;
+@keyframes helloTyping {
+  from {
     clip-path: inset(0 100% 0 0);
-    filter: blur(1.2px);
-    transform: translateY(0.06em) rotate(-1.25deg) scale(0.985);
   }
 
-  15% {
-    opacity: 1;
-  }
-
-  82% {
+  to {
     clip-path: inset(0 0 0 0);
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-    filter: blur(0);
-    transform: translateY(0) rotate(0) scale(1);
   }
 }
 
-@keyframes helloHandwriteRtl {
-  0% {
-    opacity: 0;
+@keyframes helloTypingRtl {
+  from {
     clip-path: inset(0 0 0 100%);
-    filter: blur(1.2px);
-    transform: translateY(0.06em) rotate(1.25deg) scale(0.985);
   }
 
-  15% {
-    opacity: 1;
-  }
-
-  82% {
+  to {
     clip-path: inset(0 0 0 0);
-    filter: blur(0);
-  }
-
-  100% {
-    opacity: 1;
-    clip-path: inset(0 0 0 0);
-    filter: blur(0);
-    transform: translateY(0) rotate(0) scale(1);
   }
 }
 
