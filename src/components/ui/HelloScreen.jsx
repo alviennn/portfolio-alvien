@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const GREETINGS = [
   'Hello',
@@ -13,30 +13,31 @@ const GREETINGS = [
   'مرحبا',
 ];
 
-const GREETING_DURATION = 760;
+const CHARACTER_DURATION = 180;
+const READING_PAUSE = 1000;
 
 export default function HelloScreen({ onComplete }) {
   const [greetingIndex, setGreetingIndex] = useState(0);
   const [isLeaving, setIsLeaving] = useState(false);
-
-  const finish = useCallback(() => setIsLeaving((current) => current || true), []);
+  const [visibleCharacters, setVisibleCharacters] = useState(0);
+  const [reduceMotion] = useState(() => window.matchMedia('(prefers-reduced-motion: reduce)').matches);
 
   useEffect(() => {
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const duration = reduceMotion ? 180 : GREETING_DURATION;
-    const timer = window.setInterval(() => {
-      setGreetingIndex((current) => {
-        if (current >= GREETINGS.length - 1) {
-          window.clearInterval(timer);
-          window.setTimeout(finish, duration);
-          return current;
-        }
-        return current + 1;
-      });
-    }, duration);
+    const characters = Array.from(GREETINGS[greetingIndex]);
+    const timers = reduceMotion ? [] : characters.map((_, index) =>
+      window.setTimeout(() => setVisibleCharacters(index + 1), (index + 1) * CHARACTER_DURATION),
+    );
+    timers.push(window.setTimeout(() => {
+      if (greetingIndex === GREETINGS.length - 1) {
+        setIsLeaving(true);
+      } else {
+        setVisibleCharacters(0);
+        setGreetingIndex(greetingIndex + 1);
+      }
+    }, (reduceMotion ? 0 : characters.length * CHARACTER_DURATION) + READING_PAUSE));
 
-    return () => window.clearInterval(timer);
-  }, [finish]);
+    return () => timers.forEach(window.clearTimeout);
+  }, [greetingIndex, reduceMotion]);
 
   useEffect(() => {
     if (!isLeaving) return undefined;
@@ -44,7 +45,8 @@ export default function HelloScreen({ onComplete }) {
     return () => window.clearTimeout(timer);
   }, [isLeaving, onComplete]);
 
-  const nextGreeting = GREETINGS[(greetingIndex + 1) % GREETINGS.length];
+  const greeting = GREETINGS[greetingIndex];
+  const typedGreeting = reduceMotion ? greeting : Array.from(greeting).slice(0, visibleCharacters).join('');
   const isRtlGreeting = GREETINGS[greetingIndex] === 'مرحبا';
 
   return (
@@ -52,16 +54,17 @@ export default function HelloScreen({ onComplete }) {
       className={`hello-screen ${isLeaving ? 'hello-screen--leaving' : ''}`}
       aria-label="Welcome screen"
     >
-      <div className="hello-screen__content" aria-live="polite">
+      <div className="hello-screen__content">
         <div className="hello-screen__word-wrap">
           <p
             className={`hello-screen__word ${isRtlGreeting ? 'hello-screen__word--rtl' : ''}`}
             dir={isRtlGreeting ? 'rtl' : undefined}
             key={greetingIndex}
+            aria-label={greeting}
           >
-            {GREETINGS[greetingIndex]}
+            <span className="hello-screen__word--ghost" aria-hidden="true">{greeting}</span>
+            <span className="hello-screen__typed" aria-hidden="true">{typedGreeting}</span>
           </p>
-          <p className="hello-screen__word hello-screen__word--ghost" aria-hidden="true">{nextGreeting}</p>
         </div>
       </div>
     </section>

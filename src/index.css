@@ -444,13 +444,20 @@ html.theme-transitioning * {
   margin: 0;
   position: relative;
   font-family: "Playwrite TZ", cursive;
-  font-size: clamp(3.25rem, 10vw, 8.5rem);
+  font-size: clamp(1.5rem, 8vw, 7rem);
   font-weight: 300;
   letter-spacing: -0.055em;
-  line-height: 1.25;
-  clip-path: inset(0 100% 0 0);
-  transform-origin: left center;
-  animation: helloTyping 760ms steps(12, end) both;
+  line-height: 1.8;
+  padding: 0.5em 0.4em;
+  display: grid;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.hello-screen__typed,
+.hello-screen__word--ghost {
+  grid-area: 1 / 1;
+  text-align: start;
 }
 
 .hello-screen__word--ghost {
@@ -458,8 +465,7 @@ html.theme-transitioning * {
 }
 
 .hello-screen__word--rtl {
-  transform-origin: right center;
-  animation-name: helloTypingRtl;
+  letter-spacing: normal;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -602,26 +608,6 @@ html.theme-transitioning * {
     transform: rotateY(0deg) translate3d(0, 0, 0);
   }
 
-}
-
-@keyframes helloTyping {
-  from {
-    clip-path: inset(0 100% 0 0);
-  }
-
-  to {
-    clip-path: inset(0 0 0 0);
-  }
-}
-
-@keyframes helloTypingRtl {
-  from {
-    clip-path: inset(0 0 0 100%);
-  }
-
-  to {
-    clip-path: inset(0 0 0 0);
-  }
 }
 
 @keyframes helloGlow {
