@@ -14,10 +14,10 @@ import {
 import { db } from "../firebase/config";
 
 function createFirestoreService(collectionName) {
-  const collectionRef = collection(db, collectionName);
-
   return {
     async getAll() {
+      if (!db) return [];
+      const collectionRef = collection(db, collectionName);
       const q = query(collectionRef, orderBy("createdAt", "desc"));
       const snapshot = await getDocs(q);
 
@@ -28,6 +28,7 @@ function createFirestoreService(collectionName) {
     },
 
     async getById(id) {
+      if (!db) return null;
       const documentRef = doc(db, collectionName, id);
       const snapshot = await getDoc(documentRef);
 
@@ -42,6 +43,8 @@ function createFirestoreService(collectionName) {
     },
 
     async create(data) {
+      if (!db) throw new Error("Firestore is not configured (.env missing).");
+      const collectionRef = collection(db, collectionName);
       return addDoc(collectionRef, {
         ...data,
         createdAt: serverTimestamp(),
@@ -50,6 +53,7 @@ function createFirestoreService(collectionName) {
     },
 
     async update(id, data) {
+      if (!db) throw new Error("Firestore is not configured (.env missing).");
       const documentRef = doc(db, collectionName, id);
 
       return updateDoc(documentRef, {
@@ -59,6 +63,7 @@ function createFirestoreService(collectionName) {
     },
 
     async remove(id) {
+      if (!db) throw new Error("Firestore is not configured (.env missing).");
       const documentRef = doc(db, collectionName, id);
 
       return deleteDoc(documentRef);
@@ -73,6 +78,7 @@ export const skillsService = createFirestoreService("skills");
 
 export const contactService = {
   async get() {
+    if (!db) return null;
     const ref = doc(db, "siteSettings", "contact");
     const snapshot = await getDoc(ref);
 
@@ -87,6 +93,7 @@ export const contactService = {
   },
 
   async update(data) {
+    if (!db) throw new Error("Firestore is not configured (.env missing).");
     const ref = doc(db, "siteSettings", "contact");
 
     return setDoc(

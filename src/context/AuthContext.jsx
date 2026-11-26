@@ -10,9 +10,13 @@ const AuthContext = createContext(undefined);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(() => Boolean(auth));
 
   useEffect(() => {
+    if (!auth) {
+      return undefined;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       setLoading(false);
@@ -21,11 +25,15 @@ export function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
+    if (!auth) {
+      throw new Error('Firebase Auth is not configured (.env missing).');
+    }
     const result = await signInWithEmailAndPassword(auth, email, password);
     return result.user;
   };
 
   const logout = async () => {
+    if (!auth) return;
     await signOut(auth);
   };
 
