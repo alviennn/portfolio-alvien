@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { ArrowUpRight, X } from "../icons/AppleIcons";
 
 export default function CertificationModal({
   cert,
@@ -53,16 +54,7 @@ export default function CertificationModal({
             aria-label={closeLabel}
             className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-light-bgSecondary text-light-muted transition-colors duration-200 hover:text-light-text dark:bg-dark-bgSecondary dark:text-dark-muted dark:hover:text-dark-text"
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M18 6L6 18M6 6l12 12" />
-            </svg>
+            <X size={15} />
           </button>
         </div>
 
@@ -108,16 +100,7 @@ export default function CertificationModal({
                 className="mt-8 inline-flex items-center gap-2 rounded-full bg-light-text px-5 py-2.5 text-sm font-medium text-white transition-opacity duration-200 hover:opacity-85 dark:bg-dark-text dark:text-black"
               >
                 {credentialLabel}
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <path d="M7 17L17 7M7 7h10v10" />
-                </svg>
+                <ArrowUpRight size={12} />
               </a>
             )}
           </div>
@@ -125,4 +108,4 @@ export default function CertificationModal({
       </div>
     </div>
   );
-}
+}

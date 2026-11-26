@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { X } from '../icons/AppleIcons';
 
 export default function ImageLightbox({ src, alt, onClose }) {
   useEffect(() => {
@@ -25,9 +26,7 @@ export default function ImageLightbox({ src, alt, onClose }) {
         aria-label="Close"
         className="absolute top-5 right-5 w-10 h-10 flex items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors duration-200"
       >
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
-          <path d="M18 6L6 18M6 6l12 12" />
-        </svg>
+        <X size={16} />
       </button>
 
       <img
@@ -38,4 +37,4 @@ export default function ImageLightbox({ src, alt, onClose }) {
       />
     </div>
   );
-}
+}

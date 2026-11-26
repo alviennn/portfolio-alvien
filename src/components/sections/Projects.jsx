@@ -6,6 +6,7 @@ import {
   skillsService,
 } from "../../services/firestoreService";
 import { seedProjects, seedSkills } from "../../data/seedData";
+import { ArrowUpRight, ChevronLeft, ChevronRight } from "../icons/AppleIcons";
 import { LoadingState, EmptyState, ErrorState } from "../ui/StatusStates";
 import { getTechLogo } from "../../utils/techlogo";
 
@@ -104,9 +105,7 @@ function ProjectGallery({ projects }) {
               className="mt-8 inline-flex w-fit items-center gap-2 rounded-full bg-light-text px-5 py-3 text-sm font-semibold text-light-bg transition-transform duration-200 hover:-translate-y-0.5 dark:bg-dark-text dark:text-dark-bg"
             >
               {t("projects.viewSite")}
-              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-                <path d="M7 17 17 7M7 7h10v10" />
-              </svg>
+              <ArrowUpRight size={13} />
             </a>
           )}
 
@@ -141,10 +140,10 @@ function ProjectGallery({ projects }) {
 
           <div className="flex items-center justify-end gap-2">
             <button type="button" onClick={() => changeProject(activeIndex - 1)} disabled={activeIndex === 0} className="catalogue-arrow" aria-label="Previous project">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m15 18-6-6 6-6" /></svg>
+              <ChevronLeft size={16} />
             </button>
             <button type="button" onClick={() => changeProject(activeIndex + 1)} disabled={activeIndex === projects.length - 1} className="catalogue-arrow" aria-label="Next project">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="m9 18 6-6-6-6" /></svg>
+              <ChevronRight size={16} />
             </button>
           </div>
         </div>

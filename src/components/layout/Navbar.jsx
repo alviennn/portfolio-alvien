@@ -6,7 +6,7 @@ import {
   Mail,
   Menu,
   X,
-} from "lucide-react";
+} from "../icons/AppleIcons";
 
 import { useLanguage } from "../../i18n/LanguageContext";
 import { contactService } from "../../services/firestoreService";

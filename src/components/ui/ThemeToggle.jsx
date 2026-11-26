@@ -1,4 +1,5 @@
 import { useTheme } from '../../context/ThemeContext';
+import { Moon, Sun } from '../icons/AppleIcons';
 
 export default function ThemeToggle() {
   const { theme, toggleTheme } = useTheme();
@@ -17,13 +18,8 @@ export default function ThemeToggle() {
           : 'border-[#d9d0b0] bg-[#f4e7b9]'
       }`}
     >
-      <svg className="absolute left-2 h-3.5 w-3.5 text-[#8e7120]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <circle cx="12" cy="12" r="4" />
-        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-      </svg>
-      <svg className="absolute right-2 h-3.5 w-3.5 text-[#b8d3c7]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-      </svg>
+      <Sun className="absolute left-2 h-3.5 w-3.5 text-[#8e7120]" />
+      <Moon className="absolute right-2 h-3.5 w-3.5 text-[#b8d3c7]" />
 
       <span
         className={`relative z-10 flex h-7 w-7 items-center justify-center rounded-full shadow-[0_3px_8px_rgba(0,0,0,0.2)] transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] ${
@@ -33,14 +29,9 @@ export default function ThemeToggle() {
         }`}
       >
         {isDark ? (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
-          </svg>
+          <Moon size={14} />
         ) : (
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <circle cx="12" cy="12" r="4" />
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" />
-          </svg>
+          <Sun size={14} />
         )}
       </span>
     </button>

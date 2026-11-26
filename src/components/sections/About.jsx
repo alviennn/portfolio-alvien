@@ -6,6 +6,7 @@ import {
   certificationsService,
 } from "../../services/firestoreService";
 import { seedExperiences, seedCertifications } from "../../data/seedData";
+import { ArrowUpRight } from "../icons/AppleIcons";
 import { LoadingState, EmptyState, ErrorState } from "../ui/StatusStates";
 import CertificationModal from "../ui/CertificationModal";
 
@@ -109,16 +110,7 @@ function CertificationItem({ cert, onViewDetail, index }) {
         className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-light-border dark:border-dark-border px-4 py-2.5 text-xs font-medium text-light-muted dark:text-dark-muted transition-all duration-300 hover:border-accent-green/60 hover:text-accent-green sm:w-auto sm:justify-start sm:py-2 sm:text-sm md:justify-center"
       >
         {t("certifications.viewCertificate")}
-        <svg
-          width="14"
-          height="14"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-        >
-          <path d="M7 17L17 7M7 7h10v10" />
-        </svg>
+        <ArrowUpRight size={12} />
       </button>
     </article>
   );
