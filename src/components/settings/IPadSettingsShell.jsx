@@ -46,6 +46,7 @@ export default function IPadSettingsShell({
   const statusDate = useLiveDate();
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [isSidebarScrolled, setIsSidebarScrolled] = useState(false);
   const detailScrollRef = useRef(null);
 
   const { isSearching, matchingPanes, itemMatches } = useSettingsSearch({
@@ -106,13 +107,39 @@ export default function IPadSettingsShell({
       <div className="flex min-h-0 flex-1">
         {/* Master Sidebar (300px) */}
         <aside className="relative flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-[#F2F2F7] dark:border-[#38383A] dark:bg-[#000000]">
-          <div className="px-4 pt-3 pb-2.5">
-            <h1 className="text-[30px] font-bold tracking-[-0.02em]">
+          {/* Sticky Collapsible Sidebar Bar */}
+          <div
+            className={`absolute inset-x-0 top-0 z-20 flex h-[44px] items-center justify-center px-4 transition-all duration-200 ${
+              isSidebarScrolled
+                ? "border-b border-black/[0.08] bg-[#F2F2F7]/72 backdrop-blur-2xl dark:border-[#38383A] dark:bg-[#000000]/72"
+                : "pointer-events-none border-b border-transparent bg-transparent"
+            }`}
+          >
+            <span
+              className={`text-[17px] font-semibold tracking-[-0.01em] transition-all duration-200 ${
+                isSidebarScrolled
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-1.5 opacity-0"
+              }`}
+            >
               {t("settings.appTitle")}
-            </h1>
+            </span>
           </div>
 
-          <div className="apple-scroll flex-1 space-y-4 overflow-y-auto px-4 pb-20">
+          <div
+            onScroll={(e) =>
+              setIsSidebarScrolled(e.currentTarget.scrollTop > 20)
+            }
+            className="apple-scroll flex-1 space-y-4 overflow-y-auto px-4 pt-3 pb-20"
+          >
+            {/* Large iPadOS Title (collapses into sticky centered bar on scroll) */}
+            <h1
+              className={`text-[30px] font-bold tracking-[-0.02em] transition-opacity duration-150 ${
+                isSidebarScrolled ? "opacity-0" : "opacity-100"
+              }`}
+            >
+              {t("settings.appTitle")}
+            </h1>
             {isSearching ? (
               <div className="space-y-4">
                 {matchingPanes.length > 0 && (
@@ -271,7 +298,7 @@ export default function IPadSettingsShell({
 
         {/* Right Detail Column */}
         <main className="flex min-w-0 flex-1 flex-col bg-[#F2F2F7] dark:bg-[#000000]">
-          <header className="relative flex h-[50px] shrink-0 items-center justify-end border-b border-black/[0.06] bg-[#F2F2F7]/85 px-5 backdrop-blur-xl dark:border-[#38383A] dark:bg-black/85">
+          <header className="relative flex h-[50px] shrink-0 items-center justify-end border-b border-black/[0.08] bg-[#F2F2F7]/72 px-5 backdrop-blur-2xl dark:border-[#38383A] dark:bg-black/72">
             <h2 className="pointer-events-none absolute inset-x-0 text-center text-[17px] font-semibold">
               {t(`settings.nav.${activePane}`)}
             </h2>

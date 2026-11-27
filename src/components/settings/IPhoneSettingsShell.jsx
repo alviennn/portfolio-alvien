@@ -55,6 +55,7 @@ export default function IPhoneSettingsShell({
   const statusTime = useLiveClock("ios");
 
   const [searchQuery, setSearchQuery] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
   const { isSearching, matchingPanes, itemMatches } = useSettingsSearch({
     query: searchQuery,
     projects,
@@ -65,6 +66,19 @@ export default function IPhoneSettingsShell({
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
+  }, [mobilePane]);
+
+  useEffect(() => {
+    if (mobilePane) return undefined;
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 22);
+    };
+    const rafId = window.requestAnimationFrame(handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [mobilePane]);
 
   const cvHref =
@@ -79,8 +93,14 @@ export default function IPhoneSettingsShell({
     skills: skills.length,
   };
 
-  const renderStatusBar = () => (
-    <div className="sticky top-0 z-30 flex h-[48px] items-center justify-between bg-[#F2F2F7]/90 px-5 text-[15px] font-semibold tracking-[-0.02em] backdrop-blur-xl dark:bg-[#000000]/90">
+  const renderStatusBar = (translucent = false) => (
+    <div
+      className={`flex h-[44px] items-center justify-between px-5 text-[15px] font-semibold tracking-[-0.02em] transition-colors duration-200 ${
+        translucent
+          ? "bg-transparent"
+          : "sticky top-0 z-30 bg-[#F2F2F7]/72 backdrop-blur-2xl dark:bg-[#000000]/72"
+      }`}
+    >
       <span className="w-14 tabular-nums">{statusTime}</span>
 
       <div className="flex w-16 items-center justify-end gap-1.5">
@@ -97,7 +117,7 @@ export default function IPhoneSettingsShell({
         {renderStatusBar()}
 
         {/* 1:1 iOS Detail Navigation Header */}
-        <header className="sticky top-[48px] z-20 flex h-[44px] items-center justify-between border-b border-black/[0.08] bg-[#F2F2F7]/85 px-2 backdrop-blur-xl dark:border-[#38383A] dark:bg-[#000000]/85">
+        <header className="sticky top-[44px] z-20 flex h-[44px] items-center justify-between border-b border-black/[0.08] bg-[#F2F2F7]/72 px-2 backdrop-blur-2xl dark:border-[#38383A] dark:bg-[#000000]/72">
           <button
             type="button"
             onClick={() => onSelectMobilePane(null)}
@@ -151,11 +171,35 @@ export default function IPhoneSettingsShell({
 
   return (
     <div className="apple-os-font min-h-screen bg-[#F2F2F7] text-[#000000] dark:bg-[#000000] dark:text-[#FFFFFF]">
-      {renderStatusBar()}
+      {/* Sticky Status Bar + Collapsible iOS Navigation Bar */}
+      <div
+        className={`sticky top-0 z-30 transition-all duration-200 ${
+          isScrolled
+            ? "border-b border-black/[0.08] bg-[#F2F2F7]/72 backdrop-blur-2xl dark:border-[#38383A] dark:bg-[#000000]/72"
+            : "border-b border-transparent bg-transparent"
+        }`}
+      >
+        {renderStatusBar(true)}
+        <div className="flex h-[38px] items-center justify-center px-4">
+          <span
+            className={`text-[17px] font-semibold tracking-[-0.01em] transition-all duration-200 ${
+              isScrolled
+                ? "translate-y-0 opacity-100"
+                : "pointer-events-none translate-y-1.5 opacity-0"
+            }`}
+          >
+            {t("settings.appTitle")}
+          </span>
+        </div>
+      </div>
 
-      <main className="px-4 pt-1 pb-28">
-        {/* Large iOS Title */}
-        <h1 className="text-[34px] font-bold leading-tight tracking-[-0.02em]">
+      <main className="-mt-[32px] px-4 pb-28">
+        {/* Large iOS Title (fades out as inline centered title appears on scroll) */}
+        <h1
+          className={`text-[34px] font-bold leading-tight tracking-[-0.02em] transition-opacity duration-150 ${
+            isScrolled ? "opacity-0" : "opacity-100"
+          }`}
+        >
           {t("settings.appTitle")}
         </h1>
 
