@@ -499,15 +499,16 @@ export function SkillsPane({ skills, loading, error }) {
   }
 
   return (
-    <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+    <SettingsGroup>
       {sortedSkills.map((tech) => {
         const logo = getTechLogo(tech.name);
         return (
-          <div
+          <SettingsRow
             key={tech.id || tech.name}
-            className="flex min-h-[52px] min-w-0 items-center gap-2.5 rounded-xl border border-black/[0.06] bg-black/[0.02] px-2.5 py-2 dark:border-white/[0.08] dark:bg-white/[0.035] sm:px-3"
-          >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-black/[0.06] bg-[#F2F2F7] dark:border-white/[0.08] dark:bg-[#2C2C2E]">
+            title={tech.name}
+            subtitle={tech.level}
+            leadingIcon={
+              <span className="flex h-[29px] w-[29px] shrink-0 items-center justify-center rounded-[7px] border border-black/[0.06] bg-[#F2F2F7] dark:border-white/[0.08] dark:bg-[#2C2C2E]">
               {logo ? (
                 <img
                   src={logo}
@@ -520,21 +521,12 @@ export function SkillsPane({ skills, loading, error }) {
                   {tech.name?.slice(0, 2)}
                 </span>
               )}
-            </div>
-            <div className="min-w-0 flex-1">
-              <span className="block truncate text-[13px] font-medium text-[#000000] dark:text-[#FFFFFF]">
-                {tech.name}
               </span>
-              {tech.level && (
-                <span className="mt-0.5 block truncate text-[11px] text-[#8E8E93]">
-                  {tech.level}
-                </span>
-              )}
-            </div>
-          </div>
+            }
+          />
         );
       })}
-    </div>
+    </SettingsGroup>
   );
 }
 
