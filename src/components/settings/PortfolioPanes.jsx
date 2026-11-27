@@ -492,16 +492,6 @@ export function SkillsPane({ skills, loading, error }) {
     [skills]
   );
 
-  const grouped = useMemo(() => {
-    const map = new Map();
-    sortedSkills.forEach((skill) => {
-      const category = tField(skill, "category") || "General";
-      if (!map.has(category)) map.set(category, []);
-      map.get(category).push(skill);
-    });
-    return Array.from(map.entries());
-  }, [sortedSkills, tField]);
-
   if (loading) return <LoadingState message={t("skills.loading")} />;
   if (error) return <ErrorState message={t("skills.error")} />;
   if (sortedSkills.length === 0) {
@@ -509,46 +499,41 @@ export function SkillsPane({ skills, loading, error }) {
   }
 
   return (
-    <div className="space-y-5">
-      {grouped.map(([categoryName, items]) => (
-        <SettingsGroup key={categoryName} title={categoryName}>
-          {items.map((tech) => {
-            const logo = getTechLogo(tech.name);
-            return (
-              <div
-                key={tech.id || tech.name}
-                className="flex min-h-[44px] items-center justify-between gap-3 px-4 py-2"
-              >
-                <div className="flex min-w-0 items-center gap-3">
-                  <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-[7px] border border-black/[0.06] bg-[#F2F2F7] dark:border-white/[0.08] dark:bg-[#2C2C2E]">
-                    {logo ? (
-                      <img
-                        src={logo}
-                        alt={tech.name}
-                        className="h-4 w-4 object-contain"
-                        loading="lazy"
-                      />
-                    ) : (
-                      <span className="text-[10px] font-bold uppercase text-[var(--apple-accent)]">
-                        {tech.name?.slice(0, 2)}
-                      </span>
-                    )}
-                  </div>
-                  <span className="truncate text-[14.5px] font-normal text-[#000000] dark:text-[#FFFFFF] lg:text-[13.5px]">
-                    {tech.name}
-                  </span>
-                </div>
-
-                {tech.level && (
-                  <span className="text-[13px] text-[#8E8E93]">
-                    {tech.level}
-                  </span>
-                )}
-              </div>
-            );
-          })}
-        </SettingsGroup>
-      ))}
+    <div className="grid grid-cols-2 gap-2 sm:gap-2.5">
+      {sortedSkills.map((tech) => {
+        const logo = getTechLogo(tech.name);
+        return (
+          <div
+            key={tech.id || tech.name}
+            className="flex min-h-[52px] min-w-0 items-center gap-2.5 rounded-xl border border-black/[0.06] bg-black/[0.02] px-2.5 py-2 dark:border-white/[0.08] dark:bg-white/[0.035] sm:px-3"
+          >
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-black/[0.06] bg-[#F2F2F7] dark:border-white/[0.08] dark:bg-[#2C2C2E]">
+              {logo ? (
+                <img
+                  src={logo}
+                  alt={tech.name}
+                  className="h-4 w-4 object-contain"
+                  loading="lazy"
+                />
+              ) : (
+                <span className="text-[10px] font-bold uppercase text-[var(--apple-accent)]">
+                  {tech.name?.slice(0, 2)}
+                </span>
+              )}
+            </div>
+            <div className="min-w-0 flex-1">
+              <span className="block truncate text-[13px] font-medium text-[#000000] dark:text-[#FFFFFF]">
+                {tech.name}
+              </span>
+              {tech.level && (
+                <span className="mt-0.5 block truncate text-[11px] text-[#8E8E93]">
+                  {tech.level}
+                </span>
+              )}
+            </div>
+          </div>
+        );
+      })}
     </div>
   );
 }
