@@ -83,12 +83,6 @@ export default function IPhoneSettingsShell({
     <div className="sticky top-0 z-30 flex h-[48px] items-center justify-between bg-[#F2F2F7]/90 px-5 text-[15px] font-semibold tracking-[-0.02em] backdrop-blur-xl dark:bg-[#000000]/90">
       <span className="w-14 tabular-nums">{statusTime}</span>
 
-      {/* Authentic Dynamic Island */}
-      <div
-        className="h-[27px] w-[98px] rounded-full bg-[#000000] dark:border dark:border-white/[0.12]"
-        aria-hidden="true"
-      />
-
       <div className="flex w-16 items-center justify-end gap-1.5">
         <AppleSignalIcon />
         <Wifi size={14} strokeWidth={2.3} aria-hidden="true" />
@@ -359,7 +353,7 @@ export default function IPhoneSettingsShell({
       </main>
 
       {/* Floating Liquid Glass Bottom Search Capsule (iOS 26) */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/85 to-transparent px-4 pt-7 pb-5 dark:from-[#000000] dark:via-[#000000]/85">
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-gradient-to-t from-[#F2F2F7]/40 via-transparent to-transparent px-4 pt-6 pb-5 dark:from-[#000000]/45">
         <div className="pointer-events-auto mx-auto max-w-md">
           <LiquidGlassSearchBar
             value={searchQuery}

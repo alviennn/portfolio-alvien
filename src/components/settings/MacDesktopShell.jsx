@@ -538,7 +538,7 @@ export default function MacDesktopShell({
               </div>
 
               {/* Floating Liquid Glass Bottom Search Capsule */}
-              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#ECECED]/95 via-[#ECECED]/70 to-transparent px-2.5 pt-5 pb-2.5 dark:from-[#28282A]/95 dark:via-[#28282A]/70">
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#ECECED]/40 via-transparent to-transparent px-2.5 pt-4 pb-2.5 dark:from-[#28282A]/45">
                 <div className="pointer-events-auto">
                   <LiquidGlassSearchBar
                     compact

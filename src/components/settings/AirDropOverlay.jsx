@@ -102,7 +102,6 @@ export default function AirDropOverlay({ contact, onClose }) {
       {/* ── iOS Status Bar ── */}
       <div className="relative z-20 flex h-[54px] w-full shrink-0 items-center justify-between px-6 pt-2 text-[15px] font-semibold text-white">
         <span className="w-14 tabular-nums">{statusTime}</span>
-        <div className="h-[27px] w-[98px] rounded-full bg-[#1C1C1E] ring-1 ring-white/10" />
         <div className="flex w-14 items-center justify-end gap-1.5 text-white">
           <svg width="15" height="11" viewBox="0 0 17 12" fill="currentColor" aria-hidden="true">
             <rect x="0" y="9" width="3" height="3" rx="0.5" opacity="0.4" />

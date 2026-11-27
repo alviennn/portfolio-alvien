@@ -257,7 +257,7 @@ export default function IPadSettingsShell({
           </div>
 
           {/* Floating Liquid Glass Bottom Search Capsule (iPadOS 26) */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/85 to-transparent px-4 pt-6 pb-3.5 dark:from-[#000000] dark:via-[#000000]/85">
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#F2F2F7]/40 via-transparent to-transparent px-4 pt-5 pb-3.5 dark:from-[#000000]/45">
             <div className="pointer-events-auto">
               <LiquidGlassSearchBar
                 value={searchQuery}
