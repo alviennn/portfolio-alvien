@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Moon, Search, Sun, Wifi, X } from "../icons/AppleIcons";
+import { Moon, Sun, Wifi } from "../icons/AppleIcons";
 
 import { useLanguage } from "../../i18n/LanguageContext";
 import { useTheme } from "../../context/ThemeContext";
@@ -8,6 +8,7 @@ import heroImage from "../../assets/konten-hero.jpg";
 import { PANE_MAP } from "./settingsConfig";
 import {
   AppleBatteryIcon,
+  LiquidGlassSearchBar,
   SettingSquircleIcon,
   SidebarNavItem,
 } from "./SettingsPrimitives";
@@ -104,40 +105,14 @@ export default function IPadSettingsShell({
       {/* Split View Container */}
       <div className="flex min-h-0 flex-1">
         {/* Master Sidebar (300px) */}
-        <aside className="flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-[#F2F2F7] dark:border-[#38383A] dark:bg-[#000000]">
-          <div className="px-4 pt-3 pb-3">
+        <aside className="relative flex w-[300px] shrink-0 flex-col border-r border-black/[0.08] bg-[#F2F2F7] dark:border-[#38383A] dark:bg-[#000000]">
+          <div className="px-4 pt-3 pb-2.5">
             <h1 className="text-[30px] font-bold tracking-[-0.02em]">
               {t("settings.appTitle")}
             </h1>
-
-            {/* iPadOS Search Bar */}
-            <div className="relative mt-2.5 flex items-center">
-              <Search
-                size={14}
-                className="pointer-events-none absolute left-3 text-[#8E8E93]"
-                aria-hidden="true"
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={t("settings.searchPlaceholder")}
-                className="h-[36px] w-full rounded-[10px] bg-[#767680]/[0.12] pl-9 pr-8 text-[15px] text-[#000000] placeholder-[#8E8E93] outline-none focus:ring-2 focus:ring-[var(--apple-accent-soft)] dark:bg-[#1C1C1E] dark:text-[#FFFFFF]"
-              />
-              {searchQuery && (
-                <button
-                  type="button"
-                  onClick={() => setSearchQuery("")}
-                  aria-label="Clear search"
-                  className="absolute right-2.5 text-[#8E8E93]"
-                >
-                  <X size={14} />
-                </button>
-              )}
-            </div>
           </div>
 
-          <div className="apple-scroll flex-1 space-y-4 overflow-y-auto px-4 pb-6">
+          <div className="apple-scroll flex-1 space-y-4 overflow-y-auto px-4 pb-20">
             {isSearching ? (
               <div className="space-y-4">
                 {matchingPanes.length > 0 && (
@@ -279,6 +254,18 @@ export default function IPadSettingsShell({
                 ))}
               </>
             )}
+          </div>
+
+          {/* Floating Liquid Glass Bottom Search Capsule (iPadOS 26) */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/85 to-transparent px-4 pt-6 pb-3.5 dark:from-[#000000] dark:via-[#000000]/85">
+            <div className="pointer-events-auto">
+              <LiquidGlassSearchBar
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                onClear={() => setSearchQuery("")}
+                placeholder={t("settings.searchPlaceholder")}
+              />
+            </div>
           </div>
         </aside>
 

@@ -4,11 +4,8 @@ import {
   ChevronRight,
   ExternalLink,
   FileText,
-  Globe,
   Moon,
-  Search,
   Wifi,
-  X,
 } from "../icons/AppleIcons";
 
 import { useLanguage } from "../../i18n/LanguageContext";
@@ -21,6 +18,7 @@ import {
   AppleBatteryIcon,
   AppleSignalIcon,
   IOSSwitch,
+  LiquidGlassSearchBar,
   SettingsNavGroup,
   SettingsRow,
 } from "./SettingsPrimitives";
@@ -161,37 +159,11 @@ export default function IPhoneSettingsShell({
     <div className="apple-os-font min-h-screen bg-[#F2F2F7] text-[#000000] dark:bg-[#000000] dark:text-[#FFFFFF]">
       {renderStatusBar()}
 
-      <main className="px-4 pt-1 pb-12">
+      <main className="px-4 pt-1 pb-28">
         {/* Large iOS Title */}
         <h1 className="text-[34px] font-bold leading-tight tracking-[-0.02em]">
           {t("settings.appTitle")}
         </h1>
-
-        {/* 1:1 iOS Search Bar */}
-        <div className="relative mt-2 flex items-center">
-          <Search
-            size={15}
-            className="pointer-events-none absolute left-3 text-[#8E8E93]"
-            aria-hidden="true"
-          />
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={t("settings.searchPlaceholder")}
-            className="h-[36px] w-full rounded-[10px] bg-[#767680]/[0.12] pl-9 pr-8 text-[16px] text-[#000000] placeholder-[#8E8E93] outline-none focus:ring-2 focus:ring-[var(--apple-accent-soft)] dark:bg-[#1C1C1E] dark:text-[#FFFFFF]"
-          />
-          {searchQuery && (
-            <button
-              type="button"
-              onClick={() => setSearchQuery("")}
-              aria-label="Clear search"
-              className="absolute right-2.5 text-[#8E8E93]"
-            >
-              <X size={15} />
-            </button>
-          )}
-        </div>
 
         {isSearching ? (
           <div className="mt-5 space-y-5">
@@ -202,6 +174,7 @@ export default function IPhoneSettingsShell({
                     key={pane.id}
                     icon={pane.icon}
                     gradient={pane.gradient}
+                    filled={pane.filled}
                     title={t(`settings.nav.${pane.id}`)}
                     subtitle={t(`settings.subtitles.${pane.id}`)}
                     badge={badgeCounts[pane.id]}
@@ -219,6 +192,7 @@ export default function IPhoneSettingsShell({
                     key={match.key}
                     icon={match.pane.icon}
                     gradient={match.pane.gradient}
+                    filled={match.pane.filled}
                     title={match.title}
                     subtitle={match.subtitle}
                     chevron
@@ -297,8 +271,9 @@ export default function IPhoneSettingsShell({
                 }
               />
               <SettingsRow
-                icon={Globe}
-                gradient="from-[#5AC8FA] to-[#007AFF]"
+                icon={PANE_MAP.language.icon}
+                gradient={PANE_MAP.language.gradient}
+                filled={PANE_MAP.language.filled}
                 title={t("settings.nav.language")}
                 value={language === "en" ? "English" : "Indonesia"}
                 chevron
@@ -315,6 +290,7 @@ export default function IPhoneSettingsShell({
                     key={pane.id}
                     icon={pane.icon}
                     gradient={pane.gradient}
+                    filled={pane.filled}
                     title={t(`settings.nav.${pane.id}`)}
                     badge={badgeCounts[pane.id]}
                     chevron
@@ -333,6 +309,7 @@ export default function IPhoneSettingsShell({
                     key={pane.id}
                     icon={pane.icon}
                     gradient={pane.gradient}
+                    filled={pane.filled}
                     title={t(`settings.nav.${pane.id}`)}
                     badge={badgeCounts[pane.id]}
                     chevron
@@ -347,6 +324,7 @@ export default function IPhoneSettingsShell({
               <SettingsRow
                 icon={PANE_MAP.contact.icon}
                 gradient={PANE_MAP.contact.gradient}
+                filled={PANE_MAP.contact.filled}
                 title={t("settings.nav.contact")}
                 chevron
                 onClick={() => onSelectMobilePane("contact")}
@@ -354,6 +332,7 @@ export default function IPhoneSettingsShell({
               <SettingsRow
                 icon={PANE_MAP.appearance.icon}
                 gradient={PANE_MAP.appearance.gradient}
+                filled={PANE_MAP.appearance.filled}
                 title={t("settings.nav.appearance")}
                 chevron
                 onClick={() => onSelectMobilePane("appearance")}
@@ -378,6 +357,18 @@ export default function IPhoneSettingsShell({
           </div>
         )}
       </main>
+
+      {/* Floating Liquid Glass Bottom Search Capsule (iOS 26) */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-30 bg-gradient-to-t from-[#F2F2F7] via-[#F2F2F7]/85 to-transparent px-4 pt-7 pb-5 dark:from-[#000000] dark:via-[#000000]/85">
+        <div className="pointer-events-auto mx-auto max-w-md">
+          <LiquidGlassSearchBar
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            onClear={() => setSearchQuery("")}
+            placeholder={t("settings.searchPlaceholder")}
+          />
+        </div>
+      </div>
     </div>
   );
 }

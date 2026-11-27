@@ -19,7 +19,7 @@ import heroImage from "../../assets/konten-hero.jpg";
 import cvPdf from "../../assets/cv-alvien-ridho.pdf";
 
 import { PANE_MAP } from "./settingsConfig";
-import { SettingSquircleIcon, SidebarNavItem } from "./SettingsPrimitives";
+import { SettingSquircleIcon, SidebarNavItem, LiquidGlassSearchBar } from "./SettingsPrimitives";
 import PaneRenderer from "./PaneRenderer";
 import { useSettingsSearch } from "./useSettingsSearch";
 import { useLiveClock } from "./useLiveClock";
@@ -347,9 +347,9 @@ export default function MacDesktopShell({
             }`}
           >
             {/* 1:1 macOS System Settings Sidebar (236px) */}
-            <aside className="flex w-[236px] shrink-0 flex-col border-r border-black/[0.08] bg-[#ECECED]/88 backdrop-blur-2xl dark:border-black/45 dark:bg-[#28282A]/90">
+            <aside className="relative flex w-[236px] shrink-0 flex-col border-r border-black/[0.08] bg-[#ECECED]/88 backdrop-blur-2xl dark:border-black/45 dark:bg-[#28282A]/90">
               {/* Traffic Lights */}
-              <div className="flex h-[52px] shrink-0 items-center px-[18px]">
+              <div className="flex h-[48px] shrink-0 items-center px-[18px]">
                 <div className="group flex items-center gap-[8px]">
                   <button
                     type="button"
@@ -398,37 +398,8 @@ export default function MacDesktopShell({
                 </div>
               </div>
 
-              {/* macOS Search Input */}
-              <div className="px-3 pb-3">
-                <div className="relative flex items-center">
-                  <Search
-                    size={13}
-                    className="pointer-events-none absolute left-2.5 text-[#8E8E93]"
-                    aria-hidden="true"
-                  />
-                  <input
-                    ref={searchInputRef}
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder={t("settings.searchPlaceholder")}
-                    className="h-[28px] w-full rounded-[6px] border border-black/[0.08] bg-black/[0.04] pl-8 pr-7 text-[13px] text-[#000000] placeholder-[#8E8E93] outline-none focus:border-[var(--apple-accent)] focus:bg-white focus:ring-2 focus:ring-[var(--apple-accent-soft)] dark:border-white/[0.08] dark:bg-white/[0.07] dark:text-[#FFFFFF] dark:focus:bg-[#1E1E20]"
-                  />
-                  {searchQuery && (
-                    <button
-                      type="button"
-                      onClick={() => setSearchQuery("")}
-                      aria-label="Clear search"
-                      className="absolute right-2 text-[#8E8E93] hover:text-[#1D1D1F] dark:hover:text-white"
-                    >
-                      <X size={12} />
-                    </button>
-                  )}
-                </div>
-              </div>
-
               {/* Sidebar Navigation */}
-              <div className="apple-scroll flex-1 space-y-3 overflow-y-auto px-2.5 pb-4 select-text">
+              <div className="apple-scroll flex-1 space-y-3 overflow-y-auto px-2.5 pb-16 select-text">
                 {isSearching ? (
                   <div className="space-y-2.5">
                     {matchingPanes.length > 0 && (
@@ -565,6 +536,20 @@ export default function MacDesktopShell({
                   </>
                 )}
               </div>
+
+              {/* Floating Liquid Glass Bottom Search Capsule */}
+              <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#ECECED]/95 via-[#ECECED]/70 to-transparent px-2.5 pt-5 pb-2.5 dark:from-[#28282A]/95 dark:via-[#28282A]/70">
+                <div className="pointer-events-auto">
+                  <LiquidGlassSearchBar
+                    compact
+                    inputRef={searchInputRef}
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onClear={() => setSearchQuery("")}
+                    placeholder={t("settings.searchPlaceholder")}
+                  />
+                </div>
+              </div>
             </aside>
 
             {/* Right Content Pane */}
@@ -678,7 +663,7 @@ export default function MacDesktopShell({
                     <span
                       className={`flex h-10 w-10 items-center justify-center rounded-[10px] bg-gradient-to-b ${item.gradient} text-white shadow-[inset_0_1px_0_rgba(255,255,255,0.32),0_4px_10px_rgba(0,0,0,0.2)]`}
                     >
-                      <Icon size={20} strokeWidth={2} aria-hidden="true" />
+                      <Icon size={20} aria-hidden="true" />
                     </span>
                   )}
                   <span

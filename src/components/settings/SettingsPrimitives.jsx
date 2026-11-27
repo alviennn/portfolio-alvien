@@ -1,5 +1,5 @@
 import { Children } from "react";
-import { ChevronRight } from "../icons/AppleIcons";
+import { ChevronRight, Search, X } from "../icons/AppleIcons";
 
 /**
  * Apple-style squircle icon badge (macOS 20px, iOS/iPadOS 29px).
@@ -337,5 +337,55 @@ export function AppleSignalIcon() {
       <rect x="8.5" y="3" width="2.5" height="7.5" rx="0.8" />
       <rect x="12.5" y="0.5" width="2.5" height="10" rx="0.8" />
     </svg>
+  );
+}
+
+/**
+ * iOS 26 / iPadOS 26 / macOS Tahoe floating Liquid Glass bottom search capsule.
+ */
+export function LiquidGlassSearchBar({
+  value,
+  onChange,
+  onClear,
+  placeholder,
+  inputRef,
+  compact = false,
+  className = "",
+}) {
+  return (
+    <div
+      className={`apple-liquid-glass-search relative flex items-center ${
+        compact ? "h-[34px] px-3" : "h-[44px] px-4"
+      } ${className}`}
+    >
+      <Search
+        size={compact ? 14 : 17}
+        strokeWidth={2.1}
+        className="shrink-0 text-[#6E6E73] dark:text-[#AEAEB2]"
+        aria-hidden="true"
+      />
+      <input
+        ref={inputRef}
+        type="text"
+        value={value}
+        onChange={onChange}
+        placeholder={placeholder}
+        className={`w-full bg-transparent text-[#000000] placeholder-[#6E6E73]/90 outline-none dark:text-[#FFFFFF] dark:placeholder-[#AEAEB2]/80 ${
+          compact ? "pl-2 pr-5 text-[13px]" : "pl-2.5 pr-6 text-[16px]"
+        }`}
+      />
+      {value && (
+        <button
+          type="button"
+          onClick={onClear}
+          aria-label="Clear search"
+          className={`flex shrink-0 items-center justify-center rounded-full bg-black/15 text-[#1D1D1F] transition-colors hover:bg-black/25 dark:bg-white/20 dark:text-white dark:hover:bg-white/30 ${
+            compact ? "h-4 w-4" : "h-5 w-5"
+          }`}
+        >
+          <X size={compact ? 10 : 12} strokeWidth={2.5} />
+        </button>
+      )}
+    </div>
   );
 }
