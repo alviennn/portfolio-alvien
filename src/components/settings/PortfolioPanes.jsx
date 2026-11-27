@@ -486,7 +486,6 @@ export function ProjectsPane({
    =================================================== */
 export function SkillsPane({ skills, loading, error }) {
   const { t, tField } = useLanguage();
-  const [selectedCategory, setSelectedCategory] = useState("all");
 
   const sortedSkills = useMemo(
     () => [...(skills || [])].sort((a, b) => (a.order || 0) - (b.order || 0)),
@@ -509,36 +508,9 @@ export function SkillsPane({ skills, loading, error }) {
     return <EmptyState message={t("skills.empty")} />;
   }
 
-  const categories = ["all", ...grouped.map(([cat]) => cat)];
-  const visibleGroups =
-    selectedCategory === "all"
-      ? grouped
-      : grouped.filter(([cat]) => cat === selectedCategory);
-
   return (
     <div className="space-y-5">
-      {/* Apple segmented filter */}
-      <div className="inline-flex flex-wrap gap-1 rounded-[9px] bg-black/[0.06] p-1 dark:bg-[#1C1C1E]">
-        {categories.map((category) => {
-          const active = selectedCategory === category;
-          return (
-            <button
-              key={category}
-              type="button"
-              onClick={() => setSelectedCategory(category)}
-              className={`rounded-[7px] px-3 py-1 text-[12.5px] font-medium transition-all ${
-                active
-                  ? "bg-white text-[#000000] shadow-sm dark:bg-[#3A3A3C] dark:text-[#FFFFFF]"
-                  : "text-[#6E6E73] hover:text-[#1D1D1F] dark:text-[#98989D] dark:hover:text-[#F5F5F7]"
-              }`}
-            >
-              {category === "all" ? t("settings.allCategories") : category}
-            </button>
-          );
-        })}
-      </div>
-
-      {visibleGroups.map(([categoryName, items]) => (
+      {grouped.map(([categoryName, items]) => (
         <SettingsGroup key={categoryName} title={categoryName}>
           {items.map((tech) => {
             const logo = getTechLogo(tech.name);
